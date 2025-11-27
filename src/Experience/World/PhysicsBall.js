@@ -91,7 +91,8 @@ export default class PhysicsBall {
         this.setUpPhysics(this.radius, this.position);
       },
     };
-
-    this.debugFolder.add(debugObject, "createBall");
+    if (this.debug.active) {
+      this.debugFolder.add(debugObject, "createBall");
+    }
   }
 }
