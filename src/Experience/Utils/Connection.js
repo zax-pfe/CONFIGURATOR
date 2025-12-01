@@ -3,7 +3,7 @@ import EventEmitter from "./EventEmitter";
 export default class Connection extends EventEmitter {
   constructor() {
     super();
-    console.log("Connection initialized");
+    // console.log("Connection initialized");
     this.room = "my-room";
     this.host = "wss://partykitproject.zax-pfe.partykit.dev";
     this.setInstance();
@@ -21,8 +21,8 @@ export default class Connection extends EventEmitter {
   }
   setupEventHandlers() {
     this.instance.onopen = () => {
-      console.log("Connected to PartyKit server");
-      this.instance.send("hello from vanilla TS client");
+      // console.log("Connected to PartyKit server");
+      // this.instance.send("hello from vanilla TS client");
       this.trigger("connected");
     };
 

@@ -6,7 +6,7 @@ export default class Environement {
     this.experience = new Experience();
     console.log("Environement initialized");
     this.scene = this.experience.scene;
-    this.resources = this.experience.ressources;
+    this.resources = this.experience.resources;
 
     this.debug = this.experience.debug;
 

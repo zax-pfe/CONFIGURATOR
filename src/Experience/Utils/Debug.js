@@ -1,9 +1,9 @@
 import * as dat from "dat.gui";
 import GUI from "lil-gui";
 
-export default class Debut {
+export default class Debug {
   constructor() {
-    console.log("Debug initialized");
+    // console.log("Debug initialized");
     this.active = window.location.hash === "#debug";
 
     if (this.active) {

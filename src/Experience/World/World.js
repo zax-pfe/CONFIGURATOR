@@ -6,6 +6,8 @@ import DiscoBall from "./DiscoBall.js";
 import Ground from "./Ground.js";
 import PhysicsBall from "./PhysicsBall.js";
 import Speaker from "./Speaker.js";
+import SpeakerOne from "./SpeakerOne.js";
+import SpeakerTwo from "./SpeakerTwoo.js";
 
 // World va permettre d'integrer tout les elements 3D dans la scene
 
@@ -23,9 +25,9 @@ export default class World {
     // );
     // this.scene.add(testMesh);
 
-    this.ressources = this.experience.ressources;
+    this.resources = this.experience.resources;
 
-    this.ressources.on("ready", () => {
+    this.resources.on("ready", () => {
       // this.discoBall = new DiscoBall();
       this.ground = new Ground(
         { x: 0, y: 0, z: 0 },
@@ -37,8 +39,9 @@ export default class World {
       );
       this.physicsBall = new PhysicsBall();
 
-      this.speaker = new Speaker();
-
+      // this.speaker = new Speaker([0, 2, 0], [0.01, 0.01, 0.01]);
+      // this.speaker = new SpeakerOne();
+      this.speaker = new SpeakerTwo();
       // this.floor = new Floor();
       // this.fox = new Fox();
       this.environement = new Environement();
@@ -49,5 +52,8 @@ export default class World {
     // if (this.fox) {
     //   this.fox.update();
     // }
+    if (this.speaker) {
+      this.speaker.PhysicMesh.update();
+    }
   }
 }

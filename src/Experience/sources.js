@@ -70,4 +70,14 @@ export default [
     type: "texture",
     path: "models/Speaker/textures/small_speaker_1_1001_normal.png",
   },
+  {
+    name: "speakerCustomModel",
+    type: "gltfModel",
+    path: "models/SpeakerCustom1/scene.glb",
+  },
+  {
+    name: "speakerCustomModel2",
+    type: "gltfModel",
+    path: "models/SpeakerCustom2/speakerCentered.glb",
+  },
 ];

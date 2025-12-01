@@ -3,7 +3,7 @@ import Experience from "./Experience.js";
 
 export default class Renderer {
   constructor() {
-    console.log("Renderer initialized");
+    // console.log("Renderer initialized");
     this.experience = new Experience();
     this.canvas = this.experience.canvas;
     this.sizes = this.experience.sizes;

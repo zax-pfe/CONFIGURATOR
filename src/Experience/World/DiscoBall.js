@@ -6,7 +6,7 @@ export default class DiscoBall {
     this.experience = new Experience();
     console.log("DiscoBall initialized");
     this.scene = this.experience.scene;
-    this.resources = this.experience.ressources;
+    this.resources = this.experience.resources;
 
     //setup
     this.resource = this.resources.items.discoBall;

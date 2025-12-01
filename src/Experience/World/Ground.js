@@ -14,8 +14,6 @@ export default class Ground {
 
     this.position = position;
     this.rotation = rotation;
-    console.log("Ground position:", this.position);
-    console.log("Ground rotation:", this.rotation);
 
     this.setGeometry();
     this.setMaterial();

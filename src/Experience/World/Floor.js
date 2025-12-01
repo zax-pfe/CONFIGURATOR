@@ -10,7 +10,7 @@ export default class Floor {
     this.world = this.physics.world;
     console.log("Floor initialized");
     this.scene = this.experience.scene;
-    this.ressources = this.experience.ressources;
+    this.resources = this.experience.resources;
 
     this.setGeometry();
     this.setTextures();
@@ -25,13 +25,13 @@ export default class Floor {
 
   setTextures() {
     this.textures = {};
-    this.textures.color = this.ressources.items.grassColorTexture;
+    this.textures.color = this.resources.items.grassColorTexture;
     this.textures.color.colorSpace = THREE.SRGBColorSpace;
     this.textures.color.repeat.set(1.5, 1.5);
     this.textures.color.wrapS = THREE.RepeatWrapping;
     this.textures.color.wrapT = THREE.RepeatWrapping;
 
-    this.textures.normal = this.ressources.items.grassNormalTexture;
+    this.textures.normal = this.resources.items.grassNormalTexture;
     this.textures.normal.repeat.set(1.5, 1.5);
     this.textures.normal.wrapS = THREE.RepeatWrapping;
     this.textures.normal.wrapT = THREE.RepeatWrapping;

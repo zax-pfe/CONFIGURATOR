@@ -5,7 +5,7 @@ import Camera from "./Camera.js";
 import Renderer from "./Renderer.js";
 import World from "./World/World.js";
 import Connection from "./Utils/Connection.js";
-import Ressources from "./Utils/Ressources.js";
+import Resources from "./Utils/Resources.js";
 import sources from "./sources.js";
 import Debug from "./Utils/Debug.js";
 import StatsUtils from "./Utils/Stats.js";
@@ -21,7 +21,7 @@ export default class Experience {
       return instance;
     }
     instance = this;
-    console.log("Experience initialized");
+    // console.log("Experience initialized");
 
     // Global access
     window.experience = this;
@@ -37,8 +37,8 @@ export default class Experience {
     this.time = new Time();
     // Creation de la scene Three.js
     this.scene = new THREE.Scene();
-    // Permet de gerer les ressources 3D qui sont loadées
-    this.ressources = new Ressources(sources);
+    // Permet de gerer les resources 3D qui sont loadées
+    this.resources = new Resources(sources);
     // Permet de gerer la camera
     this.camera = new Camera();
     // Permet de gerer le renderer
@@ -59,7 +59,7 @@ export default class Experience {
 
     // webSocket Events
     this.connection.on("connected", () => {
-      console.log("WebSocket connected event received in Experience");
+      // console.log("WebSocket connected event received in Experience");
     });
     this.connection.on("message", () => {
       const messages = this.connection.receivedMessages;
@@ -73,7 +73,7 @@ export default class Experience {
   }
 
   resize() {
-    console.log("Experience resized");
+    // console.log("Experience resized");
     this.camera.resize();
     this.renderer.resize();
   }
@@ -98,7 +98,7 @@ export default class Experience {
     this.scene.traverse((child) => {
       // dispose geometry
       if (child instanceof THREE.Mesh) {
-        console.log(child);
+        // console.log(child);
         e;
         child.geometry.dispose();
 

@@ -4,7 +4,7 @@ import { OrbitControls } from "three/examples/jsm/Addons.js";
 
 export default class Camera {
   constructor() {
-    console.log("Camera initialized");
+    // console.log("Camera initialized");
     this.experience = new Experience();
     this.sizes = this.experience.sizes;
     this.scene = this.experience.scene;
