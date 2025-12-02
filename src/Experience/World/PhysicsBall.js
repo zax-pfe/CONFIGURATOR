@@ -2,6 +2,7 @@ import * as THREE from "three";
 import Experience from "../../experience/experience.js";
 import * as CANNON from "cannon-es";
 import Physics from "../Utils/Physics.js";
+import SoundManager from "../Utils/SoundManager.js";
 
 export default class PhysicsBall {
   constructor() {
@@ -29,6 +30,8 @@ export default class PhysicsBall {
     this.objectsToUpdate = this.physics.objectsToUpdate;
     console.log("PhysicsBall initialized");
     this.scene = this.experience.scene;
+    this.soundManager = new SoundManager();
+    this.soundManager.selectedSound = this.soundManager.hitSound;
 
     this.createAction();
   }
@@ -63,7 +66,7 @@ export default class PhysicsBall {
       material: this.defaultMaterial,
     });
     this.body.position.copy(position);
-    // body.addEventListener("collide", playHitSound);
+    this.body.addEventListener("collide", this.soundManager.playHitSound);
 
     this.body.applyLocalForce(
       new CANNON.Vec3(
