@@ -3,6 +3,10 @@ import Experience from "../Experience.js";
 import Physics from "./Physics.js";
 import * as CANNON from "cannon-es";
 
+// This class add a glb file to the world,
+// add a debug ui to this object and allows
+// to setup a physic hitbox for it
+
 export default class PhysicMesh {
   constructor(
     positions,
@@ -12,7 +16,8 @@ export default class PhysicMesh {
     mass,
     name,
     hitBoxData,
-    activatePhysics
+    activatePhysics,
+    hideWireframe
   ) {
     console.log("PhysicMesh initialized for", name);
     //setupt the experience
@@ -34,16 +39,16 @@ export default class PhysicMesh {
     this.mass = mass;
     this.name = name;
     this.activatePhysics = activatePhysics;
+    this.hideWireframe = hideWireframe;
 
     // setUp hitbox dimensions
     this.hitBoxHeight = hitBoxData.height;
     this.hitBoxWidth = hitBoxData.width;
     this.hitBoxDepth = hitBoxData.depth;
-    this.hitBoxShiftX = hitBoxData.shiftX;
-    this.hitBoxShiftY = hitBoxData.shiftY;
-    this.hitBoxShiftZ = hitBoxData.shiftZ;
+    // this.hitBoxShiftX = hitBoxData.shiftX;
+    // this.hitBoxShiftY = hitBoxData.shiftY;
+    // this.hitBoxShiftZ = hitBoxData.shiftZ;
 
-    this.hideWireframe = false;
     this.hideModel = false;
   }
 
@@ -53,10 +58,12 @@ export default class PhysicMesh {
       this.debugFolder.add(this, "hitBoxHeight", 0.1, 5, 0.1).name("height");
       this.debugFolder.add(this, "hitBoxWidth", 0.1, 5, 0.1).name("width");
       this.debugFolder.add(this, "hitBoxDepth", 0.1, 5, 0.1).name("depth");
-
-      this.debugFolder.add(this, "hitBoxShiftX", -5, 5, 0.1).name("shiftX");
-      this.debugFolder.add(this, "hitBoxShiftY", -5, 5, 0.1).name("shiftY");
-      this.debugFolder.add(this, "hitBoxShiftZ", -5, 5, 0.1).name("shiftZ");
+      this.debugFolder
+        .add(this.rotation, "y", -Math.PI, Math.PI, 0.01)
+        .name("rotY");
+      // this.debugFolder.add(this, "hitBoxShiftX", -5, 5, 0.1).name("shiftX");
+      // this.debugFolder.add(this, "hitBoxShiftY", -5, 5, 0.1).name("shiftY");
+      // this.debugFolder.add(this, "hitBoxShiftZ", -5, 5, 0.1).name("shiftZ");
 
       this.debugFolder.add(this, "hideWireframe").name("hideWireframe");
       this.debugFolder.add(this, "hideModel").name("hideModel");
@@ -113,11 +120,11 @@ export default class PhysicMesh {
       mesh: this.model,
       // mesh: this.mesh,
       body: this.body,
-      shift: {
-        x: this.hitBoxShiftX,
-        y: this.hitBoxShiftY,
-        z: this.hitBoxShiftZ,
-      },
+      // shift: {
+      //   x: this.hitBoxShiftX,
+      //   y: this.hitBoxShiftY,
+      //   z: this.hitBoxShiftZ,
+      // },
     });
   }
 
@@ -157,29 +164,46 @@ export default class PhysicMesh {
   update() {
     // console.log("Updating PhysicMesh for", this.name);
     if (this.mesh) {
-      // this.mesh.visible = !this.hideWireframe;
+      this.mesh.visible = !this.hideWireframe;
 
       if (!this.activatePhysics) {
+        this.mesh.rotation.set(
+          this.rotation.x,
+          this.rotation.y,
+          this.rotation.z
+        );
         this.mesh.scale.set(
           this.hitBoxWidth,
           this.hitBoxHeight,
           this.hitBoxDepth
         );
-        this.mesh.position.set(
-          this.positions.x + this.hitBoxShiftX,
-          this.positions.y + this.hitBoxShiftY,
-          this.positions.z + this.hitBoxShiftZ
-        );
+
+        // this.mesh.position.set(
+        //   this.positions.x + this.hitBoxShiftX,
+        //   this.positions.y + this.hitBoxShiftY,
+        //   this.positions.z + this.hitBoxShiftZ
+        // );
       }
     }
 
     if (this.model) {
       this.model.visible = !this.hideModel;
+      this.model.rotation.set(
+        this.rotation.x,
+        this.rotation.y,
+        this.rotation.z
+      );
     }
 
     if (this.body) {
       // this.body.position.set(x, y, z);
       this.body.mass = this.mass;
+      this.body.quaternion.setFromEuler(
+        this.rotation.x,
+        this.rotation.y,
+        this.rotation.z,
+        "XYZ"
+      );
       this.body.updateMassProperties();
     }
   }

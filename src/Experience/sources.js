@@ -32,24 +32,6 @@ export default [
   },
 
   {
-    name: "discoBall",
-    type: "gltfModel",
-    path: "models/DiscoBall/discoBall.gltf",
-  },
-
-  {
-    name: "discoBallColorTexture",
-    type: "texture",
-    path: "models/DiscoBall/textures/material_0_baseColor.jpeg",
-  },
-
-  {
-    name: "discoBallMetalnessTexture",
-    type: "texture",
-    path: "models/DiscoBall/textures/material_0_metallicRoughness.png",
-  },
-
-  {
     name: "speakerModel",
     type: "gltfModel",
     path: "models/Speaker/scene.gltf",
@@ -70,14 +52,25 @@ export default [
     type: "texture",
     path: "models/Speaker/textures/small_speaker_1_1001_normal.png",
   },
+
   {
-    name: "speakerCustomModel",
+    name: "Speaker2CenteredModel",
     type: "gltfModel",
-    path: "models/SpeakerCustom1/scene.glb",
+    path: "models/Speaker/Speaker2/speaker2Centered.glb",
   },
   {
-    name: "speakerCustomModel2",
+    name: "Speaker1CenteredModel",
     type: "gltfModel",
-    path: "models/SpeakerCustom2/speakerCentered.glb",
+    path: "models/Speaker/Speaker1/speakerCentered.glb",
+  },
+  {
+    name: "Speaker3CenteredModel",
+    type: "gltfModel",
+    path: "models/Speaker/Speaker3/speaker3Centered.glb",
+  },
+  {
+    name: "Speaker4CenteredModel",
+    type: "gltfModel",
+    path: "models/Speaker/Speaker4/speaker4Centered.glb",
   },
 ];

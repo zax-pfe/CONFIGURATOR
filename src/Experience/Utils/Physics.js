@@ -47,9 +47,13 @@ export default class Physics extends EventEmitter {
 
   setUpMaterial() {
     this.defaultMaterial = new CANNON.Material("default");
+    this.slipperyMaterial = new CANNON.Material("slippery");
+    this.plasticMaterial = new CANNON.Material("plastic");
+    this.stickyMaterial = new CANNON.Material("sticky");
   }
 
   setUpContactMaterial() {
+    // default contact material
     this.defaultContactMaterial = new CANNON.ContactMaterial(
       this.defaultMaterial,
       this.defaultMaterial,
@@ -61,6 +65,45 @@ export default class Physics extends EventEmitter {
 
     this.world.addContactMaterial(this.defaultContactMaterial);
     this.world.defaultContactMaterial = this.defaultContactMaterial;
+
+    // slippery contact material
+    this.slipperyContactMaterial = new CANNON.ContactMaterial(
+      this.slipperyMaterial,
+      this.defaultMaterial,
+      {
+        friction: 0.1,
+        restitution: 0.3,
+      }
+    );
+
+    this.world.addContactMaterial(this.slipperyContactMaterial);
+    this.world.slipperyContactMaterial = this.slipperyContactMaterial;
+
+    // plastic contact material
+    this.plasticContactMaterial = new CANNON.ContactMaterial(
+      this.plasticMaterial,
+      this.defaultMaterial,
+      {
+        friction: 0.6,
+        restitution: 0.9,
+      }
+    );
+
+    this.world.addContactMaterial(this.plasticContactMaterial);
+    this.world.plasticContactMaterial = this.plasticContactMaterial;
+
+    // sticky contact material
+    this.stickyContactMaterial = new CANNON.ContactMaterial(
+      this.stickyMaterial,
+      this.defaultMaterial,
+      {
+        friction: 0.1,
+        restitution: 0.1,
+      }
+    );
+
+    this.world.addContactMaterial(this.stickyContactMaterial);
+    this.world.stickyContactMaterial = this.stickyContactMaterial;
   }
 
   update(deltaTime) {

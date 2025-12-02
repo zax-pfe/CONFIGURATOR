@@ -17,6 +17,7 @@
     "dat.gui": "^0.7.9",
     "stats-js": "^1.0.1",
     "stats.js": "^0.17.0",
-    "three": "^0.174.0"
+    "three": "^0.174.0",
+    "three-to-cannon": "^5.0.2"
   }
 }

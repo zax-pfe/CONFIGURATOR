@@ -6,26 +6,33 @@ export default class SpeakerOne {
     console.log("SpeakerOne initialized");
     this.experience = new Experience();
     this.scene = this.experience.scene;
-    this.resource = this.experience.resources.items.speakerCustomModel;
+    this.resource = this.experience.resources.items.Speaker2CenteredModel;
+    console.log(
+      "dimmensions:",
+      this.resource.height,
+      this.resource.width,
+      this.resource.depth
+    );
     this.setup();
     this.create();
   }
 
   setup() {
-    this.positions = { x: 0, y: 2, z: 0 };
+    this.positions = { x: 2, y: 10, z: 2 };
     this.scale = { x: 1, y: 1, z: 1 };
-    this.rotation = { x: 0, y: Math.PI, z: 0 };
-    this.mass = 1;
+    this.rotation = { x: 0, y: -1.6, z: 0 };
+    this.mass = 0.5;
     this.name = "SpeakerOne";
     this.hitBoxData = {
-      height: 4.5,
-      width: 3,
-      depth: 2.3,
-      shiftX: 0.1,
-      shiftY: 2,
+      height: 1.8,
+      width: 1.8,
+      depth: 1.8,
+      shiftX: 0,
+      shiftY: 0,
       shiftZ: 0,
     };
     this.activatePhysics = true;
+    this.addWireFrame = true;
   }
 
   create() {
@@ -37,7 +44,8 @@ export default class SpeakerOne {
       this.mass,
       this.name,
       this.hitBoxData,
-      this.activatePhysics
+      this.activatePhysics,
+      this.addWireFrame
     );
     this.PhysicMesh.create();
   }
