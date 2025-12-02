@@ -52,8 +52,6 @@ export default class Experience {
 
     this.connection = new Connection();
 
-    // this.physicsBall = new PhysicsBall(0.3, { x: 0, y: 3, z: 0 });
-
     // Resize event
     this.sizes.on("resize", () => {
       this.resize();

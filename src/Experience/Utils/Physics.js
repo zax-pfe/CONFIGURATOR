@@ -1,6 +1,7 @@
 import EventEmitter from "./EventEmitter.js";
 import * as CANNON from "cannon-es";
 import Experience from "../../experience/experience.js";
+import CannonDebugger from "cannon-es-debugger";
 
 let instance = null;
 
@@ -39,7 +40,12 @@ export default class Physics extends EventEmitter {
           }
           this.objectsToUpdate.splice(0, this.objectsToUpdate.length);
         },
+        activeHitBox: () => {
+          CannonDebugger(this.scene, this.world.bodies);
+        },
       };
+
+      this.debugFolder.add(debugObject, "activeHitBox");
 
       this.debugFolder.add(debugObject, "reset");
     }

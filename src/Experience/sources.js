@@ -73,4 +73,9 @@ export default [
     type: "gltfModel",
     path: "models/Speaker/Speaker4/speaker4Centered.glb",
   },
+  {
+    name: "StarModel",
+    type: "gltfModel",
+    path: "models/Star/oyo.glb",
+  },
 ];

@@ -2,12 +2,12 @@ import MeshHitBox from "../../Utils/MeshHitBox.js";
 import Experience from "../../Experience.js";
 import Physics from "../../Utils/Physics.js";
 
-export default class Speaker2Hitbox {
+export default class Star {
   constructor() {
     // setupt the experience
     this.experience = new Experience();
     this.scene = this.experience.scene;
-    this.resource = this.experience.resources.items.Speaker1CenteredModel;
+    this.resource = this.experience.resources.items.StarModel;
 
     // setupt the physicWorld
     this.physics = new Physics();
@@ -18,14 +18,14 @@ export default class Speaker2Hitbox {
   }
 
   setup() {
-    this.positions = { x: 3, y: 4, z: 1.3 };
+    this.positions = { x: -0.7, y: 2, z: -2.1 };
     this.scale = { x: 1, y: 1, z: 1 };
-    this.rotation = { x: 0, y: -1.6, z: 0 };
-    this.mass = 0.5;
-    this.name = "Speaker1Hitbox";
-    this.hitBoxType = "cylinder";
+    this.rotation = { x: 0, y: -3.14, z: 0 };
+    this.mass = 5;
+    this.name = "Star";
+    this.hitBoxType = "hull";
     this.activatePhysics = true;
-    this.material = this.physics.slipperyMaterial;
+    this.material = this.physics.defaultMaterial;
     this.sound = this.experience.soundManager.bambooHitSound;
   }
 

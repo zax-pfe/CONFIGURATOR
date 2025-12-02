@@ -66,6 +66,8 @@ export default class MeshHitBox {
       this.positions.y,
       this.positions.z
     );
+    // this.model.updateMatrixWorld(true);
+
     this.scene.add(this.model);
 
     this.model.traverse((child) => {
@@ -101,6 +103,8 @@ export default class MeshHitBox {
       result = threeToCannon(this.model, { type: ShapeType.CYLINDER });
     } else if (this.hitBoxType === "sphere") {
       result = threeToCannon(this.model, { type: ShapeType.SPHERE });
+    } else if (this.hitBoxType === "hull") {
+      result = threeToCannon(this.model, { type: ShapeType.HULL });
     } else {
       result = threeToCannon(this.model, { type: ShapeType.BOX });
     }
