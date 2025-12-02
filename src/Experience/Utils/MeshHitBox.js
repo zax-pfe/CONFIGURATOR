@@ -3,6 +3,7 @@ import Experience from "../Experience.js";
 import Physics from "../Utils/Physics.js";
 import * as CANNON from "cannon-es";
 import { threeToCannon, ShapeType } from "three-to-cannon";
+import SoundManager from "../Utils/SoundManager.js";
 
 // prend en parametre modele glb
 // default position, scale, rotation, mass, default material
@@ -17,17 +18,21 @@ export default class MeshHitBox {
     material,
     hitBoxType,
     name,
-    activetePhysics
+    activetePhysics,
+    selectedSound
   ) {
     //setupt the experience
     this.experience = new Experience();
     this.scene = this.experience.scene;
     this.debug = this.experience.debug;
 
+    // setupt the sound manager
+    this.soundManager = new SoundManager();
+    this.soundManager.selectedSound = selectedSound;
+
     // setupt the physicWorld
     this.physics = new Physics();
     this.world = this.physics.world;
-    this.defaultMaterial = this.physics.defaultMaterial;
     this.objectsToUpdate = this.physics.objectsToUpdate;
 
     // setUp local parameters
@@ -43,9 +48,12 @@ export default class MeshHitBox {
 
     // create the model
     this.setModel();
-    this.createComplexHitBox();
     // this.createHitBox();
-    this.addToPhysicWorld();
+    if (this.activetePhysics) {
+      this.createComplexHitBox();
+      this.addToPhysicWorld();
+    }
+    this.createDebug();
     console.log("Object with hitbox initialized", this.name);
   }
 
@@ -84,6 +92,7 @@ export default class MeshHitBox {
     const center = new THREE.Vector3();
     box.getCenter(center);
     this.body.position.set(center.x, center.y, center.z);
+    this.body.addEventListener("collide", this.soundManager.playHitSound);
   }
 
   createComplexHitBox() {
@@ -96,10 +105,25 @@ export default class MeshHitBox {
       result = threeToCannon(this.model, { type: ShapeType.BOX });
     }
 
-    this.body = new CANNON.Body({ mass: this.mass });
+    this.body = new CANNON.Body({ mass: this.mass, material: this.material });
     this.body.addShape(result.shape);
     this.body.position.copy(this.model.position);
     this.body.quaternion.copy(this.model.quaternion);
+    this.body.addEventListener("collide", this.soundManager.playHitSound);
+  }
+
+  createDebug() {
+    if (this.debug.active) {
+      if (!this.activetePhysics) {
+        this.debugFolder = this.debug.ui.addFolder(this.name);
+        this.debugFolder
+          .add(this.rotation, "y", -Math.PI, Math.PI, 0.01)
+          .name("rotY");
+        this.debugFolder.add(this.positions, "x", -10, 10, 0.1).name("posX");
+        this.debugFolder.add(this.positions, "y", -10, 10, 0.1).name("posY");
+        this.debugFolder.add(this.positions, "z", -10, 10, 0.1).name("posZ");
+      }
+    }
   }
 
   addToPhysicWorld() {
@@ -108,5 +132,24 @@ export default class MeshHitBox {
       mesh: this.model,
       body: this.body,
     });
+  }
+
+  update() {
+    // update the model position and rotation to match the physics body
+    if (this.activetePhysics) {
+      this.model.position.copy(this.body.position);
+      this.model.quaternion.copy(this.body.quaternion);
+    } else {
+      this.model.position.set(
+        this.positions.x,
+        this.positions.y,
+        this.positions.z
+      );
+      this.model.rotation.set(
+        this.rotation.x,
+        this.rotation.y,
+        this.rotation.z
+      );
+    }
   }
 }

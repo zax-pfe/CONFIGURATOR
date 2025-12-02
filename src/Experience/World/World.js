@@ -2,14 +2,13 @@ import Experience from "../Experience.js";
 import Environement from "./Environement.js";
 import Floor from "./Floor.js";
 import Fox from "./Fox.js";
-import DiscoBall from "./DiscoBall.js";
 import Ground from "./Ground.js";
 import PhysicsBall from "./PhysicsBall.js";
-import SpeakerOne from "./SpeakerOne.js";
-import SpeakerTwo from "./SpeakerTwo.js";
-import SpeakerThree from "./SpeakerThree.js";
-import SpeakerFour from "./SpeakerFour.js";
-import TestAutoBox from "./TestAutoBox.js";
+
+import SpeakerHitbox from "./Speakers/SpeakerHitbox.js";
+import Speaker2Hitbox from "./Speakers/Speaker2Hitbox.js";
+import Speaker3Hitbox from "./Speakers/Speaker3Hitbox.js";
+import Speaker4Hitbox from "./Speakers/Speaker4Hitbox.js";
 
 // World va permettre d'integrer tout les elements 3D dans la scene
 
@@ -20,6 +19,8 @@ export default class World {
     this.experience = new Experience();
     console.log("World initialized");
     this.scene = this.experience.scene;
+
+    this.listPhysicObjects = [];
 
     // const testMesh = new THREE.Mesh(
     //   new THREE.BoxGeometry(1, 1, 1),
@@ -41,14 +42,11 @@ export default class World {
       );
       this.physicsBall = new PhysicsBall();
 
-      // this.speaker = new Speaker([0, 2, 0], [0.01, 0.01, 0.01]);
-      // this.speakerOne = new SpeakerOne();
-      this.autoBox = new TestAutoBox();
-      // this.speakerTwo = new SpeakerTwo();
-      // this.speakerThree = new SpeakerThree();
-      // this.speakerFour = new SpeakerFour();
-      // this.floor = new Floor();
-      // this.fox = new Fox();
+      this.listPhysicObjects.push(new SpeakerHitbox());
+      this.listPhysicObjects.push(new Speaker2Hitbox());
+      this.listPhysicObjects.push(new Speaker3Hitbox());
+      this.listPhysicObjects.push(new Speaker4Hitbox());
+
       this.environement = new Environement();
     });
   }
@@ -57,17 +55,9 @@ export default class World {
     // if (this.fox) {
     //   this.fox.update();
     // }
-    if (this.speakerOne) {
-      this.speakerOne.PhysicMesh.update();
-    }
-    if (this.speakerTwo) {
-      this.speakerTwo.PhysicMesh.update();
-    }
-    if (this.speakerThree) {
-      this.speakerThree.PhysicMesh.update();
-    }
-    if (this.speakerFour) {
-      this.speakerFour.PhysicMesh.update();
+
+    for (const object of this.listPhysicObjects) {
+      object.MeshHitBox.update();
     }
   }
 }

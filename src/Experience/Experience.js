@@ -10,7 +10,7 @@ import sources from "./sources.js";
 import Debug from "./Utils/Debug.js";
 import StatsUtils from "./Utils/Stats.js";
 import Physics from "./Utils/Physics.js";
-import PhysicsBall from "./World/PhysicsBall.js";
+import SoundManager from "./Utils/SoundManager.js";
 
 console.log(sources);
 let instance = null;
@@ -47,6 +47,8 @@ export default class Experience {
     this.world = new World();
     // Permet de gerer la connexion WebSocket
     this.physics = new Physics();
+    // Permet de gerer le sound
+    this.soundManager = new SoundManager();
 
     this.connection = new Connection();
 

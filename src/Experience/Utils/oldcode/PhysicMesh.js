@@ -1,6 +1,6 @@
 import * as THREE from "three";
-import Experience from "../Experience.js";
-import Physics from "./Physics.js";
+import Experience from "../../Experience.js";
+import Physics from "../Physics.js";
 import * as CANNON from "cannon-es";
 
 // This class add a glb file to the world,
@@ -188,6 +188,11 @@ export default class PhysicMesh {
 
     if (this.model) {
       this.model.visible = !this.hideModel;
+      // this.model.position.set(
+      //   this.positions.x,
+      //   this.positions.y,
+      //   this.positions.z
+      // );
       this.model.rotation.set(
         this.rotation.x,
         this.rotation.y,
