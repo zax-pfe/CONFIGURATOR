@@ -10,6 +10,7 @@ import Speaker2Hitbox from "./Speakers/Speaker2Hitbox.js";
 import Speaker3Hitbox from "./Speakers/Speaker3Hitbox.js";
 import Speaker4Hitbox from "./Speakers/Speaker4Hitbox.js";
 import Star from "./Star/Star.js";
+import Scene from "./Scene/Scene.js";
 
 // World va permettre d'integrer tout les elements 3D dans la scene
 
@@ -37,10 +38,10 @@ export default class World {
         { x: 0, y: 0, z: 0 },
         { x: -Math.PI * 0.5, y: 0, z: 0 }
       );
-      this.ground = new Ground(
-        { x: 0, y: 0, z: -7 },
-        { x: -Math.PI * 0.2, y: 0, z: 0 }
-      );
+      // this.ground = new Ground(
+      //   { x: 0, y: 0, z: -7 },
+      //   { x: -Math.PI * 0.2, y: 0, z: 0 }
+      // );
       this.physicsBall = new PhysicsBall();
 
       this.listPhysicObjects.push(new SpeakerHitbox());
@@ -48,6 +49,7 @@ export default class World {
       this.listPhysicObjects.push(new Speaker3Hitbox());
       this.listPhysicObjects.push(new Speaker4Hitbox());
       this.listPhysicObjects.push(new Star());
+      this.listPhysicObjects.push(new Scene());
 
       this.environement = new Environement();
     });

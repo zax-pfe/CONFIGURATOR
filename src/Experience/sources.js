@@ -78,4 +78,9 @@ export default [
     type: "gltfModel",
     path: "models/Star/oyo.glb",
   },
+  {
+    name: "SceneModel",
+    type: "gltfModel",
+    path: "models/Scene/scene.glb",
+  },
 ];
