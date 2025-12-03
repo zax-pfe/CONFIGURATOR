@@ -18,7 +18,7 @@ export default class DiscoBallHitbox {
   }
 
   setup() {
-    this.positions = { x: -2.5, y: 10, z: 2.1 };
+    this.positions = { x: -2.5, y: 3, z: 2.1 };
     this.scale = { x: 0.5, y: 0.5, z: 0.5 };
     this.rotation = { x: 0, y: 0.8, z: 0 };
     this.mass = 2;

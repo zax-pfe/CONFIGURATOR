@@ -12,12 +12,12 @@ export default class PhysicsBall {
     this.debug = this.experience.debug;
 
     this.radius = 0.3;
-    this.position = new THREE.Vector3(0, 3, 0);
+    this.position = new THREE.Vector3(0, 10, 20);
     this.angleX = 0;
     this.angleY = 0;
     this.strength = 1;
-    this.ballMass = 2 * this.radius;
-
+    // this.ballMass = 2 * this.radius;
+    this.ballMass = 1;
     if (this.debug.active) {
       this.debugFolder = this.debug.ui.addFolder("PhysicsBall");
       this.debugFolder.add(this, "radius", 0.1, 2, 0.001).name("radius");
@@ -68,14 +68,23 @@ export default class PhysicsBall {
     this.body.position.copy(position);
     this.body.addEventListener("collide", this.soundManager.playHitSound);
 
-    this.body.applyLocalForce(
-      new CANNON.Vec3(
-        10 * this.angleX * this.strength,
-        300 * this.strength,
-        -300 * this.strength
-      ),
-      new CANNON.Vec3(0, 0, 0)
-    );
+    // this.body.applyLocalForce(
+    //   new CANNON.Vec3(
+    //     10 * this.angleX * this.strength,
+    //     300 * this.strength,
+    //     -300 * this.strength
+    //   ),
+    //   new CANNON.Vec3(0, 0, 0)
+    // );
+
+    const speed = 15 * this.strength; // m/s
+    const angleRadians = (this.angleX * Math.PI) / 180; // Convertir degrés en radians
+
+    // const vx = Math.cos(angleRadians) * speed;
+    // const vz = Math.sin(angleRadians) * speed;
+    // const vy = 5;
+
+    this.body.velocity.set(0, 0, -speed);
 
     this.world.addBody(this.body);
     this.objectsToUpdate.push({

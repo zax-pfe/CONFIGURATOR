@@ -1,5 +1,7 @@
 import Experience from "../../Experience";
 import Physics from "../../Utils/Physics.js";
+import * as CANNON from "cannon-es";
+import * as THREE from "three";
 
 export default class SceneGround {
   constructor() {
@@ -19,29 +21,38 @@ export default class SceneGround {
     //setUp local parameters
     this.scale = { x: 1, y: 1, z: 1 };
     this.positions = { x: 0, y: 0, z: 0 };
-    this.rotation = { x: 0, y: 0, z: 0 };
+    this.rotation = { x: -Math.PI * 0.5, y: 0, z: 0 };
     this.mass = 0;
-    this.planeDimmensions = { width: 15, height: 15 };
+    this.dimmensions = { width: 5, height: 5 };
+    this.name = "SceneGround";
+
+    // create the ground
+    this.setGeometry();
+    this.setMaterial();
+    this.setMesh();
+    this.setPhysics();
+    this.createDebug();
   }
 
   setGeometry() {
     this.geometry = new THREE.PlaneGeometry(
-      this.planeDimmensions.width,
-      this.planeDimmensions.height
+      this.dimmensions.width,
+      this.dimmensions.height
     );
   }
   setMaterial() {
     this.material = new THREE.MeshStandardMaterial({
-      color: "#777777",
+      color: "#fd0000",
       metalness: 0.3,
       roughness: 0.4,
+      side: THREE.DoubleSide,
+      wireframe: true,
       // envMap: environmentMapTexture,
       // envMapIntensity: 0.5,
     });
   }
   setMesh() {
     this.mesh = new THREE.Mesh(this.geometry, this.material);
-    // this.mesh.rotation.x = -Math.PI * 0.5;
     this.mesh.rotation.set(this.rotation.x, this.rotation.y, this.rotation.z);
     this.mesh.position.set(
       this.positions.x,
@@ -52,32 +63,85 @@ export default class SceneGround {
     this.scene.add(this.mesh);
   }
   setPhysics() {
-    console.log("Setting up Ground physics");
-    const floorShape = new CANNON.Box(
-      new CANNON.Vec3(
-        this.planeDimmensions.width / 2,
-        0.1,
-        this.planeDimmensions.height / 2
-      )
-    );
-    const floorBody = new CANNON.Body();
-    floorBody.material = this.defaultMaterial;
+    // const floorShape = new CANNON.Plane(
+    //   new CANNON.Vec3(
+    //     this.dimmensions.width / 2,
 
-    floorBody.mass = 0;
-    floorBody.addShape(floorShape);
-    floorBody.position.copy(this.position);
-    // floorBody.quaternion.setFromAxisAngle(
+    //     this.dimmensions.height / 2
+    //   )
+    // );
+    const floorShape = new CANNON.Plane();
+    this.floorBody = new CANNON.Body();
+    this.floorBody.material = this.defaultMaterial;
+
+    this.floorBody.mass = 0;
+    this.floorBody.addShape(floorShape);
+    this.floorBody.position.copy(this.positions);
+
+    // this.floorBody.quaternion.setFromAxisAngle(
     //   new CANNON.Vec3(-1, 0, 0),
-    //   Math.PI * 0.5
+    //   Math.PI
     // );
 
-    floorBody.quaternion.setFromEuler(
+    this.floorBody.quaternion.setFromEuler(
       this.rotation.x,
       this.rotation.y,
       this.rotation.z,
       "XYZ"
     );
 
-    this.world.addBody(floorBody);
+    this.world.addBody(this.floorBody);
+  }
+
+  createDebug() {
+    if (this.debug.active) {
+      this.debugFolder = this.debug.ui.addFolder(this.name);
+      this.debugFolder
+        .add(this.rotation, "y", -Math.PI, Math.PI, 0.01)
+        .name("rotY");
+      this.debugFolder
+        .add(this.rotation, "x", -Math.PI, Math.PI, 0.01)
+        .name("rotX");
+      this.debugFolder
+        .add(this.rotation, "z", -Math.PI, Math.PI, 0.01)
+        .name("rotZ");
+      this.debugFolder
+        .add(this.dimmensions, "width", 1, 100, 0.1)
+        .name("planeWidth");
+      this.debugFolder
+        .add(this.dimmensions, "height", 1, 100, 0.1)
+        .name("planeHeight");
+      this.debugFolder.add(this.positions, "x", -40, 40, 0.1).name("posX");
+      this.debugFolder.add(this.positions, "y", -40, 40, 0.1).name("posY");
+      this.debugFolder.add(this.positions, "z", -40, 40, 0.1).name("posZ");
+    }
+  }
+
+  update() {
+    if (this.mesh) {
+      this.mesh.rotation.set(this.rotation.x, this.rotation.y, this.rotation.z);
+      this.mesh.scale.set(this.dimmensions.width, this.dimmensions.height);
+
+      this.mesh.position.set(
+        this.positions.x,
+        this.positions.y,
+        this.positions.z
+      );
+    }
+
+    // if (this.floorBody) {
+    //   this.floorBody.position.set(
+    //     this.positions.x,
+    //     this.positions.y,
+    //     this.positions.z
+    //   );
+    //   this.floorBody.mass = this.mass;
+    //   this.floorBody.quaternion.setFromEuler(
+    //     this.rotation.x,
+    //     this.rotation.y,
+    //     this.rotation.z,
+    //     "XYZ"
+    //   );
+    // }
   }
 }

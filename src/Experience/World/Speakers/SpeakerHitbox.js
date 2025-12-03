@@ -18,7 +18,7 @@ export default class SpeakerHitbox {
   }
 
   setup() {
-    this.positions = { x: 0, y: 1, z: -5 };
+    this.positions = { x: 0, y: 3, z: -5 };
     this.scale = { x: 1, y: 1, z: 1 };
     this.rotation = { x: 0, y: -1.6, z: 0 };
     this.mass = 1;

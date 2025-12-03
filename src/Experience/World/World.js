@@ -16,6 +16,8 @@ import DiscoBallHitbox from "./RandomObjects/DiscoBall.js";
 import Star from "./Star/Star.js";
 import Scene from "./Scene/Scene.js";
 
+import SceneHitBox from "./Scene/SceneHitBox.js";
+
 // World va permettre d'integrer tout les elements 3D dans la scene
 
 export default class World {
@@ -47,15 +49,17 @@ export default class World {
       // );
       this.physicsBall = new PhysicsBall();
 
-      // this.listPhysicObjects.push(new SpeakerHitbox());
-      // this.listPhysicObjects.push(new Speaker2Hitbox());
-      // this.listPhysicObjects.push(new Speaker3Hitbox());
-      // this.listPhysicObjects.push(new Speaker4Hitbox());
-      // this.listPhysicObjects.push(new Star());
-      // this.listPhysicObjects.push(new BottleHitbox());
-      // this.listPhysicObjects.push(new ChoppeHitbox());
-      // this.listPhysicObjects.push(new SpotLightHitbox());
-      // this.listPhysicObjects.push(new DiscoBallHitbox());
+      this.sceneHitBox = new SceneHitBox();
+
+      this.listPhysicObjects.push(new SpeakerHitbox());
+      this.listPhysicObjects.push(new Speaker2Hitbox());
+      this.listPhysicObjects.push(new Speaker3Hitbox());
+      this.listPhysicObjects.push(new Speaker4Hitbox());
+      this.listPhysicObjects.push(new Star());
+      this.listPhysicObjects.push(new BottleHitbox());
+      this.listPhysicObjects.push(new ChoppeHitbox());
+      this.listPhysicObjects.push(new SpotLightHitbox());
+      this.listPhysicObjects.push(new DiscoBallHitbox());
 
       // this.listPhysicObjects.push(new Scene());
 
@@ -67,9 +71,11 @@ export default class World {
     // if (this.fox) {
     //   this.fox.update();
     // }
-
-    for (const object of this.listPhysicObjects) {
-      object.MeshHitBox.update();
+    if (this.sceneHitBox) {
+      this.sceneHitBox.update();
     }
+    // for (const object of this.listPhysicObjects) {
+    //   object.MeshHitBox.update();
+    // }
   }
 }
