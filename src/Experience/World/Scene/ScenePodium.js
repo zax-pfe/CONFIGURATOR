@@ -1,6 +1,7 @@
 import Experience from "../../Experience";
 import Physics from "../../Utils/Physics.js";
 import * as CANNON from "cannon-es";
+
 import * as THREE from "three";
 
 export default class ScenePodium {
@@ -49,6 +50,16 @@ export default class ScenePodium {
       8
     );
   }
+  threeToCannonTrimesh(geometry) {
+    const vertices = geometry.attributes.position.array;
+    const indices = [];
+
+    for (let i = 0; i < vertices.length / 3; i++) {
+      indices.push(i);
+    }
+
+    return new CANNON.Trimesh(vertices, indices);
+  }
   setMaterial() {
     this.material = new THREE.MeshStandardMaterial({
       color: "#fd0000",
@@ -79,6 +90,8 @@ export default class ScenePodium {
       this.dimmensions.height,
       8
     );
+
+    // const shape = this.threeToCannonTrimesh(this.geometry);
 
     this.body = new CANNON.Body();
     this.body.material = this.defaultMaterial;
