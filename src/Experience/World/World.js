@@ -11,6 +11,8 @@ import Speaker3Hitbox from "./Speakers/Speaker3Hitbox.js";
 import Speaker4Hitbox from "./Speakers/Speaker4Hitbox.js";
 import BottleHitbox from "./RandomObjects/Bottle.js";
 import ChoppeHitbox from "./RandomObjects/Choppe.js";
+import SpotLightHitbox from "./Lights/SpotLight.js";
+import DiscoBallHitbox from "./RandomObjects/DiscoBall.js";
 import Star from "./Star/Star.js";
 import Scene from "./Scene/Scene.js";
 
@@ -35,24 +37,25 @@ export default class World {
     this.resources = this.experience.resources;
 
     this.resources.on("ready", () => {
-      // this.discoBall = new DiscoBall();
-      this.ground = new Ground(
-        { x: 0, y: 0, z: 0 },
-        { x: -Math.PI * 0.5, y: 0, z: 0 }
-      );
+      // this.ground = new Ground(
+      //   { x: 0, y: 0, z: 0 },
+      //   { x: -Math.PI * 0.5, y: 0, z: 0 }
+      // );
       // this.ground = new Ground(
       //   { x: 0, y: 0, z: -7 },
       //   { x: -Math.PI * 0.2, y: 0, z: 0 }
       // );
       this.physicsBall = new PhysicsBall();
 
-      this.listPhysicObjects.push(new SpeakerHitbox());
-      this.listPhysicObjects.push(new Speaker2Hitbox());
-      this.listPhysicObjects.push(new Speaker3Hitbox());
-      this.listPhysicObjects.push(new Speaker4Hitbox());
-      this.listPhysicObjects.push(new Star());
-      this.listPhysicObjects.push(new BottleHitbox());
-      this.listPhysicObjects.push(new ChoppeHitbox());
+      // this.listPhysicObjects.push(new SpeakerHitbox());
+      // this.listPhysicObjects.push(new Speaker2Hitbox());
+      // this.listPhysicObjects.push(new Speaker3Hitbox());
+      // this.listPhysicObjects.push(new Speaker4Hitbox());
+      // this.listPhysicObjects.push(new Star());
+      // this.listPhysicObjects.push(new BottleHitbox());
+      // this.listPhysicObjects.push(new ChoppeHitbox());
+      // this.listPhysicObjects.push(new SpotLightHitbox());
+      // this.listPhysicObjects.push(new DiscoBallHitbox());
 
       // this.listPhysicObjects.push(new Scene());
 
