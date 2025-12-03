@@ -9,6 +9,8 @@ import SpeakerHitbox from "./Speakers/SpeakerHitbox.js";
 import Speaker2Hitbox from "./Speakers/Speaker2Hitbox.js";
 import Speaker3Hitbox from "./Speakers/Speaker3Hitbox.js";
 import Speaker4Hitbox from "./Speakers/Speaker4Hitbox.js";
+import BottleHitbox from "./RandomObjects/Bottle.js";
+import ChoppeHitbox from "./RandomObjects/Choppe.js";
 import Star from "./Star/Star.js";
 import Scene from "./Scene/Scene.js";
 
@@ -49,7 +51,10 @@ export default class World {
       this.listPhysicObjects.push(new Speaker3Hitbox());
       this.listPhysicObjects.push(new Speaker4Hitbox());
       this.listPhysicObjects.push(new Star());
-      this.listPhysicObjects.push(new Scene());
+      this.listPhysicObjects.push(new BottleHitbox());
+      this.listPhysicObjects.push(new ChoppeHitbox());
+
+      // this.listPhysicObjects.push(new Scene());
 
       this.environement = new Environement();
     });

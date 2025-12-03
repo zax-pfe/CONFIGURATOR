@@ -83,4 +83,24 @@ export default [
     type: "gltfModel",
     path: "models/Scene/scene.glb",
   },
+  {
+    name: "BottleModel",
+    type: "gltfModel",
+    path: "models/Random/bottle.glb",
+  },
+  {
+    name: "ChoppeModel",
+    type: "gltfModel",
+    path: "models/Random/choppe.glb",
+  },
+  {
+    name: "DiscoBallModel",
+    type: "gltfModel",
+    path: "models/Random/discoBall.glb",
+  },
+  {
+    name: "SpotLightModel",
+    type: "gltfModel",
+    path: "models/Lights/spot.glb",
+  },
 ];
