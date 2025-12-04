@@ -31,3 +31,8 @@ npm run build
 5. Ajouter des effets visuels a la scene, genre des particules a certains endroit pour rendre le tout shiny.
 
 6. Gerer les differentes lights.
+
+## 04/12
+
+1. tej le activate physics
+2. Mesh -> ajouter l'equivalent hitBocMesh mais sans la physique
