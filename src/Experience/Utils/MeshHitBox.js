@@ -37,7 +37,8 @@ export default class MeshHitBox {
 
     // setUp local parameters
     this.resources = resources;
-    this.positions = positions;
+    // this.positions = positions;
+    this.positions = { x: 0, y: 20, z: 30 };
     this.scale = scale;
     this.rotation = rotation;
     this.mass = mass;

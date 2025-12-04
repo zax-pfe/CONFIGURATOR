@@ -65,7 +65,7 @@ export default class World {
       // this.listPhysicObjects.push(new SpotLightHitbox());
       // this.listPhysicObjects.push(new DiscoBallHitbox());
 
-      // this.listPhysicObjects.push(new Scene());
+      this.listPhysicObjects.push(new Scene());
 
       this.environement = new Environement();
     });
@@ -78,8 +78,5 @@ export default class World {
     if (this.sceneHitBox) {
       this.sceneHitBox.update();
     }
-    // for (const object of this.listPhysicObjects) {
-    //   object.MeshHitBox.update();
-    // }
   }
 }

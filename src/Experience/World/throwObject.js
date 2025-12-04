@@ -65,18 +65,18 @@ export default class ThrowObject {
     }
   }
 
-  addToWorld(name, throwAngle, throwPower) {
+  addToWorld(name, throwAngleX, throwAngleY, throwPower) {
     const item = this.items[name];
     const result = item.create();
     this.experience.scene.add(result.model);
     this.physics.world.addBody(result.body);
 
     const speed = 15 * throwPower; // m/s
-    const angleRadians = (this.angleX * Math.PI) / 180; // Convertir degrés en radians
+    // const angleRadians = (this.angleX * Math.PI) / 180; // Convertir degrés en radians
     // const vx = Math.cos(angleRadians) * speed;
     // const vz = Math.sin(angleRadians) * speed;
     // const vy = 5;
-    result.body.velocity.set(0, 0, -speed);
+    result.body.velocity.set(throwAngleX, throwAngleY, -speed);
     this.physics.objectsToUpdate.push({
       mesh: result.model,
       body: result.body,
@@ -109,14 +109,19 @@ export default class ThrowObject {
         .add(this, "selectedObject", this.itemNames)
         .name("selectedObject");
       // choix de l'angle de lancé
-      this.debugFolder.add(this, "angleX", -45, 45, 1).name("angleX");
-      this.debugFolder.add(this, "angleY", -45, 45, 1).name("angleY");
+      this.debugFolder.add(this, "angleX", -10, 10, 1).name("angleX");
+      this.debugFolder.add(this, "angleY", -10, 10, 1).name("angleY");
       // choix de la puissance du lancé
       this.debugFolder.add(this, "power", 0.1, 5, 0.1).name("power");
       // add function to launch the object
       const debugObject = {
         throw: () => {
-          this.addToWorld(this.selectedObject, this.angleX, this.power);
+          this.addToWorld(
+            this.selectedObject,
+            this.angleX,
+            this.angleY,
+            this.power
+          );
         },
       };
       this.debugFolder.add(debugObject, "throw");
