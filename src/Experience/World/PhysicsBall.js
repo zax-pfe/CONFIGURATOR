@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import Experience from "../../experience/experience.js";
+import Experience from "../Experience.js";
 import * as CANNON from "cannon-es";
 import Physics from "../Utils/Physics.js";
 import SoundManager from "../Utils/SoundManager.js";

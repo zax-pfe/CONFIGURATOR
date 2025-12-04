@@ -1,11 +1,11 @@
-import Experience from "../../Experience";
+import Experience from "../../Experience.js";
 import Physics from "../../Utils/Physics.js";
 import * as CANNON from "cannon-es";
 import * as THREE from "three";
 
 export default class SceneWall {
-  constructor() {
-    console.log("SceneWall initialized");
+  constructor(name, scale, positions, rotation, mass, dimmensions, debug) {
+    // console.log("SceneWall dimmensions:", dimmensions);
 
     // setupt the experience
     this.experience = new Experience();
@@ -18,20 +18,21 @@ export default class SceneWall {
     this.defaultMaterial = this.physics.defaultMaterial;
     this.objectsToUpdate = this.physics.objectsToUpdate;
 
-    //setUp local parameters
-    this.scale = { x: 1, y: 1, z: 1 };
-    this.positions = { x: 0, y: 0, z: 0 };
-    this.rotation = { x: 0, y: 0, z: 0 };
-    this.mass = 0;
-    this.dimmensions = { width: 5, height: 5 };
-    this.name = "SceneWall";
+    this.scale = scale;
+    this.positions = positions;
+    this.rotation = rotation;
+    this.mass = mass;
+    this.dimmensions = dimmensions;
+    this.name = name;
 
     // create the wall
     this.setGeometry();
     this.setMaterial();
     this.setMesh();
     this.setPhysics();
-    this.createDebug();
+    if (debug) {
+      this.createDebug();
+    }
   }
 
   setGeometry() {

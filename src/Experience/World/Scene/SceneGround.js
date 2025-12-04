@@ -23,7 +23,7 @@ export default class SceneGround {
     this.positions = { x: 0, y: 0, z: 0 };
     this.rotation = { x: -Math.PI * 0.5, y: 0, z: 0 };
     this.mass = 0;
-    this.dimmensions = { width: 5, height: 5 };
+    this.dimmensions = { width: 6, height: 6 };
     this.name = "SceneGround";
 
     // create the ground

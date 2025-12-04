@@ -1,7 +1,7 @@
 import * as THREE from "three";
-import Experience from "../../experience/experience.js";
+import Experience from "../../experience.js";
 import * as CANNON from "cannon-es";
-import Physics from "../Utils/Physics.js";
+import Physics from "../../Utils/Physics.js";
 
 export default class Floor {
   constructor() {

@@ -14,7 +14,6 @@ export default class SpotLightHitbox {
     this.world = this.physics.world;
 
     this.setup();
-    this.create();
   }
 
   setup() {
@@ -45,5 +44,10 @@ export default class SpotLightHitbox {
       this.activatePhysics,
       this.sound
     );
+    return {
+      name: this.name,
+      model: this.MeshHitBox.model,
+      body: this.MeshHitBox.body,
+    };
   }
 }

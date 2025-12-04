@@ -1,5 +1,5 @@
 import PhysicMesh from "../Utils/PhysicMesh";
-import Experience from "../Experience.js";
+import Experience from "../../Experience.js";
 
 export default class SpeakerOne {
   constructor() {

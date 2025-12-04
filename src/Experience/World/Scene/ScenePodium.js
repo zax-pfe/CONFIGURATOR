@@ -22,9 +22,9 @@ export default class ScenePodium {
     //setUp local parameters
     this.scale = { x: 1, y: 1, z: 1 };
     this.rotation = { x: 0, y: 0, z: 0 };
-    this.mass = 0;
-    this.dimmensions = { radiusTop: 7, radiusBot: 7, height: 1.6 };
-    this.positions = { x: 0, y: this.dimmensions.height / 2, z: 0 };
+    this.mass = 0.1;
+    this.dimmensions = { radiusTop: 7, radiusBot: 7, height: 3 };
+    this.positions = { x: 0, y: this.dimmensions.height / 2 + 0.1, z: 0 };
     this.name = "ScenePodium";
 
     // create the ground
@@ -96,7 +96,7 @@ export default class ScenePodium {
     this.body = new CANNON.Body();
     this.body.material = this.defaultMaterial;
 
-    this.body.mass = 0;
+    this.body.mass = this.mass;
     this.body.addShape(shape);
     this.body.position.copy(this.positions);
 

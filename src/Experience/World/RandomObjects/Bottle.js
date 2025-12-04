@@ -6,15 +6,12 @@ export default class BottleHitbox {
   constructor() {
     // setupt the experience
     this.experience = new Experience();
-    this.scene = this.experience.scene;
     this.resource = this.experience.resources.items.BottleModel;
 
     // setupt the physicWorld
     this.physics = new Physics();
-    this.world = this.physics.world;
 
     this.setup();
-    this.create();
   }
 
   setup() {
@@ -45,5 +42,10 @@ export default class BottleHitbox {
       this.activatePhysics,
       this.sound
     );
+    return {
+      name: this.name,
+      model: this.MeshHitBox.model,
+      body: this.MeshHitBox.body,
+    };
   }
 }

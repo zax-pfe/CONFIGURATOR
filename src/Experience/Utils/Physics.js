@@ -1,6 +1,6 @@
 import EventEmitter from "./EventEmitter.js";
 import * as CANNON from "cannon-es";
-import Experience from "../../experience/experience.js";
+import Experience from "../Experience.js";
 import CannonDebugger from "cannon-es-debugger";
 
 let instance = null;

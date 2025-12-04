@@ -14,11 +14,10 @@ export default class DiscoBallHitbox {
     this.world = this.physics.world;
 
     this.setup();
-    this.create();
   }
 
   setup() {
-    this.positions = { x: -2.5, y: 3, z: 2.1 };
+    this.positions = { x: -2.5, y: 10, z: 2.1 };
     this.scale = { x: 0.5, y: 0.5, z: 0.5 };
     this.rotation = { x: 0, y: 0.8, z: 0 };
     this.mass = 2;
@@ -45,5 +44,10 @@ export default class DiscoBallHitbox {
       this.activatePhysics,
       this.sound
     );
+    return {
+      name: this.name,
+      model: this.MeshHitBox.model,
+      body: this.MeshHitBox.body,
+    };
   }
 }

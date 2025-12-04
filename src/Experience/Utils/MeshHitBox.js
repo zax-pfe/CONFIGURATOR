@@ -45,20 +45,24 @@ export default class MeshHitBox {
     this.name = name;
     this.hitBoxType = hitBoxType;
     this.activetePhysics = activetePhysics;
+    this.addShadow = true;
 
-    // create the model
-    this.setModel();
-    // this.createHitBox();
-    if (this.activetePhysics) {
-      this.createComplexHitBox();
-      this.addToPhysicWorld();
-    }
     this.createDebug();
     console.log("Object with hitbox initialized", this.name);
+
+    this.setModel();
+    if (this.addShadow) {
+      this.model.traverse((child) => {
+        if (child instanceof THREE.Mesh) {
+          child.castShadow = true;
+        }
+      });
+    }
+    this.createComplexHitBox();
   }
 
   setModel() {
-    this.model = this.resources.scene;
+    this.model = this.resources.scene.clone();
     this.model.scale.set(this.scale.x, this.scale.y, this.scale.z);
     this.model.rotation.set(this.rotation.x, this.rotation.y, this.rotation.z);
     this.model.position.set(
@@ -67,14 +71,6 @@ export default class MeshHitBox {
       this.positions.z
     );
     // this.model.updateMatrixWorld(true);
-
-    this.scene.add(this.model);
-
-    this.model.traverse((child) => {
-      if (child instanceof THREE.Mesh) {
-        child.castShadow = true;
-      }
-    });
   }
 
   createHitBox() {
@@ -130,15 +126,31 @@ export default class MeshHitBox {
     }
   }
 
-  addToPhysicWorld() {
-    this.world.addBody(this.body);
-    this.objectsToUpdate.push({
-      mesh: this.model,
-      body: this.body,
-    });
+  create() {
+    this.setModel();
+    // this.scene.add(this.model);
+    if (this.addShadow) {
+      this.model.traverse((child) => {
+        if (child instanceof THREE.Mesh) {
+          child.castShadow = true;
+        }
+      });
+    }
+    // if (this.activetePhysics) {
+    this.createComplexHitBox();
+
+    //   this.world.addBody(this.body);
+    //   this.objectsToUpdate.push({
+    //     mesh: this.model,
+    //     body: this.body,
+    //   });
+    // }
+
+    // return this.name, this.model, this.body;
   }
 
   update() {
+    // Update c'est uniquement pour mettre a jour les elements dans le debug UI
     // update the model position and rotation to match the physics body
     if (this.activetePhysics) {
       this.model.position.copy(this.body.position);
