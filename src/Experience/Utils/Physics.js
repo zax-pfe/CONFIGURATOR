@@ -117,11 +117,6 @@ export default class Physics extends EventEmitter {
     for (const object of this.objectsToUpdate) {
       object.mesh.position.copy(object.body.position);
       object.mesh.quaternion.copy(object.body.quaternion);
-      if (object.shift) {
-        object.mesh.position.x -= object.shift.x;
-        object.mesh.position.y -= object.shift.y;
-        object.mesh.position.z -= object.shift.z;
-      }
     }
   }
 }
