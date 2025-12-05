@@ -9,6 +9,11 @@ import SpeakerHitbox from "./Speakers/SpeakerHitbox.js";
 import Speaker2Hitbox from "./Speakers/Speaker2Hitbox.js";
 import Speaker3Hitbox from "./Speakers/Speaker3Hitbox.js";
 import Speaker4Hitbox from "./Speakers/Speaker4Hitbox.js";
+import SpotLightHitbox2 from "./Lights/Spotlight2.js";
+import SpeakerTextured from "./Speakers/SpeakerTextured.js";
+import Speaker2Textured from "./Speakers/Speaker2Textured.js";
+import Speaker3Textured from "../World/Speakers/Speaker3Textured.js";
+import Speaker4Textured from "./Speakers/Speaker4Textured.js";
 
 export default class ThrowObject {
   // cette classe doit créer tout les elements qui peuvent etre lancés dans la scene
@@ -45,6 +50,11 @@ export default class ThrowObject {
     this.choppe = new ChoppeHitbox();
     this.discoBall = new DiscoBallHitbox();
     this.spotLight = new SpotLightHitbox();
+    this.spotLight2 = new SpotLightHitbox2();
+    this.speaker1textured = new SpeakerTextured();
+    this.speaker2textured = new Speaker2Textured();
+    this.speaker3textured = new Speaker3Textured();
+    this.Speaker4Textured = new Speaker4Textured();
     // this.star = new Star();
 
     this.objectsTypes.push(
@@ -55,7 +65,12 @@ export default class ThrowObject {
       this.bottle,
       this.choppe,
       this.discoBall,
-      this.spotLight
+      this.spotLight,
+      this.spotLight2,
+      this.speaker1textured,
+      this.speaker2textured,
+      this.speaker3textured,
+      this.Speaker4Textured
       // this.star
     );
 

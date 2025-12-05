@@ -59,9 +59,19 @@ export default [
     path: "models/Speaker/Speaker2/speaker2Centered.glb",
   },
   {
+    name: "Speaker2TexturedModel",
+    type: "gltfModel",
+    path: "models/Speaker/Speaker2/2-speaker-Sentinel.glb",
+  },
+  {
     name: "Speaker1CenteredModel",
     type: "gltfModel",
     path: "models/Speaker/Speaker1/speakerCentered.glb",
+  },
+  {
+    name: "Speaker1TexturedModel",
+    type: "gltfModel",
+    path: "models/Speaker/Speaker1/1-speaker-Eidolon.glb",
   },
   {
     name: "Speaker3CenteredModel",
@@ -69,9 +79,19 @@ export default [
     path: "models/Speaker/Speaker3/speaker3Centered.glb",
   },
   {
+    name: "Speaker3TexturedModel",
+    type: "gltfModel",
+    path: "models/Speaker/Speaker3/3-speaker-StudioPro 3.glb",
+  },
+  {
     name: "Speaker4CenteredModel",
     type: "gltfModel",
     path: "models/Speaker/Speaker4/speaker4Centered.glb",
+  },
+  {
+    name: "Speaker4TexturedModel",
+    type: "gltfModel",
+    path: "models/Speaker/Speaker4/4-speaker-Dynaudio.glb",
   },
   {
     name: "StarModel",
@@ -102,5 +122,10 @@ export default [
     name: "SpotLightModel",
     type: "gltfModel",
     path: "models/Lights/spot.glb",
+  },
+  {
+    name: "SpotLightModel2",
+    type: "gltfModel",
+    path: "models/Lights/spot2.glb",
   },
 ];

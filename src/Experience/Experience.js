@@ -84,8 +84,8 @@ export default class Experience {
     this.camera.update();
     this.world.update();
     this.renderer.update();
-    this.stats.stats.end();
     this.physics.update(this.time.delta);
+    this.stats.stats.end();
   }
 
   destroy() {

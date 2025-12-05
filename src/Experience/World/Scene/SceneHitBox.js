@@ -22,12 +22,14 @@ export default class SceneHitBox {
     this.backWallRotation = { x: 0, y: 0, z: 0 };
     this.backWallMass = 0;
     this.backWallDimmensions = { width: 6, height: 6 };
+
+    // debug, si active, on voit le mesh en wireframe
+    // + un debug UI qui permet de modifier les parametres
     this.backWallDebug = false;
 
     //create the left Wall
     this.leftWallName = "leftWall";
     this.leftWallScale = { x: 1, y: 1, z: 1 };
-    // this.leftWallPositions = { x: -12.5, y: 12.5, z: 0 };
     this.leftWallPositions = { x: -30, y: 18, z: 12 };
     this.leftWallRotation = { x: 0, y: Math.PI * 0.5, z: 0 };
     this.leftWallMass = 0;
@@ -37,7 +39,6 @@ export default class SceneHitBox {
     //create the right
     this.rightWallName = "rightWall";
     this.rightWallScale = { x: 1, y: 1, z: 1 };
-    // this.rightWallPositions = { x: -12.5, y: 12.5, z: 0 };
     this.rightWallPositions = { x: 30, y: 18, z: 12 };
     this.rightWallRotation = { x: 0, y: -Math.PI * 0.5, z: 0 };
     this.rightWallMass = 0;
@@ -46,7 +47,6 @@ export default class SceneHitBox {
 
     this.leftBacktWallName = "leftBacktWall";
     this.leftBacktWallScale = { x: 1, y: 1, z: 1 };
-    // this.leftBacktWallPositions = { x: -12.5, y: 12.5, z: 0 };
     this.leftBacktWallPositions = { x: -20, y: 18, z: -30 };
     this.leftBacktWallRotation = { x: 0, y: Math.PI * 0.25, z: 0 };
     this.leftBacktWallMass = 0;
@@ -55,7 +55,6 @@ export default class SceneHitBox {
 
     this.rightBacktWallName = "rightBacktWall";
     this.rightBacktWallScale = { x: 1, y: 1, z: 1 };
-    // this.rightBacktWallPositions = { x: -12.5, y: 12.5, z: 0 };
     this.rightBacktWallPositions = { x: 20, y: 18, z: -30 };
     this.rightBacktWallRotation = { x: 0, y: -Math.PI * 0.25, z: 0 };
     this.rightBacktWallMass = 0;

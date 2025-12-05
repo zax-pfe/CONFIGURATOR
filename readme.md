@@ -35,4 +35,4 @@ npm run build
 ## 04/12
 
 1. tej le activate physics
-2. Mesh -> ajouter l'equivalent hitBoxMesh mais sans la physique
+2. Mesh -> ajouter l'equivalent hitBoxMesh mais sans la physique -> done
