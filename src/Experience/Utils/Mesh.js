@@ -1,50 +1,24 @@
 import * as THREE from "three";
 import Experience from "../Experience.js";
-import Physics from "../Utils/Physics.js";
-import * as CANNON from "cannon-es";
-import { threeToCannon, ShapeType } from "three-to-cannon";
-import SoundManager from "../Utils/SoundManager.js";
 
 // CETTE CLASSE PERMET D'AJOUTER UN MODEL 3D SANS HITBOX
 
 export default class Mesh {
-  constructor(
-    positions,
-    scale,
-    rotation,
-    resources,
-    mass,
-    material,
-    hitBoxType,
-    name,
-    activetePhysics,
-    selectedSound
-  ) {
+  constructor(positions, scale, rotation, resources, name) {
     //setupt the experience
     this.experience = new Experience();
     this.scene = this.experience.scene;
     this.debug = this.experience.debug;
 
-    // setupt the sound manager
-    this.soundManager = new SoundManager();
-    this.soundManager.selectedSound = selectedSound;
-
-    // setupt the physicWorld
-    this.physics = new Physics();
-    this.world = this.physics.world;
-    this.objectsToUpdate = this.physics.objectsToUpdate;
-
     // setUp local parameters
     this.resources = resources;
     // this.positions = positions;
-    this.positions = { x: 0, y: 20, z: 30 };
+    // default position for non physics objects
+    this.positions = positions;
     this.scale = scale;
+    this.scaleRatio = 1;
     this.rotation = rotation;
-    this.mass = mass;
-    this.material = material;
     this.name = name;
-    this.hitBoxType = hitBoxType;
-    this.activetePhysics = activetePhysics;
     this.addShadow = true;
 
     this.createDebug();
@@ -58,114 +32,48 @@ export default class Mesh {
         }
       });
     }
-    this.createComplexHitBox();
   }
 
   setModel() {
     this.model = this.resources.scene.clone();
-    this.model.scale.set(this.scale.x, this.scale.y, this.scale.z);
+    this.model.scale.set(
+      this.scale.x * this.scaleRatio,
+      this.scale.y * this.scaleRatio,
+      this.scale.z * this.scaleRatio
+    );
     this.model.rotation.set(this.rotation.x, this.rotation.y, this.rotation.z);
     this.model.position.set(
       this.positions.x,
       this.positions.y,
       this.positions.z
     );
-    // this.model.updateMatrixWorld(true);
-  }
-
-  createHitBox() {
-    // create a box hitbox around the model with native function
-    const box = new THREE.Box3().setFromObject(this.model);
-    const size = new THREE.Vector3();
-    box.getSize(size);
-    console.log("Hitbox size:", size);
-
-    const shape = new CANNON.Box(
-      new CANNON.Vec3(size.x / 2, size.y / 2, size.z / 2)
-    );
-
-    this.body = new CANNON.Body({ mass: this.mass });
-    this.body.addShape(shape);
-
-    const center = new THREE.Vector3();
-    box.getCenter(center);
-    this.body.position.set(center.x, center.y, center.z);
-    this.body.addEventListener("collide", this.soundManager.playHitSound);
-  }
-
-  createComplexHitBox() {
-    let result = null;
-    if (this.hitBoxType === "cylinder") {
-      result = threeToCannon(this.model, { type: ShapeType.CYLINDER });
-    } else if (this.hitBoxType === "sphere") {
-      result = threeToCannon(this.model, { type: ShapeType.SPHERE });
-    } else if (this.hitBoxType === "hull") {
-      result = threeToCannon(this.model, { type: ShapeType.HULL });
-    } else {
-      result = threeToCannon(this.model, { type: ShapeType.BOX });
-    }
-
-    this.body = new CANNON.Body({ mass: this.mass, material: this.material });
-    this.body.addShape(result.shape);
-    this.body.position.copy(this.model.position);
-    this.body.quaternion.copy(this.model.quaternion);
-    this.body.addEventListener("collide", this.soundManager.playHitSound);
   }
 
   createDebug() {
     if (this.debug.active) {
-      if (!this.activetePhysics) {
-        this.debugFolder = this.debug.ui.addFolder(this.name);
-        this.debugFolder
-          .add(this.rotation, "y", -Math.PI, Math.PI, 0.01)
-          .name("rotY");
-        this.debugFolder.add(this.positions, "x", -10, 10, 0.1).name("posX");
-        this.debugFolder.add(this.positions, "y", -10, 10, 0.1).name("posY");
-        this.debugFolder.add(this.positions, "z", -10, 10, 0.1).name("posZ");
-      }
+      this.debugFolder = this.debug.ui.addFolder(this.name);
+      this.debugFolder
+        .add(this.rotation, "y", -Math.PI, Math.PI, 0.01)
+        .name("rotY");
+      this.debugFolder.add(this.positions, "x", -10, 10, 0.1).name("posX");
+      this.debugFolder.add(this.positions, "y", -10, 10, 0.1).name("posY");
+      this.debugFolder.add(this.positions, "z", -10, 10, 0.1).name("posZ");
+      this.debugFolder.add(this, "scaleRatio", 0.1, 5, 0.1).name("scaleRatio");
     }
-  }
-
-  create() {
-    this.setModel();
-    // this.scene.add(this.model);
-    if (this.addShadow) {
-      this.model.traverse((child) => {
-        if (child instanceof THREE.Mesh) {
-          child.castShadow = true;
-        }
-      });
-    }
-    // if (this.activetePhysics) {
-    this.createComplexHitBox();
-
-    //   this.world.addBody(this.body);
-    //   this.objectsToUpdate.push({
-    //     mesh: this.model,
-    //     body: this.body,
-    //   });
-    // }
-
-    // return this.name, this.model, this.body;
   }
 
   update() {
     // Update c'est uniquement pour mettre a jour les elements dans le debug UI
-    // update the model position and rotation to match the physics body
-    if (this.activetePhysics) {
-      this.model.position.copy(this.body.position);
-      this.model.quaternion.copy(this.body.quaternion);
-    } else {
-      this.model.position.set(
-        this.positions.x,
-        this.positions.y,
-        this.positions.z
-      );
-      this.model.rotation.set(
-        this.rotation.x,
-        this.rotation.y,
-        this.rotation.z
-      );
-    }
+    this.model.position.set(
+      this.positions.x,
+      this.positions.y,
+      this.positions.z
+    );
+    this.model.scale.set(
+      this.scale.x * this.scaleRatio,
+      this.scale.y * this.scaleRatio,
+      this.scale.z * this.scaleRatio
+    );
+    this.model.rotation.set(this.rotation.x, this.rotation.y, this.rotation.z);
   }
 }

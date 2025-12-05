@@ -38,6 +38,7 @@ export default class MeshHitBox {
     // setUp local parameters
     this.resources = resources;
     // this.positions = positions;
+    // cette position est la position de depart des objets lancés
     this.positions = { x: 0, y: 20, z: 30 };
     this.scale = scale;
     this.rotation = rotation;
@@ -125,29 +126,6 @@ export default class MeshHitBox {
         this.debugFolder.add(this.positions, "z", -10, 10, 0.1).name("posZ");
       }
     }
-  }
-
-  create() {
-    this.setModel();
-    // this.scene.add(this.model);
-    if (this.addShadow) {
-      this.model.traverse((child) => {
-        if (child instanceof THREE.Mesh) {
-          child.castShadow = true;
-        }
-      });
-    }
-    // if (this.activetePhysics) {
-    this.createComplexHitBox();
-
-    //   this.world.addBody(this.body);
-    //   this.objectsToUpdate.push({
-    //     mesh: this.model,
-    //     body: this.body,
-    //   });
-    // }
-
-    // return this.name, this.model, this.body;
   }
 
   update() {
