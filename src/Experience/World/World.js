@@ -29,6 +29,7 @@ export default class World {
     this.scene = this.experience.scene;
 
     this.listPhysicObjects = [];
+    this.listNonPhysicObjects = [];
 
     // const testMesh = new THREE.Mesh(
     //   new THREE.BoxGeometry(1, 1, 1),
@@ -47,6 +48,8 @@ export default class World {
       //   { x: 0, y: 0, z: -7 },
       //   { x: -Math.PI * 0.2, y: 0, z: 0 }
       // );
+
+      // Permet de tester les objets physiques lancés
       this.physicsBall = new PhysicsBall();
       this.cubeGenerator = new GenerateRandomCube();
 
@@ -65,7 +68,7 @@ export default class World {
       // this.listPhysicObjects.push(new SpotLightHitbox());
       // this.listPhysicObjects.push(new DiscoBallHitbox());
 
-      this.listPhysicObjects.push(new Scene());
+      this.listNonPhysicObjects.push(new Scene());
 
       this.environement = new Environement();
     });
@@ -77,6 +80,10 @@ export default class World {
     // }
     if (this.sceneHitBox) {
       this.sceneHitBox.update();
+    }
+
+    for (const object of this.listNonPhysicObjects) {
+      object.Mesh.update();
     }
   }
 }

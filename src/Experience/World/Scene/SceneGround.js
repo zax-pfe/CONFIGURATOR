@@ -4,7 +4,7 @@ import * as CANNON from "cannon-es";
 import * as THREE from "three";
 
 export default class SceneGround {
-  constructor() {
+  constructor(debug) {
     console.log("SceneGround initialized");
 
     // setupt the experience
@@ -23,15 +23,17 @@ export default class SceneGround {
     this.positions = { x: 0, y: 0, z: 0 };
     this.rotation = { x: -Math.PI * 0.5, y: 0, z: 0 };
     this.mass = 0;
-    this.dimmensions = { width: 6, height: 6 };
+    this.dimmensions = { width: 10, height: 10 };
     this.name = "SceneGround";
 
     // create the ground
     this.setGeometry();
     this.setMaterial();
-    this.setMesh();
     this.setPhysics();
-    this.createDebug();
+    if (debug) {
+      this.setMesh();
+      this.createDebug();
+    }
   }
 
   setGeometry() {

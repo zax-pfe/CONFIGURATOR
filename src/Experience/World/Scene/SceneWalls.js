@@ -28,9 +28,9 @@ export default class SceneWall {
     // create the wall
     this.setGeometry();
     this.setMaterial();
-    this.setMesh();
     this.setPhysics();
     if (debug) {
+      this.setMesh();
       this.createDebug();
     }
   }

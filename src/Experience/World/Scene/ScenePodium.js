@@ -5,7 +5,7 @@ import * as CANNON from "cannon-es";
 import * as THREE from "three";
 
 export default class ScenePodium {
-  constructor() {
+  constructor(debug) {
     console.log("ScenePodium initialized");
 
     // setupt the experience
@@ -23,16 +23,19 @@ export default class ScenePodium {
     this.scale = { x: 1, y: 1, z: 1 };
     this.rotation = { x: 0, y: 0, z: 0 };
     this.mass = 0;
-    this.dimmensions = { radiusTop: 7, radiusBot: 7, height: 3 };
+    this.dimmensions = { radiusTop: 12, radiusBot: 15, height: 2.3 };
     this.positions = { x: 0, y: this.dimmensions.height / 2, z: 0 };
     this.name = "ScenePodium";
 
     // create the ground
     this.setGeometry();
     this.setMaterial();
-    this.setMesh();
     this.setPhysics();
-    this.createDebug();
+
+    if (debug) {
+      this.setMesh();
+      this.createDebug();
+    }
   }
 
   setGeometry() {
@@ -123,13 +126,13 @@ export default class ScenePodium {
         .add(this.rotation, "z", -Math.PI, Math.PI, 0.01)
         .name("rotZ");
       this.debugFolder
-        .add(this.dimmensions, "radiusTop", 1, 15, 0.1)
+        .add(this.dimmensions, "radiusTop", 1, 20, 0.1)
         .name("radiusTop");
       this.debugFolder
-        .add(this.dimmensions, "radiusBot", 1, 15, 0.1)
+        .add(this.dimmensions, "radiusBot", 1, 20, 0.1)
         .name("radiusBot");
       this.debugFolder
-        .add(this.dimmensions, "height", 1, 15, 0.1)
+        .add(this.dimmensions, "height", 1, 20, 0.1)
         .name("height");
 
       this.debugFolder.add(this.positions, "x", -40, 40, 0.1).name("posX");
