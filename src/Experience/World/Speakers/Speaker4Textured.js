@@ -15,7 +15,6 @@ export default class Speaker4Textured {
   }
 
   setup() {
-    this.positions = { x: -1, y: 10, z: -10 };
     this.scale = { x: 1, y: 1, z: 1 };
     this.rotation = { x: 0, y: -2, z: 0 };
     this.mass = 3;
@@ -29,9 +28,9 @@ export default class Speaker4Textured {
     this.sound = this.experience.soundManager.punchSound;
   }
 
-  create() {
+  create(position = { x: 0, y: 10, z: 0 }) {
     this.MeshHitBox = new MeshHitBox(
-      this.positions,
+      position,
       this.scale,
       this.rotation,
       this.resource,
@@ -42,10 +41,13 @@ export default class Speaker4Textured {
       this.activatePhysics,
       this.sound
     );
+
     return {
       name: this.name,
       model: this.MeshHitBox.model,
       body: this.MeshHitBox.body,
     };
   }
+
+  delete() {}
 }

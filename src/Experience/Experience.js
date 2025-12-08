@@ -63,7 +63,7 @@ export default class Experience {
     });
     this.connection.on("message", () => {
       const messages = this.connection.receivedMessages;
-      console.log("Received messages:", messages);
+      // console.log("Received messages:", messages);
     });
 
     // Tick event

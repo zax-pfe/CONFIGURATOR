@@ -36,3 +36,13 @@ npm run build
 
 1. tej le activate physics
 2. Mesh -> ajouter l'equivalent hitBoxMesh mais sans la physique -> done
+
+
+## 05/12
+1. focus sur le control manager qui permet de changer des scenes
+2. gerer envoit des données au telephone:
+  - Calibrage
+  - Start 
+  - select
+  - Throw
+  - End
