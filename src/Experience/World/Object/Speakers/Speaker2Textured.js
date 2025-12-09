@@ -1,12 +1,12 @@
-import MeshHitBox from "../../Utils/MeshHitBox.js";
-import Experience from "../../Experience.js";
-import Physics from "../../Utils/Physics.js";
+import MeshHitBox from "../../../Utils/MeshHitBox.js";
+import Experience from "../../../Experience.js";
+import Physics from "../../../Utils/Physics.js";
 
-export default class Speaker2Hitbox {
+export default class Speaker2Textured {
   constructor() {
     // setupt the experience - get the sounds and resources
     this.experience = new Experience();
-    this.resource = this.experience.resources.items.Speaker1CenteredModel;
+    this.resource = this.experience.resources.items.Speaker2TexturedModel;
 
     // setupt the physicWorld - get the materials
     this.physics = new Physics();
@@ -19,7 +19,7 @@ export default class Speaker2Hitbox {
     this.scale = { x: 1, y: 1, z: 1 };
     this.rotation = { x: 0, y: -1.6, z: 0 };
     this.mass = 0.5;
-    this.name = "Speaker1Hitbox";
+    this.name = "Speaker2Textured";
     this.hitBoxType = "cylinder";
     this.activatePhysics = true;
     this.material = this.physics.slipperyMaterial;

@@ -1,12 +1,12 @@
-import MeshHitBox from "../../Utils/MeshHitBox.js";
-import Experience from "../../Experience.js";
-import Physics from "../../Utils/Physics.js";
+import MeshHitBox from "../../../Utils/MeshHitBox.js";
+import Experience from "../../../Experience.js";
+import Physics from "../../../Utils/Physics.js";
 
-export default class Speaker4Hitbox {
+export default class SpeakerHitbox {
   constructor() {
     // setupt the experience
     this.experience = new Experience();
-    this.resource = this.experience.resources.items.Speaker4CenteredModel;
+    this.resource = this.experience.resources.items.Speaker2CenteredModel;
 
     // setupt the physicWorld
     this.physics = new Physics();
@@ -15,17 +15,14 @@ export default class Speaker4Hitbox {
   }
 
   setup() {
-    this.positions = { x: -1, y: 10, z: -10 };
+    this.positions = { x: 0, y: 10, z: -5 };
     this.scale = { x: 1, y: 1, z: 1 };
-    this.rotation = { x: 0, y: -2, z: 0 };
-    this.mass = 3;
-    this.name = "Speaker4Hitbox";
+    this.rotation = { x: 0, y: -1.6, z: 0 };
+    this.mass = 1;
+    this.name = "Speaker2Hitbox";
     this.hitBoxType = "box";
-    // set this paramreter to false to be able
-    // to have the debug activate and change
-    // the parameters of the object
     this.activatePhysics = true;
-    this.material = this.physics.slipperyMaterial;
+    this.material = this.physics.plasticMaterial;
     this.sound = this.experience.soundManager.punchSound;
   }
 

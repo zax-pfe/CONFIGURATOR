@@ -1,29 +1,30 @@
-import MeshHitBox from "../../Utils/MeshHitBox.js";
-import Experience from "../../Experience.js";
-import Physics from "../../Utils/Physics.js";
-
-export default class SpeakerHitbox {
+import MeshHitBox from "../../../Utils/MeshHitBox.js";
+import Experience from "../../../Experience.js";
+import Physics from "../../../Utils/Physics.js";
+export default class Star {
   constructor() {
     // setupt the experience
     this.experience = new Experience();
-    this.resource = this.experience.resources.items.Speaker2CenteredModel;
+    this.scene = this.experience.scene;
+    this.resource = this.experience.resources.items.StarModel;
 
     // setupt the physicWorld
     this.physics = new Physics();
+    this.world = this.physics.world;
 
     this.setup();
   }
 
   setup() {
-    this.positions = { x: 0, y: 10, z: -5 };
+    this.positions = { x: -0.7, y: 10, z: -2.1 };
     this.scale = { x: 1, y: 1, z: 1 };
-    this.rotation = { x: 0, y: -1.6, z: 0 };
-    this.mass = 1;
-    this.name = "Speaker2Hitbox";
-    this.hitBoxType = "box";
+    this.rotation = { x: 0, y: -3.14, z: 0 };
+    this.mass = 0.5;
+    this.name = "Star";
+    this.hitBoxType = "hull";
     this.activatePhysics = true;
-    this.material = this.physics.plasticMaterial;
-    this.sound = this.experience.soundManager.punchSound;
+    this.material = this.physics.defaultMaterial;
+    this.sound = this.experience.soundManager.bambooHitSound;
   }
 
   create() {

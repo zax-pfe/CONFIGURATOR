@@ -1,4 +1,3 @@
-import MeshHitBox from "../../Utils/MeshHitBox.js";
 import Experience from "../../Experience.js";
 import Physics from "../../Utils/Physics.js";
 import Mesh from "../../Utils/Mesh.js";

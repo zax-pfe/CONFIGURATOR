@@ -5,6 +5,7 @@ import * as CANNON from "cannon-es";
 import { threeToCannon, ShapeType } from "three-to-cannon";
 import SoundManager from "../Utils/SoundManager.js";
 
+// PERMET DE CREER UN OBJET 3D AVEC HITBOX PHYSIQUE
 // prend en parametre modele glb
 // default position, scale, rotation, mass, default material
 

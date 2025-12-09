@@ -1,8 +1,8 @@
 import * as THREE from "three";
 import * as CANNON from "cannon-es";
-import Physics from "../Utils/Physics";
-import Experience from "../Experience";
-import SoundManager from "../Utils/SoundManager";
+import Physics from "../../Utils/Physics";
+import Experience from "../../Experience";
+import SoundManager from "../../Utils/SoundManager";
 
 export default class GenerateRandomCube {
   constructor() {

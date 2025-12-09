@@ -1,12 +1,9 @@
 import Experience from "../Experience.js";
 import Environement from "./Environement.js";
-import PhysicsBall from "./PhysicsBall.js";
-import GenerateRandomCube from "./GenerateRandomCube.js";
+import PhysicsBall from "../World/Test/PhysicsBall.js";
+import GenerateRandomCube from "../World/Test/GenerateRandomCube.js";
 import ControlManager from "../Utils/ControlManager.js";
-
 import Scene from "./Scene/Scene.js";
-
-import ThrowObject from "./throwObject.js";
 
 import SceneHitBox from "./Scene/SceneHitBox.js";
 

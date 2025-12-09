@@ -14,12 +14,12 @@ export default class Introduction extends EventEmitter {
   }
 
   start() {
-    console.log("Introduction start called - waiting for 'start' message");
+    console.log("Introduction start");
     this.createDebug();
   }
 
   end() {
-    console.log("Introduction end called - starting experience");
+    console.log("Introduction end");
     this.destroyDebug();
     this.trigger("introductionEnd");
   }

@@ -2,22 +2,22 @@ import EventEmitter from "../Utils/EventEmitter";
 import Experience from "../Experience";
 import Physics from "../Utils/Physics.js";
 
-import SpotLightHitbox from "../World/Lights/SpotLight.js";
-import Star from "../World/Star/Star.js";
-import DiscoBallHitbox from "../World/RandomObjects/DiscoBall.js";
-import ChoppeHitbox from "../World/RandomObjects/Choppe.js";
-import BottleHitbox from "../World/RandomObjects/Bottle.js";
-import SpeakerHitbox from "../World/Speakers/SpeakerHitbox.js";
-import Speaker2Hitbox from "../World/Speakers/Speaker2Hitbox.js";
-import Speaker3Hitbox from "../World/Speakers/Speaker3Hitbox.js";
-import Speaker4Hitbox from "../World/Speakers/Speaker4Hitbox.js";
-import SpotLightHitbox2 from "../World/Lights/Spotlight2.js";
-import SpeakerTextured from "../World/Speakers/SpeakerTextured.js";
-import Speaker2Textured from "../World/Speakers/Speaker2Textured.js";
-import Speaker3Textured from "../World/Speakers/Speaker3Textured.js";
-import Speaker4Textured from "../World/Speakers/Speaker4Textured.js";
-import ThrowObject from "../World/throwObject.js";
+import SpotLightHitbox from "../World/Object/Lights/SpotLight.js";
+import Star from "../World/Object/Star/Star.js";
+import DiscoBallHitbox from "../World/Object/RandomObjects/DiscoBall.js";
+import ChoppeHitbox from "../World/Object/RandomObjects/Choppe.js";
+import BottleHitbox from "../World/Object/RandomObjects/Bottle.js";
+import SpeakerHitbox from "../World/Object/Speakers/SpeakerHitbox.js";
+import Speaker2Hitbox from "../World/Object/Speakers/Speaker2Hitbox.js";
+import Speaker3Hitbox from "../World/Object/Speakers/Speaker3Hitbox.js";
+import Speaker4Hitbox from "../World/Object/Speakers/Speaker4Hitbox.js";
+import SpotLightHitbox2 from "../World/Object/Lights/Spotlight2.js";
+import SpeakerTextured from "../World/Object/Speakers/SpeakerTextured.js";
+import Speaker2Textured from "../World/Object/Speakers/Speaker2Textured.js";
+import Speaker3Textured from "../World/Object/Speakers/Speaker3Textured.js";
+import Speaker4Textured from "../World/Object/Speakers/Speaker4Textured.js";
 
+import ThrowObject from "../World/throwObject.js";
 import SelectObject from "../World/selectObject.js";
 
 // creer tout les elements necessaires

@@ -1,13 +1,13 @@
-import MeshHitBox from "../../Utils/MeshHitBox.js";
-import Experience from "../../Experience.js";
-import Physics from "../../Utils/Physics.js";
+import MeshHitBox from "../../../Utils/MeshHitBox.js";
+import Experience from "../../../Experience.js";
+import Physics from "../../../Utils/Physics.js";
 
-export default class SpotLightHitbox2 {
+export default class SpotLightHitbox {
   constructor() {
     // setupt the experience
     this.experience = new Experience();
     this.scene = this.experience.scene;
-    this.resource = this.experience.resources.items.SpotLightModel2;
+    this.resource = this.experience.resources.items.SpotLightModel;
 
     // setupt the physicWorld
     this.physics = new Physics();
@@ -18,16 +18,16 @@ export default class SpotLightHitbox2 {
 
   setup() {
     this.positions = { x: 1.6, y: 10, z: -4.8 };
-    this.scale = { x: 1.5, y: 1.5, z: 1.5 };
+    this.scale = { x: 0.5, y: 0.5, z: 0.5 };
     this.rotation = { x: 0, y: 0.8, z: 0 };
     this.mass = 0.5;
-    this.name = "SpotLight2";
+    this.name = "SpotLight";
     this.hitBoxType = "box";
     // set this paramreter to false to be able
     // to have the debug activate and change
     // the parameters of the object
     this.activatePhysics = true;
-    this.material = this.physics.stickyMaterial;
+    this.material = this.physics.plasticMaterial;
     this.sound = this.experience.soundManager.punchSound;
   }
 
