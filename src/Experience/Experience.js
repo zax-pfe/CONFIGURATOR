@@ -11,6 +11,8 @@ import Debug from "./Utils/Debug.js";
 import StatsUtils from "./Utils/Stats.js";
 import Physics from "./Utils/Physics.js";
 import SoundManager from "./Utils/SoundManager.js";
+import MobileData from "./Utils/MobileData.js";
+import Animate from "./Utils/Animate.js";
 
 console.log(sources);
 let instance = null;
@@ -39,6 +41,8 @@ export default class Experience {
     this.scene = new THREE.Scene();
     // Permet de gerer les resources 3D qui sont loadées
     this.resources = new Resources(sources);
+    // Permet de gérer les données reçues depuis le mobile
+    this.mobileData = new MobileData()
     // Permet de gerer la camera
     this.camera = new Camera();
     // Permet de gerer le renderer
@@ -49,6 +53,8 @@ export default class Experience {
     this.physics = new Physics();
     // Permet de gerer le sound
     this.soundManager = new SoundManager();
+
+    this.animate = new Animate()
 
     this.connection = new Connection();
 
@@ -81,6 +87,7 @@ export default class Experience {
   update() {
     this.stats.stats.begin();
     // console.log("Experience update");
+    this.animate.update()
     this.camera.update();
     this.world.update();
     this.renderer.update();
