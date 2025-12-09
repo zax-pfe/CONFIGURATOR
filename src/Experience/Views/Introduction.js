@@ -15,11 +15,27 @@ export default class Introduction extends EventEmitter {
 
   start() {
     console.log("Introduction start");
+    this.titleDiv = document.createElement("div");
+    this.titleDiv.innerHTML = "Introduction";
+    this.titleDiv.style.cssText = `
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 5rem;
+      color: white;
+      text-align: center;
+      z-index: 1000;
+    `;
+    document.body.appendChild(this.titleDiv);
     this.createDebug();
   }
 
   end() {
-    console.log("Introduction end");
+    if (this.titleDiv) {
+      document.body.removeChild(this.titleDiv);
+      this.titleDiv = null;
+    }
     this.destroyDebug();
     this.trigger("introductionEnd");
   }
