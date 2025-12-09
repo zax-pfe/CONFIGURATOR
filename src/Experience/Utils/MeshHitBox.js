@@ -7,6 +7,7 @@ import SoundManager from "../Utils/SoundManager.js";
 import { cloneSkinnedModel } from "./cloneSkinnedModel.js";
 
 
+// PERMET DE CREER UN OBJET 3D AVEC HITBOX PHYSIQUE
 // prend en parametre modele glb
 // default position, scale, rotation, mass, default material
 

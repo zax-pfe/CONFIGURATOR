@@ -1,11 +1,9 @@
 import Experience from "../Experience.js";
 import Environement from "./Environement.js";
-import PhysicsBall from "./PhysicsBall.js";
-import GenerateRandomCube from "./GenerateRandomCube.js";
-
+import PhysicsBall from "../World/Test/PhysicsBall.js";
+import GenerateRandomCube from "../World/Test/GenerateRandomCube.js";
+import ControlManager from "../Utils/ControlManager.js";
 import Scene from "./Scene/Scene.js";
-
-import ThrowObject from "./throwObject.js";
 
 import SceneHitBox from "./Scene/SceneHitBox.js";
 
@@ -22,32 +20,19 @@ export default class World {
     this.listPhysicObjects = [];
     this.listNonPhysicObjects = [];
 
-    // const testMesh = new THREE.Mesh(
-    //   new THREE.BoxGeometry(1, 1, 1),
-    //   new THREE.MeshStandardMaterial()
-    // );
-    // this.scene.add(testMesh);
-
     this.resources = this.experience.resources;
 
     this.resources.on("ready", () => {
-      // this.ground = new Ground(
-      //   { x: 0, y: 0, z: 0 },
-      //   { x: -Math.PI * 0.5, y: 0, z: 0 }
-      // );
-      // this.ground = new Ground(
-      //   { x: 0, y: 0, z: -7 },
-      //   { x: -Math.PI * 0.2, y: 0, z: 0 }
-      // );
-
       // Permet de tester les objets physiques lancés
       this.physicsBall = new PhysicsBall();
       this.cubeGenerator = new GenerateRandomCube();
 
       this.sceneHitBox = new SceneHitBox();
 
-      this.throwObject = new ThrowObject();
-      console.log("Throwable objects", this.throwObject.items);
+      // this.throwObject = new ThrowObject();
+      // console.log("throwObject List", this.throwObject.items);
+
+      this.controlManager = new ControlManager();
 
 
       // this.listPhysicObjects.push(new SpeakerHitbox());
@@ -67,9 +52,6 @@ export default class World {
   }
 
   update() {
-    // if (this.fox) {
-    //   this.fox.update();
-    // }
     if (this.sceneHitBox) {
       this.sceneHitBox.update();
     }

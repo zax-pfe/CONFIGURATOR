@@ -14,22 +14,22 @@ export default [
     ],
   },
 
-  {
-    name: "grassColorTexture",
-    type: "texture",
-    path: "textures/dirt/color.jpg",
-  },
-  {
-    name: "grassNormalTexture",
-    type: "texture",
-    path: "textures/dirt/normal.jpg",
-  },
+  // {
+  //   name: "grassColorTexture",
+  //   type: "texture",
+  //   path: "textures/dirt/color.jpg",
+  // },
+  // {
+  //   name: "grassNormalTexture",
+  //   type: "texture",
+  //   path: "textures/dirt/normal.jpg",
+  // },
 
-  {
-    name: "foxModel",
-    type: "gltfModel",
-    path: "models/Fox/glTF/Fox.gltf",
-  },
+  // {
+  //   name: "foxModel",
+  //   type: "gltfModel",
+  //   path: "models/Fox/glTF/Fox.gltf",
+  // },
 
   {
     name: "speakerModel",
@@ -127,5 +127,10 @@ export default [
     name: "SpotLightModel2",
     type: "gltfModel",
     path: "models/Lights/spot2.glb",
+  },
+  {
+    name: "sceneV4",
+    type: "gltfModel",
+    path: "models/Scene/sceneV4.glb",
   },
 ];
