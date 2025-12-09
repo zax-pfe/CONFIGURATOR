@@ -1,20 +1,5 @@
 import Physics from "../Utils/Physics.js";
 import Experience from "../Experience.js";
-import SpotLightHitbox from "./Lights/SpotLight.js";
-import Star from "./Star/Star.js";
-import DiscoBallHitbox from "./RandomObjects/DiscoBall.js";
-import ChoppeHitbox from "./RandomObjects/Choppe.js";
-import BottleHitbox from "./RandomObjects/Bottle.js";
-import SpeakerHitbox from "./Speakers/SpeakerHitbox.js";
-import Speaker2Hitbox from "./Speakers/Speaker2Hitbox.js";
-import Speaker3Hitbox from "./Speakers/Speaker3Hitbox.js";
-import Speaker4Hitbox from "./Speakers/Speaker4Hitbox.js";
-import SpotLightHitbox2 from "./Lights/Spotlight2.js";
-import SpeakerTextured from "./Speakers/SpeakerTextured.js";
-import Speaker2Textured from "./Speakers/Speaker2Textured.js";
-import Speaker3Textured from "../World/Speakers/Speaker3Textured.js";
-import Speaker4Textured from "./Speakers/Speaker4Textured.js";
-import StarTest from "./Star/StarTest.js";
 import EventEmitter from "../Utils/EventEmitter.js";
 
 export default class ThrowObject extends EventEmitter {
@@ -28,14 +13,15 @@ export default class ThrowObject extends EventEmitter {
     super();
     this.experience = new Experience();
     this.time = this.experience.time;
+    this.objectsToAnimate = this.experience.animate.objectsToAnimate
     this.debug = this.experience.debug;
     this.physics = new Physics();
 
     this.items = [];
     this.itemNames = [];
     this.objectsTypes = [];
-    this.animatedObjects = [];
-    this.setupAvailableObjects();
+
+    // this.setupAvailableObjects();
 
     this.selectedObject = this.itemNames[0];
     this.power = 1;
@@ -45,10 +31,20 @@ export default class ThrowObject extends EventEmitter {
   }
 
   addToWorld(throwAngleX, throwAngleY, throwPower) {
+    console.log(this.objectToThrow)
+
+    // créer l'objet
     const result = this.objectToThrow.create();
+    // setup l'animation de l'objet si souhaité
+    this.objectToThrow.setAnimation(result);
+    // si l'objet est animé, l'ajouter à la liste des objets animés et le mettre à jour
+    if (result.update) {
+      console.log("TOGGLE ANIMATION")
+      this.objectsToAnimate.push(result)
+    }
+
     this.experience.scene.add(result.model);
     this.physics.world.addBody(result.body);
-
     const speed = 15 * throwPower; // m/s
     result.body.velocity.set(throwAngleX, throwAngleY, -speed);
 
@@ -56,10 +52,6 @@ export default class ThrowObject extends EventEmitter {
       mesh: result.model,
       body: result.body,
     });
-
-    if (result.update) {
-      this.animatedObjects.push(result);
-    }
 
     // let newObject;
     // if (name === "Speaker2Hitbox") {
@@ -99,15 +91,6 @@ export default class ThrowObject extends EventEmitter {
     }
   }
 
-  update() {
-    const deltaTime = this.time.delta * 0.001; // Convertir en secondes si besoin
-    
-    for (const object of this.animatedObjects) {
-        if (object.update) {
-            object.update(deltaTime);
-        }
-    }
-  }
   destroyDebug() {
     if (this.debugFolder) {
       this.debugFolder.destroy();

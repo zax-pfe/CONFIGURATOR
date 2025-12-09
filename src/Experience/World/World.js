@@ -59,9 +59,5 @@ export default class World {
     for (const object of this.listNonPhysicObjects) {
       object.Mesh.update();
     }
-
-    if (this.throwObject) {
-      this.throwObject.update();
-    }
   }
 }

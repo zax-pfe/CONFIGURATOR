@@ -63,6 +63,7 @@ export default class SelectObject extends EventEmitter {
     this.selectRandomObject();
     for (let [index, object] of this.selectedObjects.entries()) {
       const result = object.create();
+
       // object.position = ;
       // console.log("object position", object.position);
       result.model.position.set(

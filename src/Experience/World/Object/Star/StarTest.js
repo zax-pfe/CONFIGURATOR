@@ -1,6 +1,6 @@
-import MeshHitBox from "../../Utils/MeshHitBox.js";
-import Experience from "../../Experience.js";
-import Physics from "../../Utils/Physics.js";
+import MeshHitBox from "../../../Utils/MeshHitBox.js"
+import Experience from "../../../Experience.js";
+import Physics from "../../../Utils/Physics.js";
 import * as THREE from "three";
 
 export default class StarTest {
@@ -50,27 +50,40 @@ export default class StarTest {
       this.animated
     );
 
-    // configurer l'animation localement pour cette instance
-    const animationState = this.setupLocalAnimation(meshHitBoxInstance.model);
+    // // configurer l'animation localement pour cette instance
+    // const animationState = this.setupLocalAnimation(meshHitBoxInstance.model);
 
-    // debug spécifique à cette instance
-    this.setupLocalDebug(instanceName, animationState);
+    // // debug spécifique à cette instance
+    // this.setupLocalDebug(instanceName, animationState);
 
-    return {
+    const result = {
       name: instanceName,
       model: meshHitBoxInstance.model,
       body: meshHitBoxInstance.body,
-      //update utilise ici "animationState" spécifique à CETTE étoile
-      update: (deltaTime) => {
-        if (animationState && animationState.mixer) {
-          animationState.mixer.update(deltaTime);
+      // On initialise l'état d'animation à null par défaut
+      animationState: null,
+      
+      // La fonction update vérifie maintenant si animationState existe
+      update: (time) => {
+        const deltaTime = time.delta * 0.001; 
+
+        // On accède à 'result.animationState' dynamiquement
+        if (result.animationState && result.animationState.mixer) {
+          result.animationState.mixer.update(deltaTime);
         }
       },
     };
+
+    return result;
   }
 
   // retourne un objet avec le mixer et les actions pour UNE instance
-  setupLocalAnimation(model) {
+  setAnimation(instanceResult) {
+    if (!instanceResult || !instanceResult.model) return;
+    
+    const model = instanceResult.model;
+    const instanceName = instanceResult.name;
+
     const animationState = {};
     animationState.mixer = new THREE.AnimationMixer(model);
     animationState.actions = {};
@@ -103,7 +116,9 @@ export default class StarTest {
       }
     };
 
-    return animationState;
+    instanceResult.animationState = animationState;
+
+    this.setupLocalDebug(instanceName, animationState);
   }
 
   setupLocalDebug(folderName, animationState) {
