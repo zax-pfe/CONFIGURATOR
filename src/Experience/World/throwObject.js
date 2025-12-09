@@ -14,6 +14,7 @@ import SpeakerTextured from "./Speakers/SpeakerTextured.js";
 import Speaker2Textured from "./Speakers/Speaker2Textured.js";
 import Speaker3Textured from "../World/Speakers/Speaker3Textured.js";
 import Speaker4Textured from "./Speakers/Speaker4Textured.js";
+import StarTest from "./Star/StarTest.js";
 
 export default class ThrowObject {
   // cette classe doit créer tout les elements qui peuvent etre lancés dans la scene
@@ -24,12 +25,14 @@ export default class ThrowObject {
   // les elements étant créés en amont, il n'y a pour l'instant pas d'aléatoire sur la mass etc.
   constructor() {
     this.experience = new Experience();
+    this.time = this.experience.time;
     this.debug = this.experience.debug;
     this.physics = new Physics();
 
     this.items = [];
     this.itemNames = [];
     this.objectsTypes = [];
+    this.animatedObjects = [];
     this.setupAvailableObjects();
 
     this.selectedObject = this.itemNames[0];
@@ -55,7 +58,8 @@ export default class ThrowObject {
     this.speaker2textured = new Speaker2Textured();
     this.speaker3textured = new Speaker3Textured();
     this.Speaker4Textured = new Speaker4Textured();
-    // this.star = new Star();
+    this.star = new Star();
+    this.starTest = new StarTest();
 
     this.objectsTypes.push(
       this.speaker1,
@@ -70,8 +74,9 @@ export default class ThrowObject {
       this.speaker1textured,
       this.speaker2textured,
       this.speaker3textured,
-      this.Speaker4Textured
-      // this.star
+      this.Speaker4Textured,
+      this.star,
+      this.starTest,
     );
 
     for (const object of this.objectsTypes) {
@@ -96,6 +101,11 @@ export default class ThrowObject {
       mesh: result.model,
       body: result.body,
     });
+
+    if (result.update) {
+      this.animatedObjects.push(result);
+    }
+
     // let newObject;
     // if (name === "Speaker2Hitbox") {
     //   newObject = new Speaker2Hitbox();
@@ -140,6 +150,16 @@ export default class ThrowObject {
         },
       };
       this.debugFolder.add(debugObject, "throw");
+    }
+  }
+
+  update() {
+    const deltaTime = this.time.delta * 0.001; // Convertir en secondes si besoin
+    
+    for (const object of this.animatedObjects) {
+        if (object.update) {
+            object.update(deltaTime);
+        }
     }
   }
 }

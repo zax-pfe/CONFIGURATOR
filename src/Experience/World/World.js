@@ -49,6 +49,7 @@ export default class World {
       this.throwObject = new ThrowObject();
       console.log("Throwable objects", this.throwObject.items);
 
+
       // this.listPhysicObjects.push(new SpeakerHitbox());
       // this.listPhysicObjects.push(new Speaker2Hitbox());
       // this.listPhysicObjects.push(new Speaker3Hitbox());
@@ -75,6 +76,10 @@ export default class World {
 
     for (const object of this.listNonPhysicObjects) {
       object.Mesh.update();
+    }
+
+    if (this.throwObject) {
+      this.throwObject.update();
     }
   }
 }

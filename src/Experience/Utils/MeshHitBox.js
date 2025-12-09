@@ -4,6 +4,8 @@ import Physics from "../Utils/Physics.js";
 import * as CANNON from "cannon-es";
 import { threeToCannon, ShapeType } from "three-to-cannon";
 import SoundManager from "../Utils/SoundManager.js";
+import { cloneSkinnedModel } from "./cloneSkinnedModel.js";
+
 
 // prend en parametre modele glb
 // default position, scale, rotation, mass, default material
@@ -19,7 +21,8 @@ export default class MeshHitBox {
     hitBoxType,
     name,
     activetePhysics,
-    selectedSound
+    selectedSound,
+    animated
   ) {
     //setupt the experience
     this.experience = new Experience();
@@ -48,6 +51,7 @@ export default class MeshHitBox {
     this.hitBoxType = hitBoxType;
     this.activetePhysics = activetePhysics;
     this.addShadow = true;
+    this.animated = animated
 
     this.createDebug();
     console.log("Object with hitbox initialized", this.name);
@@ -64,7 +68,12 @@ export default class MeshHitBox {
   }
 
   setModel() {
-    this.model = this.resources.scene.clone();
+    if (this.animated) {
+      this.model = cloneSkinnedModel(this.resources.scene);
+      // this.model = this.resources.scene;
+    } else {
+      this.model = this.resources.scene.clone();
+    }
     this.model.scale.set(this.scale.x, this.scale.y, this.scale.z);
     this.model.rotation.set(this.rotation.x, this.rotation.y, this.rotation.z);
     this.model.position.set(

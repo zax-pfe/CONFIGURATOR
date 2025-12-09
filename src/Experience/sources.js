@@ -96,7 +96,7 @@ export default [
   {
     name: "StarModel",
     type: "gltfModel",
-    path: "models/Star/oyo.glb",
+    path: "models/Star/oyo2.glb",
   },
   {
     name: "SceneModel",
