@@ -6,7 +6,7 @@ import Experience from "../Experience";
 export default class Introduction extends EventEmitter {
   constructor() {
     super();
-    console.log("Introduction initialized");
+    // console.log("Introduction initialized");
     this.experience = new Experience();
     this.debug = this.experience.debug;
 

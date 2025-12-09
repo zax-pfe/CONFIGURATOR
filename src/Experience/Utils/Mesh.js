@@ -22,7 +22,7 @@ export default class Mesh {
     this.addShadow = true;
 
     this.createDebug();
-    console.log("Object with hitbox initialized", this.name);
+    // console.log("Object with hitbox initialized", this.name);
 
     this.setModel();
   }

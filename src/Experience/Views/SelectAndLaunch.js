@@ -32,11 +32,8 @@ export default class SelectAndLaunch extends EventEmitter {
     this.physics = new Physics();
 
     this.items = [];
-    this.itemNames = [];
-    // this.createdObjects = [];
 
     this.setupAvailableObjects();
-    this.selectedObject = this.itemNames[0];
     this.power = 1;
     this.angleX = 0;
     this.angleY = 0;
@@ -82,7 +79,6 @@ export default class SelectAndLaunch extends EventEmitter {
     );
 
     for (const object of objectsTypes) {
-      this.itemNames.push(object.name);
       this.items[object.name] = object;
     }
   }
@@ -91,7 +87,9 @@ export default class SelectAndLaunch extends EventEmitter {
     console.log("Select and Launch start from SelectAndLaunch");
     // this.createDebug();
     this.selectObject.createDebug();
+    this.selectObject.selectRandomObject();
     this.selectObject.createSelectedObjectsMeshes();
+
     this.selectObject.on("objectSelected", () => {
       console.log("Object selected :", this.selectObject.objectToLaunch);
       this.throwObject.objectToThrow = this.selectObject.objectToLaunch;
@@ -121,38 +119,6 @@ export default class SelectAndLaunch extends EventEmitter {
       mesh: result.model,
       body: result.body,
     });
-  }
-
-  createDebug() {
-    if (this.experience.debug.active) {
-      this.debugFolder = this.debug.ui.addFolder("SelectAndLaunch");
-      // choix du nom de l'objet a lancer
-      this.debugFolder
-        .add(this, "selectedObject", this.itemNames)
-        .name("selectedObject");
-      // choix de l'angle de lancé
-      this.debugFolder.add(this, "angleX", -10, 10, 1).name("angleX");
-      this.debugFolder.add(this, "angleY", -10, 10, 1).name("angleY");
-      // choix de la puissance du lancé
-      this.debugFolder.add(this, "power", 0.1, 5, 0.1).name("power");
-      // add function to launch the object
-      const debugObject = {
-        throw: () => {
-          this.addToWorld(
-            this.selectedObject,
-            this.angleX,
-            this.angleY,
-            this.power
-          );
-        },
-        pass: () => {
-          this.end();
-        },
-      };
-
-      this.debugFolder.add(debugObject, "throw");
-      this.debugFolder.add(debugObject, "pass");
-    }
   }
 
   destroyDebug() {

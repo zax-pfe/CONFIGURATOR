@@ -6,7 +6,7 @@ import SceneWall from "./SceneWalls.js";
 
 export default class SceneHitBox {
   constructor() {
-    console.log("SceneHitBox initialized");
+    // console.log("SceneHitBox initialized");
 
     this.activateWireFrame = false;
 
