@@ -4,6 +4,7 @@ import PhysicsBall from "../World/Test/PhysicsBall.js";
 import GenerateRandomCube from "../World/Test/GenerateRandomCube.js";
 import ControlManager from "../Utils/ControlManager.js";
 import Scene from "./Scene/Scene.js";
+import Light from "./LightBlender/Light.js";
 
 import SceneHitBox from "./Scene/SceneHitBox.js";
 
@@ -29,6 +30,7 @@ export default class World {
 
       this.sceneHitBox = new SceneHitBox();
       this.listNonPhysicObjects.push(new Scene());
+      this.listNonPhysicObjects.push(new Light());
 
       this.controlManager = new ControlManager();
 

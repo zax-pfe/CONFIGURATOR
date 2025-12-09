@@ -83,9 +83,7 @@ export default class SelectAndLaunch extends EventEmitter {
     }
   }
 
-  start() {
-    console.log("Select and Launch start from SelectAndLaunch");
-    // this.createDebug();
+  selectAndLaunch() {
     this.selectObject.createDebug();
     this.selectObject.selectRandomObject();
     this.selectObject.createSelectedObjectsMeshes();
@@ -95,9 +93,19 @@ export default class SelectAndLaunch extends EventEmitter {
       this.throwObject.objectToThrow = this.selectObject.objectToLaunch;
       this.throwObject.createDebug();
     });
+
     this.throwObject.on("objectThrown", () => {
-      this.end();
+      // this.end();
+      this.throwObject.destroyDebug();
+      this.createDebug();
+      // this.end();
+      this.selectObject.off("objectSelected");
+      this.throwObject.off("objectThrown");
     });
+  }
+
+  start() {
+    this.selectAndLaunch();
   }
 
   end() {
@@ -105,25 +113,31 @@ export default class SelectAndLaunch extends EventEmitter {
     // Clean les events listeners
     this.selectObject.off("objectSelected");
     this.throwObject.off("objectThrown");
-    this.trigger("selectAndLaunchEnd");
     this.destroyDebug();
+    this.trigger("selectAndLaunchEnd");
   }
 
-  addToWorld(name, throwAngleX, throwAngleY, throwPower) {
-    const item = this.items[name];
-    const result = item.create();
-    this.experience.scene.add(result.model);
-    this.physics.world.addBody(result.body);
-
-    const speed = 15 * throwPower; // m/s
-    result.body.velocity.set(throwAngleX, throwAngleY, -speed);
-
-    this.physics.objectsToUpdate.push({
-      mesh: result.model,
-      body: result.body,
-    });
+  replay() {
+    console.log("Select and Launch replay called - from SelectAndLaunch");
   }
 
+  createDebug() {
+    if (this.experience.debug.active) {
+      this.debugFolder = this.debug.ui.addFolder("SelectAndLaunch");
+
+      const debugObject = {
+        replay: () => {
+          this.destroyDebug();
+          this.selectAndLaunch();
+        },
+        pass: () => {
+          this.end();
+        },
+      };
+      this.debugFolder.add(debugObject, "replay");
+      this.debugFolder.add(debugObject, "pass");
+    }
+  }
   destroyDebug() {
     if (this.debugFolder) {
       this.debugFolder.destroy();

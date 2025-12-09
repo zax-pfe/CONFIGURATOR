@@ -138,9 +138,6 @@ export default class SelectObject extends EventEmitter {
 
       // add function to delete the object
       const debugObject = {
-        delete: () => {
-          this.deleleteElements();
-        },
         validateChoice: () => {
           this.deleleteElements();
           this.objectToLaunch = this.selectedObject;
@@ -151,7 +148,6 @@ export default class SelectObject extends EventEmitter {
           this.trigger("objectSelected");
         },
       };
-      this.debugFolder.add(debugObject, "delete");
       this.debugFolder.add(debugObject, "validateChoice");
     }
   }
