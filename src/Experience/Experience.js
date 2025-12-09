@@ -11,6 +11,7 @@ import Debug from "./Utils/Debug.js";
 import StatsUtils from "./Utils/Stats.js";
 import Physics from "./Utils/Physics.js";
 import SoundManager from "./Utils/SoundManager.js";
+import MobileData from "./Utils/MobileData.js";
 
 console.log(sources);
 let instance = null;
@@ -39,6 +40,8 @@ export default class Experience {
     this.scene = new THREE.Scene();
     // Permet de gerer les resources 3D qui sont loadées
     this.resources = new Resources(sources);
+    // Permet de gérer les données reçues depuis le mobile
+    this.mobileData = new MobileData()
     // Permet de gerer la camera
     this.camera = new Camera();
     // Permet de gerer le renderer
@@ -63,7 +66,7 @@ export default class Experience {
     });
     this.connection.on("message", () => {
       const messages = this.connection.receivedMessages;
-      console.log("Received messages:", messages);
+      // console.log("Received messages:", messages);
     });
 
     // Tick event
