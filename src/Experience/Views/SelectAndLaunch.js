@@ -1,9 +1,7 @@
 import EventEmitter from "../Utils/EventEmitter";
 import Experience from "../Experience";
-import Physics from "../Utils/Physics.js";
 
 import SpotLightHitbox from "../World/Object/Lights/SpotLight.js";
-import Star from "../World/Object/Star/Star.js";
 import DiscoBallHitbox from "../World/Object/RandomObjects/DiscoBall.js";
 import ChoppeHitbox from "../World/Object/RandomObjects/Choppe.js";
 import BottleHitbox from "../World/Object/RandomObjects/Bottle.js";
@@ -29,17 +27,13 @@ export default class SelectAndLaunch extends EventEmitter {
     this.debug = this.experience.debug;
     this.connection = this.experience.connection;
 
-    this.physics = new Physics();
-
-    this.items = [];
+    this.items = {};
 
     this.setupAvailableObjects();
-    this.power = 1;
-    this.angleX = 0;
-    this.angleY = 0;
 
     console.log("SelectAndLaunch items", this.items);
 
+    // initialize SelectObject and ThrowObject
     this.selectObject = new SelectObject(this.items);
     this.throwObject = new ThrowObject();
   }
@@ -84,21 +78,28 @@ export default class SelectAndLaunch extends EventEmitter {
   }
 
   selectAndLaunch() {
+    // creer le debug de selection de l'objet
     this.selectObject.createDebug();
+    // selectionne 5 objets au hasard parmis tout les objets disponibles
     this.selectObject.selectRandomObject();
+    // creer les mesh des objets selectionnés et les disposer en cercle
     this.selectObject.createSelectedObjectsMeshes();
 
+    // si on clique sur valide la selection.
     this.selectObject.on("objectSelected", () => {
-      console.log("Object selected :", this.selectObject.objectToLaunch);
+      // on detruit le debug de selection dans selectObject
+      // on set l'objet a lancer dans throwObject
       this.throwObject.objectToThrow = this.selectObject.objectToLaunch;
+      // on crée le debug de lancé
       this.throwObject.createDebug();
     });
 
     this.throwObject.on("objectThrown", () => {
-      // this.end();
+      // une fois l'objet lancé, on detruit le debug de lancé
       this.throwObject.destroyDebug();
+      // on recree le debug pour relancer ou passer
       this.createDebug();
-      // this.end();
+      // on clean les events listeners
       this.selectObject.off("objectSelected");
       this.throwObject.off("objectThrown");
     });
@@ -115,10 +116,6 @@ export default class SelectAndLaunch extends EventEmitter {
     this.throwObject.off("objectThrown");
     this.destroyDebug();
     this.trigger("selectAndLaunchEnd");
-  }
-
-  replay() {
-    console.log("Select and Launch replay called - from SelectAndLaunch");
   }
 
   createDebug() {

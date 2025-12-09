@@ -44,11 +44,8 @@ export default class SelectObject extends EventEmitter {
     }
   }
 
-  // ajouter un objet dans la roue.
-  // parametre centre de la roue
-  // parametre de nombre d'objet a ajouter
-
   generateCirclePositions() {
+    // genere les positions en cercle autour de la roue
     const positions = [];
 
     for (let i = 0; i < this.numberOfObjects; i++) {
@@ -67,13 +64,15 @@ export default class SelectObject extends EventEmitter {
   createSelectedObjectsMeshes() {
     for (let [index, object] of this.randomSelectedObjects.entries()) {
       const result = object.create();
-      // object.position = ;
-      // console.log("object position", object.position);
+
       result.model.position.set(
         this.circlePositions[index].x,
         this.circlePositions[index].y,
         this.circlePositions[index].z
       );
+
+      // displayed model permet de savoir quels models sont affichés
+      // c'est surtout utile pour les supprimer ensuite
       this.displayedModels.push(result.model);
       this.experience.scene.add(result.model);
     }
@@ -93,24 +92,6 @@ export default class SelectObject extends EventEmitter {
       this.selectedObject.scale.y * 2,
       this.selectedObject.scale.z * 2
     );
-
-    // const startTime = performance.now();
-    // const animate = () => {
-    //   const elapsed = performance.now() - startTime;
-    //   const progress = Math.min(elapsed / 2000, 1); // 0.5 seconds duration
-    //   const scale = 1 + progress * 2; // Scale from 1 to 3
-
-    //   result.model.scale.set(
-    //     this.selectedObject.scale.x * scale,
-    //     this.selectedObject.scale.y * scale,
-    //     this.selectedObject.scale.z * scale
-    //   );
-
-    //   if (progress < 1) {
-    //     requestAnimationFrame(animate);
-    //   }
-    // };
-    // requestAnimationFrame(animate);
 
     if (this.currentSelectedModel) {
       this.experience.scene.remove(this.currentSelectedModel);
