@@ -102,6 +102,9 @@ export default class SelectAndLaunch extends EventEmitter {
 
   end() {
     console.log("Select and Launch end called - from SelectAndLaunch");
+    // Clean les events listeners
+    this.selectObject.off("objectSelected");
+    this.throwObject.off("objectThrown");
     this.trigger("selectAndLaunchEnd");
     this.destroyDebug();
   }

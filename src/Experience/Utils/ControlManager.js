@@ -19,40 +19,38 @@ export default class ControlManager extends EventEmitter {
     this._outro = new Outro();
 
     this.currentScene = "titleScreen";
+    this.goToScene("titleScreen");
 
     this._titleScreen.on("titleScreenEnd", () => {
       console.log("received end of introduction");
-      this.currentScene = "introduction";
+      this.goToScene("introduction");
       // this._introduction.start();
     });
     this._introduction.on("introductionEnd", () => {
-      this.currentScene = "selectAndLaunch";
+      this.goToScene("selectAndLaunch");
       // this._selectAndLaunch.start();
     });
     this._selectAndLaunch.on("selectAndLaunchEnd", () => {
-      this.currentScene = "showExperience";
+      this.goToScene("showExperience");
       // this._showExperience.start();
     });
     this._showExperience.on("showExperienceEnd", () => {
-      this.currentScene = "outro";
+      this.goToScene("outro");
       // this._outro.start();
     });
     this._outro.on("outroEnd", () => {
-      this.currentScene = "titleScreen";
+      this.goToScene("titleScreen");
       // this._titleScreen.start();
     });
+  }
 
-    if (this.currentScene === "titleScreen") {
-      this._titleScreen.start();
-    } else if (this.currentScene === "introduction") {
-      console.log("introduction start");
-      this._introduction.start();
-    } else if (this.currentScene === "selectAndLaunch") {
-      this._selectAndLaunch.start();
-    } else if (this.currentScene === "showExperience") {
-      this._showExperience.start();
-    } else if (this.currentScene === "outro") {
-      this._outro.start();
-    }
+  goToScene(scene) {
+    this.currentScene = scene;
+
+    if (scene === "titleScreen") this._titleScreen.start();
+    if (scene === "introduction") this._introduction.start();
+    if (scene === "selectAndLaunch") this._selectAndLaunch.start();
+    if (scene === "showExperience") this._showExperience.start();
+    if (scene === "outro") this._outro.start();
   }
 }
