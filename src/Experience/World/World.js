@@ -30,7 +30,9 @@ export default class World {
 
       this.sceneHitBox = new SceneHitBox();
       this.listNonPhysicObjects.push(new Scene());
-      this.listNonPhysicObjects.push(new Light());
+      this.listNonPhysicObjects.push(new Light({ x: -4.5, y: -2.8, z: 0 }));
+      this.listNonPhysicObjects.push(new Light({ x: 45, y: -2.8, z: 0 }));
+      this.listNonPhysicObjects.push(new Light({ x: 20, y: -5.6, z: -40 }));
 
       this.controlManager = new ControlManager();
 

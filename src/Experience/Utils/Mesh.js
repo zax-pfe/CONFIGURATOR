@@ -4,7 +4,7 @@ import Experience from "../Experience.js";
 // CETTE CLASSE PERMET D'AJOUTER UN MODEL 3D SANS HITBOX
 
 export default class Mesh {
-  constructor(positions, scale, rotation, resource, name) {
+  constructor(positions, scale, rotation, resource, name, activeDebug = false) {
     //setupt the experience
     this.experience = new Experience();
     this.scene = this.experience.scene;
@@ -21,7 +21,9 @@ export default class Mesh {
     this.name = name;
     this.addShadow = true;
 
-    this.createDebug();
+    if (activeDebug) {
+      this.createDebug();
+    }
     // console.log("Object with hitbox initialized", this.name);
 
     this.setModel();

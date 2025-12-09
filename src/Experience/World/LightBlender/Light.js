@@ -3,19 +3,18 @@ import Physics from "../../Utils/Physics.js";
 import Mesh from "../../Utils/Mesh.js";
 
 export default class Light {
-  constructor() {
+  constructor(positions = { x: -4.5, y: -2.8, z: 0 }) {
     // setupt the experience
     this.experience = new Experience();
-    this.scene = this.experience.scene;
     this.resource = this.experience.resources.items.lightBlender;
 
-    this.setup();
+    this.setup(positions);
     this.create();
   }
 
-  setup() {
-    this.positions = { x: 0, y: 10, z: 0 };
-    this.scale = { x: 0.6, y: 0.6, z: 0.6 };
+  setup(position) {
+    this.positions = position;
+    this.scale = { x: 3, y: 3, z: 3 };
     this.rotation = { x: 0, y: 3.14 / 2, z: 0 };
     this.name = "LightBlender";
   }
