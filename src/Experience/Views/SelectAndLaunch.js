@@ -1,6 +1,5 @@
 import EventEmitter from "../Utils/EventEmitter";
 import Experience from "../Experience";
-import Physics from "../Utils/Physics.js";
 
 import SpotLightHitbox from "../World/Object/Lights/SpotLight.js";
 import Star from "../World/Object/Star/Star.js";
@@ -30,20 +29,13 @@ export default class SelectAndLaunch extends EventEmitter {
     this.debug = this.experience.debug;
     this.connection = this.experience.connection;
 
-    this.physics = new Physics();
-
-    this.items = [];
-    this.itemNames = [];
-    // this.createdObjects = [];
+    this.items = {};
 
     this.setupAvailableObjects();
-    this.selectedObject = this.itemNames[0];
-    this.power = 1;
-    this.angleX = 0;
-    this.angleY = 0;
 
     console.log("SelectAndLaunch items", this.items);
 
+    // initialize SelectObject and ThrowObject
     this.selectObject = new SelectObject(this.items);
     this.throwObject = new ThrowObject();
   }
@@ -85,80 +77,68 @@ export default class SelectAndLaunch extends EventEmitter {
     );
 
     for (const object of objectsTypes) {
-      this.itemNames.push(object.name);
       this.items[object.name] = object;
     }
   }
 
-  start() {
-    console.log("Select and Launch start from SelectAndLaunch");
-    // this.createDebug();
+  selectAndLaunch() {
+    // creer le debug de selection de l'objet
     this.selectObject.createDebug();
+    // selectionne 5 objets au hasard parmis tout les objets disponibles
+    this.selectObject.selectRandomObject();
+    // creer les mesh des objets selectionnés et les disposer en cercle
     this.selectObject.createSelectedObjectsMeshes();
+
+    // si on clique sur valide la selection.
     this.selectObject.on("objectSelected", () => {
-      console.log("Object selected :", this.selectObject.objectToLaunch);
+      // on detruit le debug de selection dans selectObject
+      // on set l'objet a lancer dans throwObject
       this.throwObject.objectToThrow = this.selectObject.objectToLaunch;
+      // on crée le debug de lancé
       this.throwObject.createDebug();
     });
+
     this.throwObject.on("objectThrown", () => {
-      this.end();
+      // une fois l'objet lancé, on detruit le debug de lancé
+      this.throwObject.destroyDebug();
+      // on recree le debug pour relancer ou passer
+      this.createDebug();
+      // on clean les events listeners
+      this.selectObject.off("objectSelected");
+      this.throwObject.off("objectThrown");
     });
+  }
+
+  start() {
+    this.selectAndLaunch();
   }
 
   end() {
     console.log("Select and Launch end called - from SelectAndLaunch");
-    this.trigger("selectAndLaunchEnd");
+    // Clean les events listeners
+    this.selectObject.off("objectSelected");
+    this.throwObject.off("objectThrown");
     this.destroyDebug();
-  }
-
-  addToWorld(name, throwAngleX, throwAngleY, throwPower) {
-    const item = this.items[name];
-    const result = item.create();
-    console.log("TETS")
-    this.experience.scene.add(result.model);
-    this.physics.world.addBody(result.body);
-
-    const speed = 15 * throwPower; // m/s
-    result.body.velocity.set(throwAngleX, throwAngleY, -speed);
-
-    this.physics.objectsToUpdate.push({
-      mesh: result.model,
-      body: result.body,
-    });
+    this.trigger("selectAndLaunchEnd");
   }
 
   createDebug() {
     if (this.experience.debug.active) {
       this.debugFolder = this.debug.ui.addFolder("SelectAndLaunch");
-      // choix du nom de l'objet a lancer
-      this.debugFolder
-        .add(this, "selectedObject", this.itemNames)
-        .name("selectedObject");
-      // choix de l'angle de lancé
-      this.debugFolder.add(this, "angleX", -10, 10, 1).name("angleX");
-      this.debugFolder.add(this, "angleY", -10, 10, 1).name("angleY");
-      // choix de la puissance du lancé
-      this.debugFolder.add(this, "power", 0.1, 5, 0.1).name("power");
-      // add function to launch the object
+
       const debugObject = {
-        throw: () => {
-          this.addToWorld(
-            this.selectedObject,
-            this.angleX,
-            this.angleY,
-            this.power
-          );
+        replay: () => {
+          this.destroyDebug();
+          this.selectAndLaunch();
         },
         pass: () => {
           this.end();
         },
       };
-
-      this.debugFolder.add(debugObject, "throw");
+      this.debugFolder.add(debugObject, "replay");
       this.debugFolder.add(debugObject, "pass");
     }
   }
-
   destroyDebug() {
     if (this.debugFolder) {
       this.debugFolder.destroy();

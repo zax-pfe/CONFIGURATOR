@@ -4,7 +4,7 @@ import Experience from "../Experience";
 export default class Environement {
   constructor() {
     this.experience = new Experience();
-    console.log("Environement initialized");
+    // console.log("Environement initialized");
     this.scene = this.experience.scene;
     this.resources = this.experience.resources;
 

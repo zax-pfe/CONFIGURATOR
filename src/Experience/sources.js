@@ -133,4 +133,9 @@ export default [
     type: "gltfModel",
     path: "models/Scene/sceneV4.glb",
   },
+  {
+    name: "lightBlender",
+    type: "gltfModel",
+    path: "models/Effects/light.glb",
+  },
 ];

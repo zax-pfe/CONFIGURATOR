@@ -2,7 +2,7 @@ import EventEmitter from "../Utils/EventEmitter.js";
 export default class Time extends EventEmitter {
   constructor() {
     super();
-    console.log("Time initialized");
+    // console.log("Time initialized");
     this.start = Date.now();
     this.current = this.start;
     this.elapsed = 0;

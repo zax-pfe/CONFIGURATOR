@@ -7,7 +7,7 @@ export default class Resources extends EventEmitter {
   constructor(sources) {
     super();
     this.sources = sources;
-    console.log("Resources initialized");
+    // console.log("Resources initialized");
     // Setup
     this.items = {};
     this.toLoad = this.sources.length;

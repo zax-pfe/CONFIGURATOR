@@ -6,7 +6,7 @@ import * as THREE from "three";
 
 export default class ScenePodium {
   constructor(debug) {
-    console.log("ScenePodium initialized");
+    // console.log("ScenePodium initialized");
 
     // setupt the experience
     this.experience = new Experience();

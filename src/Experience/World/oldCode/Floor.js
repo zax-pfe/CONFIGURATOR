@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import Experience from "../../experience.js";
+import Experience from "../../Experience.js";
 import * as CANNON from "cannon-es";
 import Physics from "../../Utils/Physics.js";
 
@@ -8,7 +8,7 @@ export default class Floor {
     this.experience = new Experience();
     this.physics = new Physics();
     this.world = this.physics.world;
-    console.log("Floor initialized");
+    // console.log("Floor initialized");
     this.scene = this.experience.scene;
     this.resources = this.experience.resources;
 

@@ -19,7 +19,7 @@ export default class PhysicMesh {
     activatePhysics,
     hideWireframe
   ) {
-    console.log("PhysicMesh initialized for", name);
+    // console.log("PhysicMesh initialized for", name);
     //setupt the experience
     this.experience = new Experience();
     this.scene = this.experience.scene;

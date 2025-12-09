@@ -3,12 +3,6 @@ import Experience from "../Experience.js";
 import EventEmitter from "../Utils/EventEmitter.js";
 
 export default class ThrowObject extends EventEmitter {
-  // cette classe doit créer tout les elements qui peuvent etre lancés dans la scene
-  // Création - on obiens le body et le mesh associés.
-  // On push tout ces elements dans une Big liste
-  // On a une fonction add qui permet d'ajouter un element, par son nom, dans le wold et la scene.
-  // cette fonction add prend en parametre le nom de l'element a ajouter ainsi que l'angle de lancé.
-  // les elements étant créés en amont, il n'y a pour l'instant pas d'aléatoire sur la mass etc.
   constructor() {
     super();
     this.experience = new Experience();
@@ -30,10 +24,7 @@ export default class ThrowObject extends EventEmitter {
     this.objectToThrow = null;
   }
 
-  addToWorld(throwAngleX, throwAngleY, throwPower) {
-    console.log(this.objectToThrow)
-
-    // créer l'objet
+  addToWorld() {
     const result = this.objectToThrow.create();
     // setup l'animation de l'objet si souhaité
     this.objectToThrow.setAnimation(result);
@@ -45,8 +36,9 @@ export default class ThrowObject extends EventEmitter {
 
     this.experience.scene.add(result.model);
     this.physics.world.addBody(result.body);
-    const speed = 15 * throwPower; // m/s
-    result.body.velocity.set(throwAngleX, throwAngleY, -speed);
+
+    const speed = 2 * this.power;
+    result.body.velocity.set(this.angleX, this.angleY, -speed);
 
     this.physics.objectsToUpdate.push({
       mesh: result.model,

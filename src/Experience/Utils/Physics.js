@@ -14,7 +14,7 @@ export default class Physics extends EventEmitter {
     instance = this;
     this.experience = new Experience();
     this.scene = this.experience.scene;
-    console.log("Physics initialized");
+    // console.log("Physics initialized");
     this.world = new CANNON.World();
     this.world.broadphase = new CANNON.SAPBroadphase(this.world);
     this.world.allowSleep = true;

@@ -5,7 +5,7 @@ import * as THREE from "three";
 
 export default class SceneGround {
   constructor(debug) {
-    console.log("SceneGround initialized");
+    // console.log("SceneGround initialized");
 
     // setupt the experience
     this.experience = new Experience();

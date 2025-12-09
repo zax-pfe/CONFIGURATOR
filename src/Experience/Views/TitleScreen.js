@@ -7,7 +7,7 @@ import Experience from "../Experience";
 export default class TitleScreen extends EventEmitter {
   constructor() {
     super();
-    console.log("TitleScreen initialized");
+    // console.log("TitleScreen initialized");
     this.experience = new Experience();
     this.debug = this.experience.debug;
     this.connection = this.experience.connection;
