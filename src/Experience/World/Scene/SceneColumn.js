@@ -3,18 +3,16 @@ import Physics from "../../Utils/Physics.js";
 import * as CANNON from "cannon-es";
 import * as THREE from "three";
 
-export default class SceneWall {
+export default class SceneColumn {
   constructor(
     name,
     positions,
     rotation,
-    scale = { x: 1, y: 1, z: 1 },
     mass = 0,
-    dimmensions = { width: 6, height: 6 },
+    dimmensions = { width: 1.8, height: 13 },
+    scale = { x: 1, y: 1, z: 1 },
     debug = false
   ) {
-    // console.log("SceneWall dimmensions:", dimmensions);
-
     // setupt the experience
     this.experience = new Experience();
     this.scene = this.experience.scene;
@@ -33,7 +31,7 @@ export default class SceneWall {
     this.dimmensions = dimmensions;
     this.name = name;
 
-    // create the wall
+    // create the column
     this.setGeometry();
     this.setMaterial();
     this.setPhysics();
@@ -44,20 +42,16 @@ export default class SceneWall {
   }
 
   setGeometry() {
-    this.geometry = new THREE.PlaneGeometry(
-      this.dimmensions.width,
+    this.geometry = new THREE.CylinderGeometry(
+      this.dimmensions.width / 2,
+      this.dimmensions.width / 2,
       this.dimmensions.height
     );
   }
   setMaterial() {
     this.material = new THREE.MeshStandardMaterial({
       color: "#fd0000",
-      metalness: 0.3,
-      roughness: 0.4,
-      side: THREE.DoubleSide,
       wireframe: true,
-      // envMap: environmentMapTexture,
-      // envMapIntensity: 0.5,
     });
   }
   setMesh() {
@@ -68,29 +62,21 @@ export default class SceneWall {
       this.positions.y,
       this.positions.z
     );
-    this.mesh.receiveShadow = true;
     this.scene.add(this.mesh);
   }
   setPhysics() {
-    // const floorShape = new CANNON.Plane(
-    //   new CANNON.Vec3(
-    //     this.dimmensions.width / 2,
-
-    //     this.dimmensions.height / 2
-    //   )
-    // );
-    const floorShape = new CANNON.Plane();
+    const floorShape = new CANNON.Cylinder(
+      this.dimmensions.width / 2,
+      this.dimmensions.width / 2,
+      this.dimmensions.height,
+      8
+    );
     this.floorBody = new CANNON.Body();
     this.floorBody.material = this.defaultMaterial;
 
     this.floorBody.mass = 0;
     this.floorBody.addShape(floorShape);
     this.floorBody.position.copy(this.positions);
-
-    // this.floorBody.quaternion.setFromAxisAngle(
-    //   new CANNON.Vec3(-1, 0, 0),
-    //   Math.PI
-    // );
 
     this.floorBody.quaternion.setFromEuler(
       this.rotation.x,
@@ -115,11 +101,11 @@ export default class SceneWall {
         .add(this.rotation, "z", -Math.PI, Math.PI, 0.01)
         .name("rotZ");
       this.debugFolder
-        .add(this.dimmensions, "width", 1, 100, 0.1)
-        .name("planeWidth");
+        .add(this.dimmensions, "width", 0.1, 10, 0.1)
+        .name("tubeRadius");
       this.debugFolder
-        .add(this.dimmensions, "height", 1, 100, 0.1)
-        .name("planeHeight");
+        .add(this.dimmensions, "height", 0.1, 50, 0.1)
+        .name("tubeHeight");
       this.debugFolder.add(this.positions, "x", -40, 40, 0.1).name("posX");
       this.debugFolder.add(this.positions, "y", -40, 40, 0.1).name("posY");
       this.debugFolder.add(this.positions, "z", -40, 40, 0.1).name("posZ");
@@ -128,8 +114,14 @@ export default class SceneWall {
 
   update() {
     if (this.mesh) {
+      this.mesh.geometry.dispose();
+      this.mesh.geometry = new THREE.CylinderGeometry(
+        this.dimmensions.width / 2,
+        this.dimmensions.width / 2,
+        this.dimmensions.height
+      );
+
       this.mesh.rotation.set(this.rotation.x, this.rotation.y, this.rotation.z);
-      this.mesh.scale.set(this.dimmensions.width, this.dimmensions.height);
 
       this.mesh.position.set(
         this.positions.x,
@@ -137,20 +129,5 @@ export default class SceneWall {
         this.positions.z
       );
     }
-
-    // if (this.floorBody) {
-    //   this.floorBody.position.set(
-    //     this.positions.x,
-    //     this.positions.y,
-    //     this.positions.z
-    //   );
-    //   this.floorBody.mass = this.mass;
-    //   this.floorBody.quaternion.setFromEuler(
-    //     this.rotation.x,
-    //     this.rotation.y,
-    //     this.rotation.z,
-    //     "XYZ"
-    //   );
-    // }
   }
 }

@@ -5,7 +5,7 @@ import * as CANNON from "cannon-es";
 import * as THREE from "three";
 
 export default class ScenePodium {
-  constructor(debug) {
+  constructor(debug = true) {
     // console.log("ScenePodium initialized");
 
     // setupt the experience
@@ -23,8 +23,8 @@ export default class ScenePodium {
     this.scale = { x: 1, y: 1, z: 1 };
     this.rotation = { x: 0, y: 0, z: 0 };
     this.mass = 0;
-    this.dimmensions = { radiusTop: 12, radiusBot: 15, height: 2.3 };
-    this.positions = { x: 0, y: this.dimmensions.height / 2, z: 0 };
+    this.dimmensions = { radiusTop: 12.8, radiusBot: 13, height: 4.8 };
+    this.positions = { x: 0, y: this.dimmensions.height / 2 - 2.5, z: 0 };
     this.name = "ScenePodium";
 
     // create the ground
