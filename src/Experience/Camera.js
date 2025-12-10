@@ -9,6 +9,12 @@ export default class Camera {
     this.sizes = this.experience.sizes;
     this.scene = this.experience.scene;
     this.canvas = this.experience.canvas;
+    this.mobileData = this.experience.mobileData;
+    this.debug = this.experience.debug;
+
+    this.target = new THREE.Vector3(0, 5, 0);
+    this.smoothTarget = new THREE.Vector3(0, 5, 0);
+
     this.setInstance();
     this.setOrbitControls();
   }
@@ -20,13 +26,27 @@ export default class Camera {
       0.05,
       1000
     );
-    this.instance.position.set(0, 17, 87);
+    this.instance.position.set(0, 20, 87);
     this.scene.add(this.instance);
   }
 
   setOrbitControls() {
     this.controls = new OrbitControls(this.instance, this.canvas);
     this.controls.enableDamping = true;
+
+    this.controls.enabled = true;
+
+    // Debug
+    const folder = this.debug.ui.addFolder("Camera");
+    this.debugObject = {
+      controlsEnabled: true
+    }
+    folder.add(this.debugObject, "controlsEnabled").onChange((e) => {
+      this.controls.enabled = !this.controls.enabled
+      if(!e){
+        this.instance.position.set(0, 5, 87)
+      }
+    });
   }
 
   resize() {
@@ -35,7 +55,23 @@ export default class Camera {
   }
 
   update() {
-    this.controls.update();
-    // console.log("Camera position", this.instance.position);
+    if (this.debugObject.controlsEnabled) {
+      this.controls.update();
+    } else {
+      const { angleH, angleV } = this.mobileData.throwing || {};
+
+      // convertir en radians
+      const rotX = -THREE.MathUtils.degToRad(angleH);
+      const rotY = THREE.MathUtils.degToRad(angleV);
+
+      // créer quaternion cible
+      const targetQuat = new THREE.Quaternion().setFromEuler(new THREE.Euler(rotY, rotX, 0));
+
+      // interpoler la rotation actuelle vers la cible
+      this.instance.quaternion.slerp(targetQuat, 0.025); // 0.1 = facteur de lissage
+
+      // appliquer la rotation au parent (la caméra)
+      // this.instance.rotation.set(rotY, rotX, 0); gf
+    }
   }
 }
