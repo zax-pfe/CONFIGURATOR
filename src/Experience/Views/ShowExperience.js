@@ -12,6 +12,7 @@ export default class ShowExperience extends EventEmitter {
 
   start() {
     console.log("Show Experience start from ShowExperience");
+    this.publicManager.publicCount = 0;
     this.publicManager.publicCreationLoop();
     this.createDebug();
   }

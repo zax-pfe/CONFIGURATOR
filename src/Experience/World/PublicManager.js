@@ -44,6 +44,7 @@ export default class PublicManager {
   }
 
   createNewPublic(data) {
+    // console.log("Creating new public at ", data);
     this.dummy.position.set(data.x, data.y, data.z);
     this.dummy.rotation.y = -data.angle;
 
@@ -94,39 +95,41 @@ export default class PublicManager {
 
   publicMovement() {
     // definir le mouvement du public : avance vers la scene
-    for (const key in this.publicList) {
-      const publicMember = this.publicList[key];
-      const deltaX =
-        publicMember.data.speed * Math.cos(publicMember.data.angle);
-      const deltaZ =
-        publicMember.data.speed * Math.sin(publicMember.data.angle);
+    if (this.publicCount < this.maxInstances) {
+      for (const key in this.publicList) {
+        const publicMember = this.publicList[key];
+        const deltaX =
+          publicMember.data.speed * Math.cos(publicMember.data.angle);
+        const deltaZ =
+          publicMember.data.speed * Math.sin(publicMember.data.angle);
 
-      const distanceFromCenter = this.calculateDistanceFromCenter(
-        publicMember.data.x,
-        publicMember.data.z
-      );
-      if (distanceFromCenter > this.publicZoneMinRadius) {
-        const noContact = this.checkCoordinates(publicMember.data, key);
+        const distanceFromCenter = this.calculateDistanceFromCenter(
+          publicMember.data.x,
+          publicMember.data.z
+        );
+        if (distanceFromCenter > this.publicZoneMinRadius) {
+          const noContact = this.checkCoordinates(publicMember.data, key);
 
-        // console.log("contact ??", contact);
-        if (noContact) {
-          publicMember.data.x -= deltaX;
-          publicMember.data.z -= deltaZ;
+          // console.log("contact ??", contact);
+          if (noContact) {
+            publicMember.data.x -= deltaX;
+            publicMember.data.z -= deltaZ;
+          }
         }
+
+        this.dummy.position.set(
+          publicMember.data.x,
+          publicMember.data.y,
+          publicMember.data.z
+        );
+
+        this.dummy.rotation.y = -publicMember.data.angle;
+
+        this.dummy.updateMatrix();
+        this.instanceMesh.setMatrixAt(key, this.dummy.matrix);
       }
-
-      this.dummy.position.set(
-        publicMember.data.x,
-        publicMember.data.y,
-        publicMember.data.z
-      );
-
-      this.dummy.rotation.y = -publicMember.data.angle;
-
-      this.dummy.updateMatrix();
-      this.instanceMesh.setMatrixAt(key, this.dummy.matrix);
+      this.instanceMesh.instanceMatrix.needsUpdate = true;
     }
-    this.instanceMesh.instanceMatrix.needsUpdate = true;
   }
 
   publicCreation() {
@@ -154,7 +157,20 @@ export default class PublicManager {
 
   endCreationLoop() {
     // arreter la creation du public
+    this.publicList = {};
+
+    // stopper la boucle de creation
     this.publicCount = this.maxInstances;
+
+    // Supprimer toutes les instances en réinitialisant le mesh
+    this.scene.remove(this.instanceMesh);
+    this.instanceMesh = new THREE.InstancedMesh(
+      this.public.geometry,
+      this.public.material,
+      this.maxInstances
+    );
+    this.scene.add(this.instanceMesh);
+    this.instanceMesh.instanceMatrix.needsUpdate = true;
   }
 
   createDebug() {

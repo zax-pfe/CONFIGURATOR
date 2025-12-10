@@ -7,7 +7,7 @@ export default class ThrowObject extends EventEmitter {
     super();
     this.experience = new Experience();
     this.time = this.experience.time;
-    this.objectsToAnimate = this.experience.animate.objectsToAnimate
+    this.objectsToAnimate = this.experience.animate.objectsToAnimate;
     this.debug = this.experience.debug;
     this.physics = new Physics();
 
@@ -27,11 +27,13 @@ export default class ThrowObject extends EventEmitter {
   addToWorld() {
     const result = this.objectToThrow.create();
     // setup l'animation de l'objet si souhaité
-    this.objectToThrow.setAnimation(result);
+
+    console.log("result", result);
     // si l'objet est animé, l'ajouter à la liste des objets animés et le mettre à jour
     if (result.update) {
-      console.log("TOGGLE ANIMATION")
-      this.objectsToAnimate.push(result)
+      this.objectToThrow.setAnimation(result);
+      console.log("TOGGLE ANIMATION");
+      this.objectsToAnimate.push(result);
     }
 
     this.experience.scene.add(result.model);
