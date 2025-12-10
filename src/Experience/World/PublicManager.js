@@ -7,6 +7,8 @@ export default class PublicManager {
     this.experience = new Experience();
     this.scene = this.experience.scene;
     this.debug = this.experience.debug;
+    this.time = this.experience.time;
+
     this.public = new Public();
 
     // coordonées du centre de la scène
@@ -38,7 +40,7 @@ export default class PublicManager {
     this.publicList = {};
     this.publicCount = 0;
 
-    this.createDebug();
+    // this.createDebug();
   }
 
   createNewPublic(data) {
@@ -90,10 +92,6 @@ export default class PublicManager {
     return true;
   }
 
-  createPublicZone() {
-    // definir la zone dans laquel le public va etre placé
-  }
-
   publicMovement() {
     // definir le mouvement du public : avance vers la scene
     for (const key in this.publicList) {
@@ -131,22 +129,40 @@ export default class PublicManager {
     this.instanceMesh.instanceMatrix.needsUpdate = true;
   }
 
+  publicCreation() {
+    let data = this.generateRandomPublicData();
+    while (!this.checkCoordinates(data)) {
+      data = this.generateRandomPublicData();
+    }
+    this.createNewPublic(data);
+    this.publicList[this.publicCount] = {
+      data: data,
+    };
+    this.publicCount++;
+  }
+
+  publicCreationLoop() {
+    // this.createDebug();
+    if (this.publicCount < this.maxInstances) {
+      this.publicCreation();
+
+      setTimeout(() => {
+        this.publicCreationLoop();
+      }, 500);
+    }
+  }
+
+  endCreationLoop() {
+    // arreter la creation du public
+    this.publicCount = this.maxInstances;
+  }
+
   createDebug() {
     if (this.debug.active) {
       this.debugFolder = this.debug.ui.addFolder("PublicManager");
       const debugObject = {
         createPublic: () => {
-          let data = this.generateRandomPublicData();
-          while (!this.checkCoordinates(data)) {
-            data = this.generateRandomPublicData();
-          }
-          // const mesh = this.public.createMesh(position);
-          this.createNewPublic(data);
-          this.publicList[this.publicCount] = {
-            // mesh: mesh,
-            data: data,
-          };
-          this.publicCount++;
+          this.publicCreationLoop();
         },
       };
       this.debugFolder.add(debugObject, "createPublic");

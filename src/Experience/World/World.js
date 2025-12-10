@@ -40,9 +40,6 @@ export default class World {
       // création du control manager -> gestion des differentes vues du projet
       this.controlManager = new ControlManager();
 
-      // création du public
-      this.publicManager = new PublicManager();
-
       this.environement = new Environement();
     });
   }
@@ -50,10 +47,6 @@ export default class World {
   update() {
     if (this.sceneHitBox) {
       this.sceneHitBox.update();
-    }
-
-    if (this.publicManager) {
-      this.publicManager.update();
     }
 
     for (const object of this.listNonPhysicObjects) {

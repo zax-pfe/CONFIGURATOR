@@ -11,6 +11,7 @@ import Debug from "./Utils/Debug.js";
 import StatsUtils from "./Utils/Stats.js";
 import Physics from "./Utils/Physics.js";
 import SoundManager from "./Utils/SoundManager.js";
+import PublicManager from "./World/PublicManager.js";
 
 console.log(sources);
 let instance = null;
@@ -51,6 +52,8 @@ export default class Experience {
     this.soundManager = new SoundManager();
 
     this.connection = new Connection();
+    // Public manager
+    this.publicManager = new PublicManager();
 
     // Resize event
     this.sizes.on("resize", () => {
@@ -86,6 +89,7 @@ export default class Experience {
     this.renderer.update();
     this.physics.update(this.time.delta);
     this.stats.stats.end();
+    this.publicManager.update();
   }
 
   destroy() {
