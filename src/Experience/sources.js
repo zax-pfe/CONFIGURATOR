@@ -138,4 +138,9 @@ export default [
     type: "gltfModel",
     path: "models/Effects/light.glb",
   },
+  // {
+  //   name: "lampeSol",
+  //   type: "gltfModel",
+  //   path: "models/Lights/LampeSol.glb",
+  // },
 ];
