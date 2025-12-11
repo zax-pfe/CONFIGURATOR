@@ -24,7 +24,8 @@ export default class SoundManager extends EventEmitter {
 
   setupDrum() {
     const drumSound = new Audio("/sounds/instruments/drumLoop.mp3");
-    this.soundLibrary.drums = { regular: drumSound };
+    const drumSound2 = new Audio("/sounds/instruments/drumLoop2.mp3");
+    this.soundLibrary.drums = { regular: drumSound, alternate: drumSound2 };
   }
 
   playHitSound = (collision) => {
@@ -45,4 +46,10 @@ export default class SoundManager extends EventEmitter {
       this.playSound.play();
     }
   };
+
+  startMusic(music) {
+    music.loop = true;
+    music.volume = 0.5;
+    music.play();
+  }
 }

@@ -47,6 +47,10 @@ export default class ThrowObject extends EventEmitter {
       body: result.body,
     });
 
+    if (result.music) {
+      this.experience.soundManager.startMusic(result.music);
+    }
+
     // let newObject;
     // if (name === "Speaker2Hitbox") {
     //   newObject = new Speaker2Hitbox();
@@ -77,6 +81,7 @@ export default class ThrowObject extends EventEmitter {
       const debugObject = {
         throw: () => {
           this.addToWorld(this.angleX, this.angleY, this.power);
+          this.objectToThrow = null;
           this.destroyDebug();
           this.trigger("objectThrown");
         },

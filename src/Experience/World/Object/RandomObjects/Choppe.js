@@ -43,11 +43,12 @@ export default class ChoppeHitbox {
       null,
       this.music
     );
-    this.MeshHitBox.playMusic();
+    // this.MeshHitBox.playMusic();
     return {
       name: this.name,
       model: this.MeshHitBox.model,
       body: this.MeshHitBox.body,
+      music: this.music,
     };
   }
 }
