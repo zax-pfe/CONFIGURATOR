@@ -9,8 +9,6 @@ export default class PublicManager {
     this.debug = this.experience.debug;
     this.time = this.experience.time;
 
-    this.public = new Public();
-
     // coordonées du centre de la scène
     // Nous permet de calculer la distance des membres du public par rapport au centre
     this.centerPostion = { x: 0, y: 0, z: 0 };
@@ -25,22 +23,27 @@ export default class PublicManager {
 
     this.maxInstances = 100;
 
-    // creer un instant mesh de public
-    this.instanceMesh = new THREE.InstancedMesh(
-      this.public.geometry,
-      this.public.material,
-      this.maxInstances
-    );
-    this.scene.add(this.instanceMesh);
-    this.instanceMesh.instanceMatrix.needsUpdate = true;
-
     // objet 3D temporaire pour positionner les instances
     this.dummy = new THREE.Object3D();
 
     this.publicList = {};
     this.publicCount = 0;
+    this.init();
+  }
 
-    // this.createDebug();
+  init() {
+    this.public = new Public();
+    const test = this.public.model.children[0].children[0];
+
+    // creer un instant mesh de public avec le modèle
+    this.instanceMesh = new THREE.InstancedMesh(
+      test.geometry,
+      test.material,
+      this.maxInstances
+    );
+
+    this.scene.add(this.instanceMesh);
+    this.instanceMesh.instanceMatrix.needsUpdate = true;
   }
 
   createNewPublic(data) {
@@ -123,7 +126,7 @@ export default class PublicManager {
           publicMember.data.z
         );
 
-        this.dummy.rotation.y = -publicMember.data.angle;
+        this.dummy.rotation.y = -publicMember.data.angle + Math.PI * 0.5;
 
         this.dummy.updateMatrix();
         this.instanceMesh.setMatrixAt(key, this.dummy.matrix);
@@ -178,7 +181,8 @@ export default class PublicManager {
       this.debugFolder = this.debug.ui.addFolder("PublicManager");
       const debugObject = {
         createPublic: () => {
-          this.publicCreationLoop();
+          // this.publicCreationLoop();
+          this.publicCreation();
         },
       };
       this.debugFolder.add(debugObject, "createPublic");
@@ -187,5 +191,12 @@ export default class PublicManager {
 
   update() {
     this.publicMovement();
+
+    if (this.public && typeof this.public.update === "function") {
+      // si ton update attend l'objet time (avec time.delta), passe-le :
+      this.public.update(this.experience.time);
+      // ou si tu utilises this.time dans PublicManager, passe this.time
+      // this.public.update(this.time);
+    }
   }
 }

@@ -138,6 +138,16 @@ export default [
     type: "gltfModel",
     path: "models/Effects/light.glb",
   },
+  {
+    name: "sceneV5",
+    type: "gltfModel",
+    path: "models/Scene/sceneV5.glb",
+  },
+  {
+    name: "sceneV6",
+    type: "gltfModel",
+    path: "models/Scene/sceneV6.glb",
+  },
   // {
   //   name: "lampeSol",
   //   type: "gltfModel",

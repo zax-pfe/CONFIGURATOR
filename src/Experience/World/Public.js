@@ -1,5 +1,6 @@
 import Experience from "../Experience";
 import * as THREE from "three";
+import StarTest from "./Object/Star/StarTest";
 
 export default class Public {
   constructor() {
@@ -7,21 +8,31 @@ export default class Public {
     this.scene = this.experience.scene;
     this.debug = this.experience.debug;
 
+    this.startest = new StarTest();
+
     this.dimmensions = { width: 0.5, height: 2, depth: 1 };
 
-    // definir la zone dans laquel le public va etre placé
-
-    // creer un mesh de public
     this.setGeometry();
     this.setMaterial();
   }
 
   setGeometry() {
-    this.geometry = new THREE.BoxGeometry(
-      this.dimmensions.width,
-      this.dimmensions.height,
-      this.dimmensions.depth
-    );
+    // this.geometry = new THREE.BoxGeometry(
+    //   this.dimmensions.width,
+    //   this.dimmensions.height,
+    //   this.dimmensions.depth
+    // );
+
+    const result = this.startest.create();
+    // this.startest.setAnimation(result);
+
+    this.model = result.model;
+
+    // this.update = result.update;
+
+    // this.animationState = result.animationState;
+
+    // this.startest.animationState.play("dance");
   }
 
   setMaterial() {

@@ -7,7 +7,7 @@ export default class ShowExperience extends EventEmitter {
     this.experience = new Experience();
     this.debug = this.experience.debug;
     this.connection = this.experience.connection;
-    this.publicManager = this.experience.publicManager;
+    this.publicManager = this.experience.world.publicManager;
   }
 
   start() {

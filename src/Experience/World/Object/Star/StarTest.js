@@ -1,4 +1,4 @@
-import MeshHitBox from "../../../Utils/MeshHitBox.js"
+import MeshHitBox from "../../../Utils/MeshHitBox.js";
 import Experience from "../../../Experience.js";
 import Physics from "../../../Utils/Physics.js";
 import * as THREE from "three";
@@ -8,6 +8,7 @@ export default class StarTest {
     this.experience = new Experience();
     this.time = this.experience.time;
     this.resource = this.experience.resources.items.StarModel;
+    // console.log("StarTest resource", this.resource);
     this.debug = this.experience.debug;
     this.physics = new Physics();
 
@@ -35,7 +36,7 @@ export default class StarTest {
     const currentId = this.instanceCount;
     const instanceName = `${this.name} ${currentId}`;
 
-    // crée le MeshHitBox dans une variable LOCALE 
+    // crée le MeshHitBox dans une variable LOCALE
     const meshHitBoxInstance = new MeshHitBox(
       this.positions,
       this.scale,
@@ -62,10 +63,10 @@ export default class StarTest {
       body: meshHitBoxInstance.body,
       // On initialise l'état d'animation à null par défaut
       animationState: null,
-      
+
       // La fonction update vérifie maintenant si animationState existe
       update: (time) => {
-        const deltaTime = time.delta * 0.001; 
+        const deltaTime = time.delta * 0.001;
 
         // On accède à 'result.animationState' dynamiquement
         if (result.animationState && result.animationState.mixer) {
@@ -80,7 +81,7 @@ export default class StarTest {
   // retourne un objet avec le mixer et les actions pour UNE instance
   setAnimation(instanceResult) {
     if (!instanceResult || !instanceResult.model) return;
-    
+
     const model = instanceResult.model;
     const instanceName = instanceResult.name;
 
@@ -118,6 +119,8 @@ export default class StarTest {
 
     instanceResult.animationState = animationState;
 
+    this.animationState = animationState;
+
     this.setupLocalDebug(instanceName, animationState);
   }
 
@@ -144,9 +147,8 @@ export default class StarTest {
       folder.add(debugObject, "playWalking");
       folder.add(debugObject, "playJumping");
       folder.add(debugObject, "playStand");
-      
-      folder.close(); 
+
+      folder.close();
     }
   }
 }
-

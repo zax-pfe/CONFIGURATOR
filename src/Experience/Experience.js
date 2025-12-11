@@ -11,7 +11,6 @@ import Debug from "./Utils/Debug.js";
 import StatsUtils from "./Utils/Stats.js";
 import Physics from "./Utils/Physics.js";
 import SoundManager from "./Utils/SoundManager.js";
-import PublicManager from "./World/PublicManager.js";
 import MobileData from "./Utils/MobileData.js";
 import Animate from "./Utils/Animate.js";
 
@@ -58,8 +57,6 @@ export default class Experience {
     this.animate = new Animate();
 
     this.connection = new Connection();
-    // Public manager
-    this.publicManager = new PublicManager();
 
     // Resize event
     this.sizes.on("resize", () => {
@@ -67,12 +64,9 @@ export default class Experience {
     });
 
     // webSocket Events
-    this.connection.on("connected", () => {
-      // console.log("WebSocket connected event received in Experience");
-    });
+    this.connection.on("connected", () => {});
     this.connection.on("message", () => {
       const messages = this.connection.receivedMessages;
-      // console.log("Received messages:", messages);
     });
 
     // Tick event
@@ -82,7 +76,6 @@ export default class Experience {
   }
 
   resize() {
-    // console.log("Experience resized");
     this.camera.resize();
     this.renderer.resize();
   }
@@ -96,7 +89,6 @@ export default class Experience {
     this.renderer.update();
     this.physics.update(this.time.delta);
     this.stats.stats.end();
-    this.publicManager.update();
   }
 
   destroy() {
