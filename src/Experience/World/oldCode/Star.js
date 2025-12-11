@@ -1,6 +1,6 @@
-import MeshHitBox from "../../../Utils/MeshHitBox.js";
-import Experience from "../../../Experience.js";
-import Physics from "../../../Utils/Physics.js";
+import MeshHitBox from "../../Utils/MeshHitBox.js";
+import Experience from "../../Experience.js";
+import Physics from "../../Utils/Physics.js";
 export default class Star {
   constructor() {
     // setupt the experience

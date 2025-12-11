@@ -2,8 +2,8 @@ import EventEmitter from "../Utils/EventEmitter";
 import Experience from "../Experience";
 
 import SpotLightHitbox from "../World/Object/Lights/SpotLight.js";
-import Star from "../World/Object/Star/Star.js";
-import StarTest from "../World/Object/Star/StarTest.js"
+import Star from "../World/oldCode/Star.js";
+import StarTest from "../World/Object/Star/StarTest.js";
 import DiscoBallHitbox from "../World/Object/RandomObjects/DiscoBall.js";
 import ChoppeHitbox from "../World/Object/RandomObjects/Choppe.js";
 import BottleHitbox from "../World/Object/RandomObjects/Bottle.js";
@@ -73,7 +73,7 @@ export default class SelectAndLaunch extends EventEmitter {
       this.speaker3textured,
       this.Speaker4Textured,
       // this.star,
-      this.starTest,
+      this.starTest
     );
 
     for (const object of objectsTypes) {

@@ -17,23 +17,18 @@ export default class SpotLightHitbox2 {
   }
 
   setup() {
-    this.positions = { x: 1.6, y: 10, z: -4.8 };
     this.scale = { x: 1.5, y: 1.5, z: 1.5 };
     this.rotation = { x: 0, y: 0.8, z: 0 };
     this.mass = 0.5;
     this.name = "SpotLight2";
     this.hitBoxType = "box";
-    // set this paramreter to false to be able
-    // to have the debug activate and change
-    // the parameters of the object
-    this.activatePhysics = true;
+
     this.material = this.physics.stickyMaterial;
-    this.sound = this.experience.soundManager.punchSound;
+    this.sound = this.experience.soundManager.soundLibrary.hit.bamboo;
   }
 
   create() {
     this.MeshHitBox = new MeshHitBox(
-      this.positions,
       this.scale,
       this.rotation,
       this.resource,
@@ -41,8 +36,8 @@ export default class SpotLightHitbox2 {
       this.material,
       this.hitBoxType,
       this.name,
-      this.activatePhysics,
-      this.sound
+      this.sound,
+      null
     );
     return {
       name: this.name,

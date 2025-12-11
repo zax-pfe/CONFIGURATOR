@@ -19,15 +19,13 @@ export default class StarTest {
   }
 
   setupConstants() {
-    this.positions = { x: 0, y: 0, z: 0 };
     this.scale = { x: 1, y: 1, z: 1 };
     this.rotation = { x: 0, y: 3.14, z: 0 };
     this.mass = 1;
     this.name = "StarTest";
     this.hitBoxType = "cylinder";
-    this.activatePhysics = true;
     this.material = this.physics.stickyMaterial;
-    this.sound = this.experience.soundManager.bambooHitSound;
+    this.sound = this.experience.soundManager.soundLibrary.hit.bamboo;
     this.animated = true;
   }
 
@@ -38,15 +36,13 @@ export default class StarTest {
 
     // crée le MeshHitBox dans une variable LOCALE
     const meshHitBoxInstance = new MeshHitBox(
-      this.positions,
       this.scale,
       this.rotation,
       this.resource,
       this.mass,
       this.material,
       this.hitBoxType,
-      instanceName, // nom unique
-      this.activatePhysics,
+      instanceName,
       this.sound,
       this.animated
     );

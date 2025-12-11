@@ -6,14 +6,12 @@ import { threeToCannon, ShapeType } from "three-to-cannon";
 import SoundManager from "../Utils/SoundManager.js";
 import { cloneSkinnedModel } from "./cloneSkinnedModel.js";
 
-
 // PERMET DE CREER UN OBJET 3D AVEC HITBOX PHYSIQUE
 // prend en parametre modele glb
 // default position, scale, rotation, mass, default material
 
 export default class MeshHitBox {
   constructor(
-    positions,
     scale,
     rotation,
     resources,
@@ -21,9 +19,9 @@ export default class MeshHitBox {
     material,
     hitBoxType,
     name,
-    activetePhysics,
-    selectedSound,
-    animated
+    impactSound,
+    animated,
+    music
   ) {
     //setupt the experience
     this.experience = new Experience();
@@ -32,7 +30,10 @@ export default class MeshHitBox {
 
     // setupt the sound manager
     this.soundManager = new SoundManager();
-    this.soundManager.selectedSound = selectedSound;
+    // this.soundManager = this.experience.soundManager;
+    // console.log("Selected sound for hitbox:", impactSound);
+    this.soundManager.impactSound = impactSound;
+    this.soundManager.playSound = music;
 
     // setupt the physicWorld
     this.physics = new Physics();
@@ -50,12 +51,10 @@ export default class MeshHitBox {
     this.material = material;
     this.name = name;
     this.hitBoxType = hitBoxType;
-    this.activetePhysics = activetePhysics;
     this.addShadow = true;
-    this.animated = animated
+    this.animated = animated;
 
-    this.createDebug();
-    console.log("Object with hitbox initialized", this.name);
+    // this.createDebug();
 
     this.setModel();
     if (this.addShadow) {
@@ -68,8 +67,15 @@ export default class MeshHitBox {
     this.createComplexHitBox();
   }
 
+  playMusic() {
+    if (this.soundManager.playSound) {
+      this.soundManager.playMusic();
+    } else return;
+  }
+
   setModel() {
     if (this.animated) {
+      console.log("Cloning skinned model for:", this.name);
       this.model = cloneSkinnedModel(this.resources.scene);
       // this.model = this.resources.scene;
     } else {
@@ -126,15 +132,13 @@ export default class MeshHitBox {
 
   createDebug() {
     if (this.debug.active) {
-      if (!this.activetePhysics) {
-        this.debugFolder = this.debug.ui.addFolder(this.name);
-        this.debugFolder
-          .add(this.rotation, "y", -Math.PI, Math.PI, 0.01)
-          .name("rotY");
-        this.debugFolder.add(this.positions, "x", -10, 10, 0.1).name("posX");
-        this.debugFolder.add(this.positions, "y", -10, 10, 0.1).name("posY");
-        this.debugFolder.add(this.positions, "z", -10, 10, 0.1).name("posZ");
-      }
+      this.debugFolder = this.debug.ui.addFolder(this.name);
+      this.debugFolder
+        .add(this.rotation, "y", -Math.PI, Math.PI, 0.01)
+        .name("rotY");
+      this.debugFolder.add(this.positions, "x", -10, 10, 0.1).name("posX");
+      this.debugFolder.add(this.positions, "y", -10, 10, 0.1).name("posY");
+      this.debugFolder.add(this.positions, "z", -10, 10, 0.1).name("posZ");
     }
   }
 

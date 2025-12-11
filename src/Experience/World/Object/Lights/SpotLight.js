@@ -9,6 +9,9 @@ export default class SpotLightHitbox {
     this.scene = this.experience.scene;
     this.resource = this.experience.resources.items.SpotLightModel;
 
+    console.log("SpotLightModel resource:", this.resource);
+    console.log("Resources items:", this.experience.resources.items);
+
     // setupt the physicWorld
     this.physics = new Physics();
     this.world = this.physics.world;
@@ -17,23 +20,17 @@ export default class SpotLightHitbox {
   }
 
   setup() {
-    this.positions = { x: 1.6, y: 10, z: -4.8 };
     this.scale = { x: 0.5, y: 0.5, z: 0.5 };
     this.rotation = { x: 0, y: 0.8, z: 0 };
     this.mass = 0.5;
     this.name = "SpotLight";
     this.hitBoxType = "box";
-    // set this paramreter to false to be able
-    // to have the debug activate and change
-    // the parameters of the object
-    this.activatePhysics = true;
     this.material = this.physics.plasticMaterial;
-    this.sound = this.experience.soundManager.punchSound;
+    this.sound = this.experience.soundManager.soundLibrary.hit.bamboo;
   }
 
   create() {
     this.MeshHitBox = new MeshHitBox(
-      this.positions,
       this.scale,
       this.rotation,
       this.resource,
@@ -41,7 +38,6 @@ export default class SpotLightHitbox {
       this.material,
       this.hitBoxType,
       this.name,
-      this.activatePhysics,
       this.sound
     );
     return {

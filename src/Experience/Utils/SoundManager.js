@@ -3,10 +3,28 @@ import EventEmitter from "./EventEmitter";
 export default class SoundManager extends EventEmitter {
   constructor() {
     super();
-    this.hitSound = new Audio("/sounds/collision/hit.mp3");
-    this.bambooHitSound = new Audio("/sounds/collision/bambooHit.mp3");
-    this.punchSound = new Audio("/sounds/collision/punch.mp3");
-    this.selectedSound = null;
+    this.soundLibrary = {};
+    this.setupDrum();
+    this.setupHitSound();
+
+    this.impactSound = null;
+    this.playSound = null;
+  }
+
+  setupHitSound() {
+    const hitSound = new Audio("/sounds/collisionSound/hit.mp3");
+    const bambooHitSound = new Audio("/sounds/collisionSound/bambooHit.mp3");
+    const punchSound = new Audio("/sounds/collisionSound/punch.mp3");
+    this.soundLibrary.hit = {
+      hit: hitSound,
+      bamboo: bambooHitSound,
+      punch: punchSound,
+    };
+  }
+
+  setupDrum() {
+    const drumSound = new Audio("/sounds/instruments/drumLoop.mp3");
+    this.soundLibrary.drums = { regular: drumSound };
   }
 
   playHitSound = (collision) => {
@@ -14,9 +32,17 @@ export default class SoundManager extends EventEmitter {
     const impactStrenght = collision.contact.getImpactVelocityAlongNormal();
 
     if (impactStrenght > 2.5) {
-      this.selectedSound.volume = Math.random();
-      this.selectedSound.currentTime = 0;
-      this.selectedSound.play();
+      this.impactSound.volume = Math.random();
+      this.impactSound.currentTime = 0;
+      this.impactSound.play();
+    }
+  };
+
+  playMusic = () => {
+    if (this.playSound) {
+      this.playSound.loop = true;
+      this.playSound.volume = 0.5;
+      this.playSound.play();
     }
   };
 }

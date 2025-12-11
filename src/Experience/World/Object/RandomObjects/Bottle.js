@@ -15,23 +15,17 @@ export default class BottleHitbox {
   }
 
   setup() {
-    this.positions = { x: -4.5, y: 10, z: -3.5 };
     this.scale = { x: 0.5, y: 0.5, z: 0.5 };
     this.rotation = { x: 0, y: 0.8, z: 0 };
     this.mass = 0.5;
     this.name = "Bottle";
     this.hitBoxType = "cylinder";
-    // set this paramreter to false to be able
-    // to have the debug activate and change
-    // the parameters of the object
-    this.activatePhysics = true;
     this.material = this.physics.plasticMaterial;
-    this.sound = this.experience.soundManager.punchSound;
+    this.sound = this.experience.soundManager.soundLibrary.hit.bamboo;
   }
 
   create() {
     this.MeshHitBox = new MeshHitBox(
-      this.positions,
       this.scale,
       this.rotation,
       this.resource,
@@ -39,7 +33,6 @@ export default class BottleHitbox {
       this.material,
       this.hitBoxType,
       this.name,
-      this.activatePhysics,
       this.sound
     );
     return {

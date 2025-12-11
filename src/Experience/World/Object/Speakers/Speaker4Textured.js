@@ -20,17 +20,12 @@ export default class Speaker4Textured {
     this.mass = 3;
     this.name = "Speaker4Textured";
     this.hitBoxType = "box";
-    // set this paramreter to false to be able
-    // to have the debug activate and change
-    // the parameters of the object
-    this.activatePhysics = true;
     this.material = this.physics.slipperyMaterial;
-    this.sound = this.experience.soundManager.punchSound;
+    this.sound = this.experience.soundManager.soundLibrary.hit.bamboo;
   }
 
-  create(position = { x: 0, y: 10, z: 0 }) {
+  create() {
     this.MeshHitBox = new MeshHitBox(
-      position,
       this.scale,
       this.rotation,
       this.resource,
@@ -38,7 +33,6 @@ export default class Speaker4Textured {
       this.material,
       this.hitBoxType,
       this.name,
-      this.activatePhysics,
       this.sound
     );
 

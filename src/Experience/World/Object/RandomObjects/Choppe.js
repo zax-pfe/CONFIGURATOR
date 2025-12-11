@@ -23,17 +23,15 @@ export default class ChoppeHitbox {
     this.mass = 1.5;
     this.name = "Choppe";
     this.hitBoxType = "box";
-    // set this paramreter to false to be able
-    // to have the debug activate and change
-    // the parameters of the object
-    this.activatePhysics = true;
     this.material = this.physics.plasticMaterial;
-    this.sound = this.experience.soundManager.punchSound;
+    this.sound = this.experience.soundManager.soundLibrary.hit.bamboo;
+    this.music = this.experience.soundManager.soundLibrary.drums.regular;
+
+    console.log("Choppe hitbox sound set to:", this.sound);
   }
 
   create() {
     this.MeshHitBox = new MeshHitBox(
-      this.positions,
       this.scale,
       this.rotation,
       this.resource,
@@ -41,9 +39,11 @@ export default class ChoppeHitbox {
       this.material,
       this.hitBoxType,
       this.name,
-      this.activatePhysics,
-      this.sound
+      this.sound,
+      null,
+      this.music
     );
+    this.MeshHitBox.playMusic();
     return {
       name: this.name,
       model: this.MeshHitBox.model,

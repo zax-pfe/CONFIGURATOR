@@ -14,27 +14,23 @@ export default class SpeakerTextured {
   }
 
   setup() {
-    this.positions = { x: 0, y: 10, z: -5 };
     this.scale = { x: 1, y: 1, z: 1 };
     this.rotation = { x: 0, y: -1.6, z: 0 };
     this.mass = 1;
     this.name = "Speaker1Textured";
     this.hitBoxType = "box";
-    this.activatePhysics = true;
     this.material = this.physics.plasticMaterial;
-    this.sound = this.experience.soundManager.punchSound;
+    this.sound = this.experience.soundManager.soundLibrary.hit.bamboo;
   }
 
   create() {
     this.MeshHitBox = new MeshHitBox(
-      this.positions,
       this.scale,
       this.rotation,
       this.resource,
       this.mass,
       this.material,
       this.hitBoxType,
-      this.name,
       this.activatePhysics,
       this.sound
     );
