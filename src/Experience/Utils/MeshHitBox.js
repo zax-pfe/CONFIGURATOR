@@ -43,7 +43,7 @@ export default class MeshHitBox {
     this.resources = resources;
     // this.positions = positions;
     // cette position est la position de depart des objets lancés
-    this.positions = { x: 0, y: 20, z: 30 };
+    this.positions = { x: 0, y: 10, z: 87 };
     this.scale = scale;
     this.rotation = rotation;
     this.mass = mass;

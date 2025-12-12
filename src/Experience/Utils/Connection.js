@@ -43,18 +43,20 @@ export default class Connection extends EventEmitter {
   setInstance() {
     this.instance = new WebSocket(`${this.host}/parties/main/${this.room}`);
   }
+
   setupEventHandlers() {
     this.instance.onopen = () => {
       // console.log("Connected to PartyKit server");
       // this.instance.send("hello from vanilla TS client");
       this.trigger("connected");
+      this.sendMessage("waiting")
     };
 
     this.instance.onmessage = (event) => {
       const msg = this.parseMessage(event.data)
       // console.log("Received:", msg);
 
-      // envoi des données du mobile à motiondata.js
+      // envoi des données du mobile à mobiledata.js
       this.mobileData.processMobileMessage(msg);
       
       this.trigger("message", event.data);
@@ -70,5 +72,13 @@ export default class Connection extends EventEmitter {
       console.log("Connection closed");
       this.trigger("disconnected");
     };
+  }
+
+  sendMessage(message) {
+    if (this.instance && this.instance.readyState === WebSocket.OPEN) {  
+      this.instance.send(message);
+    }  else {
+      console.warn("WebSocket not ready, message not sent:", message);
+    }
   }
 }
