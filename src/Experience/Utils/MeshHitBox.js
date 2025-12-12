@@ -20,8 +20,7 @@ export default class MeshHitBox {
     hitBoxType,
     name,
     impactSound,
-    animated,
-    music
+    animated
   ) {
     //setupt the experience
     this.experience = new Experience();
@@ -33,7 +32,6 @@ export default class MeshHitBox {
     // this.soundManager = this.experience.soundManager;
     // console.log("Selected sound for hitbox:", impactSound);
     this.soundManager.impactSound = impactSound;
-    // this.soundManager.playSound = music;
 
     // setupt the physicWorld
     this.physics = new Physics();
@@ -68,12 +66,6 @@ export default class MeshHitBox {
     }
     this.createComplexHitBox();
   }
-
-  // playMusic() {
-  //   if (this.soundManager.playSound) {
-  //     this.soundManager.playMusic();
-  //   } else return;
-  // }
 
   setModel() {
     if (this.animated) {

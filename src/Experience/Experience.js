@@ -89,6 +89,7 @@ export default class Experience {
     this.renderer.update();
     this.physics.update(this.time.delta);
     this.stats.stats.end();
+    this.soundManager.update();
   }
 
   destroy() {

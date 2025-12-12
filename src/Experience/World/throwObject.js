@@ -51,8 +51,8 @@ export default class ThrowObject extends EventEmitter {
     const speed = 2 * this.power;
     this.result.body.velocity.set(this.angleX, this.angleY, -speed);
 
-    if (result.music) {
-      this.experience.soundManager.startMusic(result.music);
+    if (this.result.music) {
+      this.experience.soundManager.startMusic(this.result.music);
     }
 
     this.physics.objectsToUpdate.push({
@@ -68,7 +68,8 @@ export default class ThrowObject extends EventEmitter {
     result.entrance = (time) => {
       const target = { x: 0, y: 5, z: 75 };
       if (this.throwPhase) {
-        const deltaTime = time.delta * 0.001;
+        // const deltaTime = time.delta * 0.001;
+        const deltaTime = time.delta * 0.002;
 
         const angleH = this.experience.mobileData.throwing.angleH;
         const angleV = this.experience.mobileData.throwing.angleV;

@@ -12,7 +12,14 @@ export default class SoundManager extends EventEmitter {
     this.setupHitSound();
 
     this.impactSound = null;
-    this.playSound = null;
+
+    // time seconds of the loop
+    this.loopTime = 8;
+
+    // permet de calculer le temps écoulé dans la boucle
+    // et de boucler toutes les loopTime secondes
+    this.currentTimeInLoop = 0;
+    this.previousTimeInLoop = 0;
   }
 
   setupHitSound() {
@@ -43,22 +50,19 @@ export default class SoundManager extends EventEmitter {
     }
   };
 
-  // test function to play music
-  playMusic = () => {
-    if (this.playSound) {
-      this.playSound.loop = true;
-      this.playSound.volume = 0.5;
-      this.playSound.play();
-    }
-  };
-
   startMusic(music) {
     music.loop = true;
     music.volume = 0.5;
+    music.currentTime = this.currentTimeInLoop;
     music.play();
   }
 
-  loopSynchro() {
-    this.time.on("tick", () => {});
+  update() {
+    // Temps écoulé depuis le début de l'application en secondes
+    this.currentTimeInLoop = this.time.elapsed / 1000 - this.previousTimeInLoop;
+    if (this.currentTimeInLoop >= this.loopTime) {
+      this.currentTimeInLoop = 0;
+      this.previousTimeInLoop += this.loopTime;
+    }
   }
 }
