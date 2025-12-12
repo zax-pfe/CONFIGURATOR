@@ -21,7 +21,6 @@ export default class Speaker4Hitbox {
     this.hitBoxType = "box";
     this.material = this.physics.slipperyMaterial;
     this.sound = this.experience.soundManager.soundLibrary.hit.bamboo;
-    console.log("sound speaker 4 hitbox", this.sound);
   }
 
   create() {

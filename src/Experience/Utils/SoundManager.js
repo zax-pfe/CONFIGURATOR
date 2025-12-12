@@ -1,8 +1,12 @@
 import EventEmitter from "./EventEmitter";
+import Experience from "../Experience.js";
 
 export default class SoundManager extends EventEmitter {
   constructor() {
     super();
+    this.experience = new Experience();
+    this.time = this.experience.time;
+
     this.soundLibrary = {};
     this.setupDrum();
     this.setupHitSound();
@@ -39,6 +43,7 @@ export default class SoundManager extends EventEmitter {
     }
   };
 
+  // test function to play music
   playMusic = () => {
     if (this.playSound) {
       this.playSound.loop = true;
@@ -51,5 +56,9 @@ export default class SoundManager extends EventEmitter {
     music.loop = true;
     music.volume = 0.5;
     music.play();
+  }
+
+  loopSynchro() {
+    this.time.on("tick", () => {});
   }
 }

@@ -9,9 +9,6 @@ export default class SpotLightHitbox {
     this.scene = this.experience.scene;
     this.resource = this.experience.resources.items.SpotLightModel;
 
-    console.log("SpotLightModel resource:", this.resource);
-    console.log("Resources items:", this.experience.resources.items);
-
     // setupt the physicWorld
     this.physics = new Physics();
     this.world = this.physics.world;

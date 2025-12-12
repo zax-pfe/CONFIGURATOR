@@ -16,6 +16,7 @@ import SpeakerTextured from "../World/Object/Speakers/SpeakerTextured.js";
 import Speaker2Textured from "../World/Object/Speakers/Speaker2Textured.js";
 import Speaker3Textured from "../World/Object/Speakers/Speaker3Textured.js";
 import Speaker4Textured from "../World/Object/Speakers/Speaker4Textured.js";
+import LightBaked from "../World/Object/Lights/LightBaked.js";
 
 import ThrowObject from "../World/throwObject.js";
 import SelectObject from "../World/selectObject.js";
@@ -55,6 +56,7 @@ export default class SelectAndLaunch extends EventEmitter {
     this.speaker2textured = new Speaker2Textured();
     this.speaker3textured = new Speaker3Textured();
     this.Speaker4Textured = new Speaker4Textured();
+    this.lightBaked = new LightBaked();
     // this.star = new Star();
     this.starTest = new StarTest();
 
@@ -72,6 +74,7 @@ export default class SelectAndLaunch extends EventEmitter {
       this.speaker2textured,
       this.speaker3textured,
       this.Speaker4Textured,
+      this.lightBaked,
       // this.star,
       this.starTest
     );

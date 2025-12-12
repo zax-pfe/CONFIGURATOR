@@ -148,6 +148,12 @@ export default [
     type: "gltfModel",
     path: "models/Scene/sceneV6.glb",
   },
+
+  {
+    name: "lightBaked",
+    type: "gltfModel",
+    path: "models/Lights/lasuperlightdas.glb",
+  },
   // {
   //   name: "lampeSol",
   //   type: "gltfModel",

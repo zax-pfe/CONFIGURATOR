@@ -57,6 +57,8 @@ export default class MeshHitBox {
     // this.createDebug();
 
     this.setModel();
+
+    // appliquer l'ombre aux enfants du modele
     if (this.addShadow) {
       this.model.traverse((child) => {
         if (child instanceof THREE.Mesh) {
@@ -88,7 +90,20 @@ export default class MeshHitBox {
       this.positions.y,
       this.positions.z
     );
-    // this.model.updateMatrixWorld(true);
+
+    // appliquer un Mesh Basic Material pour que les objets
+    // ne recoivent pas de lumiere pendant la selection
+    // this.model.traverse((child) => {
+    //   if (child instanceof THREE.Mesh) {
+    //     child.material = new THREE.MeshBasicMaterial({
+    //       map: child.material.map,
+    //       color: child.material.color,
+    //     });
+
+    //     child.castShadow = false;
+    //     child.receiveShadow = false;
+    //   }
+    // });
   }
 
   createHitBox() {
