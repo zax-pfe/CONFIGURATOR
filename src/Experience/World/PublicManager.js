@@ -21,7 +21,7 @@ export default class PublicManager {
 
     this.publicBaseSpeed = 0.03;
 
-    this.maxInstances = 100;
+    this.maxInstances = 2;
 
     // objet 3D temporaire pour positionner les instances
     this.dummy = new THREE.Object3D();

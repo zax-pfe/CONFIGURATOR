@@ -26,7 +26,14 @@ export default class Public {
     const result = this.startest.create();
     // this.startest.setAnimation(result);
 
+    console.log("result", result);
+    // console.log("result model", result.model);
+
     this.model = result.model;
+    result.animationState = "dance";
+    this.startest.setAnimation(result);
+    this.experience.animate.objectsToAnimate.push(result);
+    this.animation = result.update;
 
     // this.update = result.update;
 

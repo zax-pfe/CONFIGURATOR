@@ -20,6 +20,8 @@ export default class SoundManager extends EventEmitter {
     // et de boucler toutes les loopTime secondes
     this.currentTimeInLoop = 0;
     this.previousTimeInLoop = 0;
+
+    //
   }
 
   setupHitSound() {
@@ -56,6 +58,11 @@ export default class SoundManager extends EventEmitter {
     music.currentTime = this.currentTimeInLoop;
     music.play();
   }
+
+  // stopMusic(music) {
+  //   music.pause();
+  //   music.currentTime = 0;
+  // }
 
   update() {
     // Temps écoulé depuis le début de l'application en secondes
