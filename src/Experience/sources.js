@@ -148,6 +148,11 @@ export default [
     type: "gltfModel",
     path: "models/Scene/sceneV6.glb",
   },
+  {
+    name: "sceneV7",
+    type: "gltfModel",
+    path: "models/Scene/sceneV7.glb",
+  },
 
   {
     name: "lightBaked",

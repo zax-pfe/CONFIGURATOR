@@ -17,6 +17,7 @@ export default class Camera {
 
     this.setInstance();
     this.setOrbitControls();
+    this.createDebug();
   }
 
   setInstance() {
@@ -35,18 +36,22 @@ export default class Camera {
     this.controls.enableDamping = true;
 
     this.controls.enabled = true;
+  }
 
+  createDebug() {
     // Debug
-    const folder = this.debug.ui.addFolder("Camera");
-    this.debugObject = {
-      controlsEnabled: true
+    if (this.debug.active) {
+      const folder = this.debug.ui.addFolder("Camera");
+      this.debugObject = {
+        controlsEnabled: true,
+      };
+      folder.add(this.debugObject, "controlsEnabled").onChange((e) => {
+        this.controls.enabled = !this.controls.enabled;
+        if (!e) {
+          this.instance.position.set(0, 5, 87);
+        }
+      });
     }
-    folder.add(this.debugObject, "controlsEnabled").onChange((e) => {
-      this.controls.enabled = !this.controls.enabled
-      if(!e){
-        this.instance.position.set(0, 5, 87)
-      }
-    });
   }
 
   resize() {
@@ -55,7 +60,7 @@ export default class Camera {
   }
 
   update() {
-    if (this.debugObject.controlsEnabled) {
+    if (this.debug.active && this.debugObject.controlsEnabled) {
       this.controls.update();
     } else {
       const { angleH, angleV } = this.mobileData.throwing || {};
@@ -65,7 +70,9 @@ export default class Camera {
       const rotY = THREE.MathUtils.degToRad(angleV);
 
       // créer quaternion cible
-      const targetQuat = new THREE.Quaternion().setFromEuler(new THREE.Euler(rotY, rotX, 0));
+      const targetQuat = new THREE.Quaternion().setFromEuler(
+        new THREE.Euler(rotY, rotX, 0)
+      );
 
       // interpoler la rotation actuelle vers la cible
       this.instance.quaternion.slerp(targetQuat, 0.025); // 0.1 = facteur de lissage
