@@ -1,3 +1,4 @@
+  import * as THREE from "three";
   import Physics from "../Utils/Physics.js";
   import Experience from "../Experience.js";
   import EventEmitter from "../Utils/EventEmitter.js";
@@ -75,19 +76,23 @@
     }
 
     setEntranceAnimation(result){
-      const radius = 2
-      const speed = 1
+      const speed = 2; // Vitesse de suivi de la camera
+      const distanceZ = 12; 
+      const offsetY = -2;
       
       result.entrance = (time) => {
-        const target = { x:  0, y: 5, z: 75 };
         if (this.throwPhase) {
           const deltaTime = time.delta * 0.001;
-          
-          const angleH = this.experience.mobileData.throwing.angleH
-          const angleV = this.experience.mobileData.throwing.angleV
 
+          const camera = this.experience.camera.instance; // recupere la camera
+          
+          const offsetVector = new THREE.Vector3(0, offsetY, -distanceZ); // position de l'objet par rapport à la caméra
+          offsetVector.applyQuaternion(camera.quaternion); // applique la rotation de la camera au vecteur
+          const target = camera.position.clone().add(offsetVector); // cible = pos camera + vecteur
+
+          // appliquer le mouvement (avec lerp)
           result.model.position.x += (target.x - result.model.position.x) * deltaTime * speed;
-          result.model.position.y += (target.y - result.model.position.y) * deltaTime * speed * 2;
+          result.model.position.y += (target.y - result.model.position.y) * deltaTime * speed;
           result.model.position.z += (target.z - result.model.position.z) * deltaTime * speed;
         } else {
           const index = this.objectsToAnimate.indexOf(result);
