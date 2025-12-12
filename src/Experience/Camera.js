@@ -6,15 +6,16 @@ export default class Camera {
   constructor() {
     // console.log("Camera initialized");
     this.experience = new Experience();
+    this.resources = this.experience.resources
     this.sizes = this.experience.sizes;
     this.scene = this.experience.scene;
     this.canvas = this.experience.canvas;
     this.mobileData = this.experience.mobileData;
     this.debug = this.experience.debug;
-
-    this.target = new THREE.Vector3(0, 5, 0);
-    this.smoothTarget = new THREE.Vector3(0, 5, 0);
-
+    
+    // this.target = new THREE.Vector3(0, 5, 0);
+    // this.smoothTarget = new THREE.Vector3(0, 5, 0);
+    
     this.setInstance();
     this.setOrbitControls();
   }
@@ -26,7 +27,7 @@ export default class Camera {
       0.1,
       1000
     );
-    this.instance.position.set(0, 20, 87);
+    this.instance.position.set(0, 10, 87);
     this.scene.add(this.instance);
   }
 
@@ -34,19 +35,20 @@ export default class Camera {
     this.controls = new OrbitControls(this.instance, this.canvas);
     this.controls.enableDamping = true;
 
-    this.controls.enabled = true;
-
-    // Debug
-    const folder = this.debug.ui.addFolder("Camera");
-    this.debugObject = {
-      controlsEnabled: true
-    }
-    folder.add(this.debugObject, "controlsEnabled").onChange((e) => {
-      this.controls.enabled = !this.controls.enabled
-      if(!e){
-        this.instance.position.set(0, 5, 87)
+    this.controls.enabled = false;
+    if (this.debug.active) {
+      // Debug
+      const folder = this.debug.ui.addFolder("Camera");
+      this.debugObject = {
+        controlsEnabled: false
       }
-    });
+      folder.add(this.debugObject, "controlsEnabled").onChange((e) => {
+        this.controls.enabled = !this.controls.enabled
+        if(!e){
+          this.instance.position.set(0, 10, 87)
+        }
+      });
+    }
   }
 
   resize() {
@@ -54,24 +56,41 @@ export default class Camera {
     this.instance.updateProjectionMatrix();
   }
 
+  updateCameraWithMobile(){
+    if (this.experience.world.controlManager) {
+      this.phase = this.experience.world.controlManager.currentScene
+
+      if(this.phase == "throw"){
+        console.log("throw")
+  
+        const { angleH, angleV } = this.mobileData.throwing || {};
+    
+        // convertir en radians
+        const rotX = -THREE.MathUtils.degToRad(angleH);
+        const rotY = THREE.MathUtils.degToRad(angleV);
+    
+        // créer quaternion cible
+        const targetQuat = new THREE.Quaternion().setFromEuler(new THREE.Euler(rotY, rotX, 0));
+    
+        // interpoler la rotation actuelle vers la cible
+        this.instance.quaternion.slerp(targetQuat, 0.025); // 0.1 = facteur de lissage
+
+      } else {
+        const targetQuat = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, 0, 0));
+        this.instance.quaternion.slerp(targetQuat, 0.01); 
+      }
+    }
+  }
+
   update() {
-    if (this.debugObject.controlsEnabled) {
-      this.controls.update();
+    if(this.debug.active){
+      if (this.debugObject.controlsEnabled) {
+        this.controls.update()
+      } else {
+        this.updateCameraWithMobile()
+      }
     } else {
-      const { angleH, angleV } = this.mobileData.throwing || {};
-
-      // convertir en radians
-      const rotX = -THREE.MathUtils.degToRad(angleH);
-      const rotY = THREE.MathUtils.degToRad(angleV);
-
-      // créer quaternion cible
-      const targetQuat = new THREE.Quaternion().setFromEuler(new THREE.Euler(rotY, rotX, 0));
-
-      // interpoler la rotation actuelle vers la cible
-      this.instance.quaternion.slerp(targetQuat, 0.025); // 0.1 = facteur de lissage
-
-      // appliquer la rotation au parent (la caméra)
-      // this.instance.rotation.set(rotY, rotX, 0); gf
+      this.updateCameraWithMobile()
     }
   }
 }

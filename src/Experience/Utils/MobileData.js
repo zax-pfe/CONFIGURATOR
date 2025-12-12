@@ -1,6 +1,10 @@
+import EventEmitter from "./EventEmitter";
+
 // stocke et met à jour les données reçues depuis le mobile
-export default class MobileData {
+export default class MobileData extends EventEmitter{
   constructor() {
+    super()
+
     this.selection = {
       state: null,
       index: null,
@@ -18,17 +22,48 @@ export default class MobileData {
     if (!msg.device || msg.device !== "mobile") return;
 
     switch (msg.phase) {
-      case "selection":
+
+      case "selection": {
+        const prevState = this.selection.state;
+
         this.selection.state = msg.state;
         this.selection.index = msg.index;
-        break;
 
-      case "throwing":
+        if (msg.state === "hover") {
+          this.trigger("mobileHover", [{ index: msg.index }]);
+        }
+
+        if (msg.state === "select" && prevState !== "select") {
+          this.trigger("mobileSelect", [{ index: msg.index }]);
+        }
+
+        break;
+      }
+
+      case "throwing": {
+        const prevState = this.throwing.state;
+
         this.throwing.state = msg.state;
         this.throwing.strength = msg.strength;
         this.throwing.angleH = msg.angleH;
         this.throwing.angleV = msg.angleV;
+
+        if (msg.state === "drag" ) {
+          this.trigger("throwDrag", [{
+            strength: msg.strength,
+          }]);
+        }
+
+        if (msg.state === "release" && prevState !== "release") {
+          this.trigger("throwRelease", [{
+            strength: msg.strength,
+            angleH: msg.angleH,
+            angleV: msg.angleV
+          }]);
+        }
+
         break;
+      }
 
       default:
         console.warn("Unknown mobile phase:", msg.phase);
