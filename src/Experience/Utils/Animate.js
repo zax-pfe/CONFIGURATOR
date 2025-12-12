@@ -14,7 +14,12 @@ export default class Animate
     {
         for(const object of this.objectsToAnimate)
         {
-            object.update(this.time)
+            if (object.update) {
+                object.update(this.time)
+            }
+            if (object.entrance){
+                object.entrance(this.time)
+            }
         }
     }
 }

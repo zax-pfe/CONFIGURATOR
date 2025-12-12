@@ -5,11 +5,11 @@ import EventEmitter from "../Utils/EventEmitter";
 export default class SelectObject extends EventEmitter {
   constructor(objects) {
     super();
-    // console.log("SelectObject initialized");
 
     this.experience = new Experience();
     this.scene = this.experience.scene;
     this.debug = this.experience.debug;
+    this.mobileData = this.experience.mobileData
 
     // liste des objets pouvant etre selectionnés
     this.objects = objects;
@@ -30,6 +30,29 @@ export default class SelectObject extends EventEmitter {
     this.displayedModels = [];
     // objet selectionné pour le lancé
     this.objectToLaunch = null;
+
+    this.selectPhase = false
+
+    this.mobileData.on("mobileHover", (payload) => {
+      if (!this.selectPhase) return;
+
+      this.setSelectedObjectMobile(payload)
+
+    });
+
+    this.mobileData.on("mobileSelect", (payload) => {
+      if (!this.selectPhase) return;
+
+        this.deleleteElements();
+
+        this.objectToLaunch = this.selectedObject;
+        if (this.currentSelectedModel) {
+          this.experience.scene.remove(this.currentSelectedModel);
+        }
+        this.destroyDebug();
+
+        this.trigger("objectSelected");
+    });
   }
 
   // selectionner des objets au hasard
@@ -49,7 +72,8 @@ export default class SelectObject extends EventEmitter {
     const positions = [];
 
     for (let i = 0; i < this.numberOfObjects; i++) {
-      const angle = i * this.angleStep;
+      const offset = this.angleStep / 2; // pour s'aligner avec Skia
+      const angle = -i * this.angleStep - offset; // sens horaire + alignement
 
       const x = this.wheelPosition.x + this.wheelRadius * Math.cos(angle);
       const y = this.wheelPosition.y + this.wheelRadius * Math.sin(angle);
@@ -76,6 +100,28 @@ export default class SelectObject extends EventEmitter {
       this.displayedModels.push(result.model);
       this.experience.scene.add(result.model);
     }
+  }
+
+  setSelectedObjectMobile(payload) {
+    const index =  payload.index;
+    this.selectedObject = this.randomSelectedObjects[index];
+    const result = this.selectedObject.create();
+    result.model.position.set(
+      this.wheelPosition.x,
+      this.wheelPosition.y,
+      this.wheelPosition.z
+    );
+    result.model.scale.set(
+      this.selectedObject.scale.x * 2,
+      this.selectedObject.scale.y * 2,
+      this.selectedObject.scale.z * 2
+    );
+
+    if (this.currentSelectedModel) {
+      this.experience.scene.remove(this.currentSelectedModel);
+    }
+    this.experience.scene.add(result.model);
+    this.currentSelectedModel = result.model;
   }
 
   // creer l'objet au centre

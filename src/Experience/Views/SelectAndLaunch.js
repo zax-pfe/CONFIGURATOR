@@ -85,6 +85,8 @@ export default class SelectAndLaunch extends EventEmitter {
   }
 
   selectAndLaunch() {
+    this.experience.world.controlManager.currentScene = "select";
+    this.connection.sendMessage("select")
     // creer le debug de selection de l'objet
     this.selectObject.createDebug();
     // selectionne 5 objets au hasard parmis tout les objets disponibles
@@ -92,16 +94,27 @@ export default class SelectAndLaunch extends EventEmitter {
     // creer les mesh des objets selectionnés et les disposer en cercle
     this.selectObject.createSelectedObjectsMeshes();
 
+    this.selectObject.selectPhase = true
+
     // si on clique sur valide la selection.
     this.selectObject.on("objectSelected", () => {
+      this.experience.world.controlManager.currentScene = "throw";
+      this.connection.sendMessage("throw")
+
       // on detruit le debug de selection dans selectObject
       // on set l'objet a lancer dans throwObject
       this.throwObject.objectToThrow = this.selectObject.objectToLaunch;
+
+      this.throwObject.createSelectedObject()
+
+      // on initie la phase de lancer dans throwObject
+      this.throwObject.throwPhase = true
       // on crée le debug de lancé
       this.throwObject.createDebug();
     });
 
     this.throwObject.on("objectThrown", () => {
+      this.experience.world.controlManager.currentScene = "objectThrown";
       // une fois l'objet lancé, on detruit le debug de lancé
       this.throwObject.destroyDebug();
       // on recree le debug pour relancer ou passer
