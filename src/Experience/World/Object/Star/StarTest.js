@@ -11,7 +11,9 @@ export default class StarTest {
     this.debug = this.experience.debug;
     this.physics = new Physics();
 
-    // compteur pour les différentes stars
+    // stocke les instances de la star
+    this.instances = []
+    // compteur pour les id uniques
     this.instanceCount = 0;
 
     this.setupConstants();
@@ -32,8 +34,7 @@ export default class StarTest {
 
   create() {
     this.instanceCount++;
-    const currentId = this.instanceCount;
-    const instanceName = `${this.name} ${currentId}`;
+    const instanceName = `${this.name}_${this.instanceCount}`;
 
     // crée le MeshHitBox dans une variable LOCALE 
     const meshHitBoxInstance = new MeshHitBox(
@@ -50,103 +51,86 @@ export default class StarTest {
       this.animated
     );
 
-    // // configurer l'animation localement pour cette instance
-    // const animationState = this.setupLocalAnimation(meshHitBoxInstance.model);
+    // configurationd de l'animation
+    const animationState = this._createAnimationState(meshHitBoxInstance.model);
 
-    // // debug spécifique à cette instance
-    // this.setupLocalDebug(instanceName, animationState);
-
-    const result = {
+    // objet représentant l'instance de la star
+    const starInstance = {
+      id: this.instanceCount,
       name: instanceName,
       model: meshHitBoxInstance.model,
       body: meshHitBoxInstance.body,
-      // On initialise l'état d'animation à null par défaut
-      animationState: null,
-      
-      // La fonction update vérifie maintenant si animationState existe
-      update: (time) => {
-        const deltaTime = time.delta * 0.001; 
-
-        // On accède à 'result.animationState' dynamiquement
-        if (result.animationState && result.animationState.mixer) {
-          result.animationState.mixer.update(deltaTime);
-        }
-      },
+      animationState: animationState,
     };
 
-    return result;
+    // ajout au debug panel
+    if (this.debug.active) {
+      this._createDebug(instanceName, starInstance);
+    }
+
+    // ajout au tableau de gestion
+    this.instances.push(starInstance);
+
+    return starInstance;
+  } 
+
+  update() {
+    const deltaTime = this.time.delta * 0.001;
+
+    // On boucle sur toutes les instances vivantes
+    for (const star of this.instances) {  
+      // update Animation
+      if (star.animationState && star.animationState.mixer) {
+        star.animationState.mixer.update(deltaTime);
+      }
+    }
   }
 
-  // retourne un objet avec le mixer et les actions pour UNE instance
-  setAnimation(instanceResult) {
-    if (!instanceResult || !instanceResult.model) return;
-    
-    const model = instanceResult.model;
-    const instanceName = instanceResult.name;
+  _createAnimationState(model) {
+    if (!this.resource.animations || this.resource.animations.length === 0) return null;
 
-    const animationState = {};
-    animationState.mixer = new THREE.AnimationMixer(model);
-    animationState.actions = {};
+    const mixer = new THREE.AnimationMixer(model);
+    const actions = {};
 
-    animationState.actions.dance = animationState.mixer.clipAction(
-      this.resource.animations[0]
-    );
-    animationState.actions.jump = animationState.mixer.clipAction(
-      this.resource.animations[1]
-    );
-    animationState.actions.stand = animationState.mixer.clipAction(
-      this.resource.animations[2]
-    );
-    animationState.actions.walk = animationState.mixer.clipAction(
-      this.resource.animations[3]
-    );
+    actions.dance = mixer.clipAction(this.resource.animations[0]);
+    actions.jump = mixer.clipAction(this.resource.animations[1]);
+    actions.stand = mixer.clipAction(this.resource.animations[2]);
+    actions.walk = mixer.clipAction(this.resource.animations[3]);
 
-    animationState.actions.current = animationState.actions.stand;
-    animationState.actions.current.play();
+    actions.current = actions.stand;
+    actions.current.play();
 
-    animationState.play = (name) => {
-      const newAction = animationState.actions[name];
-      const oldAction = animationState.actions.current;
+    const play = (name) => {
+      const newAction = actions[name];
+      const oldAction = actions.current;
 
-      if (newAction !== oldAction) {
+      if (newAction && newAction !== oldAction) {
         newAction.reset();
         newAction.play();
-        newAction.crossFadeFrom(oldAction, 1);
-        animationState.actions.current = newAction;
+        newAction.crossFadeFrom(oldAction, 0.5);
+        actions.current = newAction;
       }
     };
 
-    instanceResult.animationState = animationState;
-
-    this.setupLocalDebug(instanceName, animationState);
+    return { mixer, actions, play };
   }
 
-  setupLocalDebug(folderName, animationState) {
-    if (this.debug.active) {
-      const folder = this.debug.ui.addFolder(folderName);
-
-      const debugObject = {
-        playDance: () => {
-          animationState.play("dance");
-        },
-        playWalking: () => {
-          animationState.play("walk");
-        },
-        playJumping: () => {
-          animationState.play("jump");
-        },
-        playStand: () => {
-          animationState.play("stand");
-        },
-      };
-
-      folder.add(debugObject, "playDance");
-      folder.add(debugObject, "playWalking");
-      folder.add(debugObject, "playJumping");
-      folder.add(debugObject, "playStand");
-      
-      folder.close(); 
+  _createDebug(folderName, starInstance) {
+    const folder = this.debug.ui.addFolder(folderName);
+    
+    if (starInstance.animationState) {
+        const debugObject = {
+            playDance: () => starInstance.animationState.play("dance"),
+            playWalking: () => starInstance.animationState.play("walk"),
+            playJumping: () => starInstance.animationState.play("jump"),
+            playStand: () => starInstance.animationState.play("stand"),
+        };
+        folder.add(debugObject, "playDance");
+        folder.add(debugObject, "playWalking");
+        folder.add(debugObject, "playJumping");
+        folder.add(debugObject, "playStand");
     }
+    folder.close();
   }
 }
 

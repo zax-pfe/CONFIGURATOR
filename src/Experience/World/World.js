@@ -21,6 +21,9 @@ export default class World {
     this.listPhysicObjects = [];
     this.listNonPhysicObjects = [];
 
+    // tableau qui appelle update de toutes les instances de la classe star (pour update)
+    this.starInstances = [];
+
     this.resources = this.experience.resources;
 
     this.resources.on("ready", () => {
@@ -40,6 +43,11 @@ export default class World {
     });
   }
 
+  // methode publique pour ajouter une instance de StarTest au tableau starInstances
+  registerStarInstance(starManagerInstance) {
+    this.starInstances.push(starManagerInstance);
+  }
+
   update() {
     if (this.sceneHitBox) {
       this.sceneHitBox.update();
@@ -47,6 +55,11 @@ export default class World {
 
     for (const object of this.listNonPhysicObjects) {
       object.Mesh.update();
+    }
+
+    // update chaque instance de la classe star
+    for (const instance of this.starInstances){
+      instance.update()
     }
   }
 }

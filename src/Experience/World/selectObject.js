@@ -1,5 +1,6 @@
 import Experience from "../Experience";
 import EventEmitter from "../Utils/EventEmitter";
+import { gsap } from "gsap";
 // les objets sont crées en amont et donnés a cette classe
 
 export default class SelectObject extends EventEmitter {
@@ -30,6 +31,8 @@ export default class SelectObject extends EventEmitter {
     this.displayedModels = [];
     // objet selectionné pour le lancé
     this.objectToLaunch = null;
+
+    this.selectedObject = 0
 
     this.selectPhase = false
 
@@ -86,36 +89,51 @@ export default class SelectObject extends EventEmitter {
 
   // creer les mesh des objets selectionnées.
   createSelectedObjectsMeshes() {
+    this.wheelObjects = []
     for (let [index, object] of this.randomSelectedObjects.entries()) {
       const result = object.create();
 
-      result.model.position.set(
-        this.circlePositions[index].x,
-        this.circlePositions[index].y,
-        this.circlePositions[index].z
-      );
+      // result.model.position.set(
+      //   this.circlePositions[index].x,
+      //   this.circlePositions[index].y,
+      //   this.circlePositions[index].z
+      // );
+
+      // animation d'apparition des objets de la roue (position + scale)
+      gsap.fromTo(result.model.position, {x: 0, y: 0, z: 0,}, {x: this.circlePositions[index].x, y: this.circlePositions[index].y, z: this.circlePositions[index].z, duration: 1.5, ease: "expo.out"})
+      gsap.fromTo(result.model.scale, {x: 0, y: 0, z: 0,}, {x: result.model.scale.x, y: result.model.scale.y, z: result.model.scale.z, duration: 1.5, ease: "expo.out"})
 
       // displayed model permet de savoir quels models sont affichés
       // c'est surtout utile pour les supprimer ensuite
       this.displayedModels.push(result.model);
       this.experience.scene.add(result.model);
+      this.wheelObjects.push(result.model)
     }
   }
 
   setSelectedObjectMobile(payload) {
     const index =  payload.index;
     this.selectedObject = this.randomSelectedObjects[index];
+    console.log(this.wheelObjects)
+
     const result = this.selectedObject.create();
+    
     result.model.position.set(
       this.wheelPosition.x,
       this.wheelPosition.y,
       this.wheelPosition.z
     );
-    result.model.scale.set(
-      this.selectedObject.scale.x * 2,
-      this.selectedObject.scale.y * 2,
-      this.selectedObject.scale.z * 2
-    );
+    
+    // result.model.scale.set(
+    //   this.selectedObject.scale.x * 2,
+    //   this.selectedObject.scale.y * 2,
+    //   this.selectedObject.scale.z * 2
+    // );
+
+    // animations d'apparition puis rotation de l'objet sélectionné au centre
+    let tl = gsap.timeline()
+    tl.fromTo(result.model.scale, {x: this.selectedObject.scale.x * 1, y: this.selectedObject.scale.y * 1, z: this.selectedObject.scale.z * 1}, {x: this.selectedObject.scale.x * 2, y: this.selectedObject.scale.y * 2, z: this.selectedObject.scale.z * 2,duration: 0.25,ease: "power2.inOut"})
+    tl.to(result.model.rotation,{y: result.model.rotation.y + Math.PI * 2,duration: 3,ease: "none",repeat: -1,})
 
     if (this.currentSelectedModel) {
       this.experience.scene.remove(this.currentSelectedModel);
@@ -127,17 +145,24 @@ export default class SelectObject extends EventEmitter {
   // creer l'objet au centre
   setSelectedObject() {
     this.selectedObject = this.randomSelectedObjects[this.selectedId - 1];
+
     const result = this.selectedObject.create();
     result.model.position.set(
       this.wheelPosition.x,
       this.wheelPosition.y,
       this.wheelPosition.z
     );
-    result.model.scale.set(
-      this.selectedObject.scale.x * 2,
-      this.selectedObject.scale.y * 2,
-      this.selectedObject.scale.z * 2
-    );
+
+    // result.model.scale.set(
+    //   this.selectedObject.scale.x * 2,
+    //   this.selectedObject.scale.y * 2,
+    //   this.selectedObject.scale.z * 2
+    // );
+
+    // animations gsap apparition puis rotation de l'objet sélectionné au centre
+    let tl = gsap.timeline()
+    tl.fromTo(result.model.scale, {x: this.selectedObject.scale.x * 1, y: this.selectedObject.scale.y * 1, z: this.selectedObject.scale.z * 1}, {x: this.selectedObject.scale.x * 2, y: this.selectedObject.scale.y * 2, z: this.selectedObject.scale.z * 2,duration: 0.25,ease: "power2.inOut"})
+    tl.to(result.model.rotation,{y: result.model.rotation.y + Math.PI * 2,duration: 3,ease: "none",repeat: -1})
 
     if (this.currentSelectedModel) {
       this.experience.scene.remove(this.currentSelectedModel);

@@ -57,6 +57,9 @@ export default class SelectAndLaunch extends EventEmitter {
     this.Speaker4Textured = new Speaker4Textured();
     // this.star = new Star();
     this.starTest = new StarTest();
+    // on ajoute l'instance de la calsse au tableau d'update dans world
+    this.experience.world.registerStarInstance(this.starTest);
+
 
     objectsTypes.push(
       this.speaker1,
@@ -95,14 +98,15 @@ export default class SelectAndLaunch extends EventEmitter {
 
     // si on clique sur valide la selection.
     this.selectObject.on("objectSelected", () => {
+      this.selectObject.selectPhase = false
+
+
       this.experience.world.controlManager.currentScene = "throw";
       this.connection.sendMessage("throw")
 
       // on detruit le debug de selection dans selectObject
       // on set l'objet a lancer dans throwObject
       this.throwObject.objectToThrow = this.selectObject.objectToLaunch;
-
-      this.throwObject.createSelectedObject()
 
       // on initie la phase de lancer dans throwObject
       this.throwObject.throwPhase = true

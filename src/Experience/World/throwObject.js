@@ -1,4 +1,4 @@
-  import * as THREE from "three";
+  // import * as THREE from "three";
   import Physics from "../Utils/Physics.js";
   import Experience from "../Experience.js";
   import EventEmitter from "../Utils/EventEmitter.js";
@@ -8,7 +8,6 @@
       super();
       this.experience = new Experience();
       this.time = this.experience.time;
-      this.objectsToAnimate = this.experience.animate.objectsToAnimate
       this.mobileData = this.experience.mobileData
       this.debug = this.experience.debug;
       this.physics = new Physics();
@@ -39,100 +38,64 @@
     }
 
     addToWorld() {
-      // const result = this.objectToThrow.create();
-      // setup l'animation de l'objet si souhaité
-      // si l'objet est animé, l'ajouter à la liste des objets animés et le mettre à jour
-      if (this.result.update) {
-        this.objectToThrow.setAnimation(this.result);
-        this.objectsToAnimate.push(this.result)
-      }
+      const result = this.objectToThrow.create();
 
-      // this.experience.scene.add(result.model);
-      this.physics.world.addBody(this.result.body);
+      this.experience.scene.add(result.model);
+      this.physics.world.addBody(result.body);
 
       const speed = 2 * this.power;
-      this.result.body.velocity.set(this.angleX, this.angleY, -speed);
+      result.body.velocity.set(this.angleX, this.angleY, -speed);
 
       this.physics.objectsToUpdate.push({
-        mesh: this.result.model,
-        body: this.result.body,
+        mesh: result.model,
+        body: result.body,
       });
-
-      // let newObject;
-      // if (name === "Speaker2Hitbox") {
-      //   newObject = new Speaker2Hitbox();
-      // } else if (name === "Speaker3Hitbox") {
-      //   newObject = new Speaker3Hitbox();
-      // }
-      // const result = newObject.create();
-      // this.experience.scene.add(result.model);
-      // this.physics.world.addBody(result.body);
-      // const speed = 15 * throwPower; // m/s
-      // result.body.velocity.set(0, 0, -speed);
-      // this.physics.objectsToUpdate.push({
-      //   mesh: result.model,
-      //   body: result.body,
-      // });
     }
 
-    setEntranceAnimation(result){
-      const speed = 2; // Vitesse de suivi de la camera
-      const distanceZ = 12; 
-      const offsetY = -2;
+    // setEntranceAnimation(result){
+    //   const speed = 10; // Vitesse de suivi de la camera
+    //   const distanceZ = 12; 
+    //   const offsetY = -4;
       
-      result.entrance = (time) => {
-        if (this.throwPhase) {
-          const deltaTime = time.delta * 0.001;
+    //   result.entrance = (time) => {
+    //     if (this.throwPhase) {
+    //       const deltaTime = time.delta * 0.001;
 
-          const camera = this.experience.camera.instance; // recupere la camera
+    //       const camera = this.experience.camera.instance; // recupere la camera
           
-          const offsetVector = new THREE.Vector3(0, offsetY, -distanceZ); // position de l'objet par rapport à la caméra
-          offsetVector.applyQuaternion(camera.quaternion); // applique la rotation de la camera au vecteur
-          const target = camera.position.clone().add(offsetVector); // cible = pos camera + vecteur
+    //       const offsetVector = new THREE.Vector3(0, offsetY, -distanceZ); // position de l'objet par rapport à la caméra
+    //       offsetVector.applyQuaternion(camera.quaternion); // applique la rotation de la camera au vecteur
+    //       const target = camera.position.clone().add(offsetVector); // cible = pos camera + vecteur
 
-          // appliquer le mouvement (avec lerp)
-          result.model.position.x += (target.x - result.model.position.x) * deltaTime * speed;
-          result.model.position.y += (target.y - result.model.position.y) * deltaTime * speed;
-          result.model.position.z += (target.z - result.model.position.z) * deltaTime * speed;
-        } else {
-          const index = this.objectsToAnimate.indexOf(result);
-          if (index !== -1) {
-            this.objectsToAnimate.splice(index, 1);
-          }
-        }
-      }
-    }
-
-    createSelectedObject(){
-      this.result = this.objectToThrow.create()
-      this.result.model.position.set(0,15,35)
-      this.experience.scene.add(this.result.model)
-      this.setEntranceAnimation(this.result)
-      this.objectsToAnimate.push(this.result)
-    }
+    //       // appliquer le mouvement (avec lerp)
+    //       result.model.position.x += (target.x - result.model.position.x) * deltaTime * speed;
+    //       result.model.position.y += (target.y - result.model.position.y) * deltaTime * speed;
+    //       result.model.position.z += (target.z - result.model.position.z) * deltaTime * speed;
+    //     } else {
+    //       const index = this.objectsToAnimate.indexOf(result);
+    //       if (index !== -1) {
+    //         this.objectsToAnimate.splice(index, 1);
+    //       }
+    //     }
+    //   }
+    // }
 
     throwObject(payload) {
       const strength = payload.strength
       const angleX = payload.angleH
       const angleY = payload.angleV
-        
-      // const result = this.objectToThrow.create();
-      // setup l'animation de l'objet si souhaité
-      // si l'objet est animé, l'ajouter à la liste des objets animés et le mettre à jour
-      if (this.result.update) {
-        this.objectToThrow.setAnimation(this.result);
-        this.objectsToAnimate.push(this.result)
-      }
+
+      const result = this.objectToThrow.create();
     
-      // this.experience.scene.add(this.result.model);
-      this.physics.world.addBody(this.result.body);
+      this.experience.scene.add(result.model);
+      this.physics.world.addBody(result.body);
     
       const speed = strength * .5;
-      this.result.body.velocity.set(angleX, angleY, -speed);
+      result.body.velocity.set(angleX, angleY, -speed);
         
       this.physics.objectsToUpdate.push({
-        mesh: this.result.model,
-        body: this.result.body,
+        mesh: result.model,
+        body: result.body,
       });
     }
 

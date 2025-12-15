@@ -18,7 +18,7 @@ export default class ChoppeHitbox {
 
   setup() {
     this.positions = { x: 6.1, y: 10, z: -3.5 };
-    this.scale = { x: 1.5, y: 1.5, z: 1.5 };
+    this.scale = { x: 1, y: 1, z: 1 };
     this.rotation = { x: 0, y: -0.8, z: 0 };
     this.mass = 1.5;
     this.name = "Choppe";
