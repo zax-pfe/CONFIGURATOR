@@ -46,6 +46,7 @@ export default class SelectObject extends EventEmitter {
     this.mobileData.on("mobileSelect", (payload) => {
       if (!this.selectPhase) return;
 
+
         this.deleleteElements();
 
         this.objectToLaunch = this.selectedObject;
@@ -173,6 +174,10 @@ export default class SelectObject extends EventEmitter {
 
   deleleteElements() {
     for (let object of this.displayedModels) {
+      // console.log(object)
+      gsap.to(object.position, {x: this.wheelPosition.x, y: this.wheelPosition.y, z: this.wheelPosition.z * 10, duration: 1, ease: "power2.inOut", onComplete: () => {
+        this.experience.scene.remove(object);
+      }})
       this.experience.scene.remove(object);
     }
   }

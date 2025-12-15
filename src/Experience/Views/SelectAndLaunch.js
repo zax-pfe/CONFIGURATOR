@@ -108,6 +108,8 @@ export default class SelectAndLaunch extends EventEmitter {
       // on set l'objet a lancer dans throwObject
       this.throwObject.objectToThrow = this.selectObject.objectToLaunch;
 
+      this.throwObject.createSelectedObject()
+
       // on initie la phase de lancer dans throwObject
       this.throwObject.throwPhase = true
       // on crée le debug de lancé
