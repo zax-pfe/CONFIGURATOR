@@ -16,6 +16,7 @@ import SpeakerTextured from "../World/Object/Speakers/SpeakerTextured.js";
 import Speaker2Textured from "../World/Object/Speakers/Speaker2Textured.js";
 import Speaker3Textured from "../World/Object/Speakers/Speaker3Textured.js";
 import Speaker4Textured from "../World/Object/Speakers/Speaker4Textured.js";
+import Slingshot from "../World/Object/Slingshot/Slingshot.js"
 
 import ThrowObject from "../World/throwObject.js";
 import SelectObject from "../World/selectObject.js";
@@ -32,12 +33,13 @@ export default class SelectAndLaunch extends EventEmitter {
     this.items = {};
 
     this.setupAvailableObjects();
-
+    
     console.log("SelectAndLaunch items", this.items);
-
+    
     // initialize SelectObject and ThrowObject
+    this.slingshot = new Slingshot();
     this.selectObject = new SelectObject(this.items);
-    this.throwObject = new ThrowObject();
+    this.throwObject = new ThrowObject(this.slingshot);
   }
 
   setupAvailableObjects() {
@@ -120,6 +122,7 @@ export default class SelectAndLaunch extends EventEmitter {
       this.experience.world.controlManager.currentScene = "objectThrown";
       // une fois l'objet lancé, on detruit le debug de lancé
       this.throwObject.destroyDebug();
+      this.throwObject.destroySlingshot();
       // on recree le debug pour relancer ou passer
       this.createDebug();
       // on clean les events listeners

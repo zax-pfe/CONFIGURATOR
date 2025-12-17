@@ -2,9 +2,11 @@
   import Physics from "../Utils/Physics.js";
   import Experience from "../Experience.js";
   import EventEmitter from "../Utils/EventEmitter.js";
+  import { gsap } from "gsap";
+
 
   export default class ThrowObject extends EventEmitter {
-    constructor() {
+    constructor(slingshot) {
       super();
       this.experience = new Experience();
       this.time = this.experience.time;
@@ -12,6 +14,8 @@
       this.debug = this.experience.debug;
       this.physics = new Physics();
       this.objectsToAnimate = this.experience.animate.objectsToAnimate
+
+      this.slingshot = slingshot
 
       this.items = [];
       this.itemNames = [];
@@ -38,10 +42,10 @@
 
     }
 
-    followCamera(result){
+    followCamera(result, z, y){
       const speed = 10; // Vitesse de suivi de la camera
-      const distanceZ = 12; 
-      const offsetY = -4;
+      const distanceZ = z; 
+      const offsetY = y;
       
       result.followCam = (time) => {
         if (this.throwPhase) {
@@ -67,11 +71,20 @@
     }
 
     createSelectedObject(){
+      // object to throw
       this.result = this.objectToThrow.create()
       this.result.model.position.set(0,15,35)
       this.experience.scene.add(this.result.model)
-      this.followCamera(this.result)
+      this.followCamera(this.result, 12, -4)
       this.objectsToAnimate.push(this.result)
+
+      // slingshot
+      this.slingshotResult = this.slingshot.create()
+      this.slingshotResult.model.position.set(0,-10,75)
+      this.experience.scene.add(this.slingshotResult.model)
+      this.followCamera(this.slingshotResult, 16, -4)
+      this.objectsToAnimate.push(this.slingshotResult)
+      // console.log(this.slingshotResult)
     }
 
     throwObject(payload) {
@@ -136,7 +149,11 @@
       }
     }
 
-    update(){
-      
+    destroySlingshot(){
+      if(this.slingshotResult.model){
+        gsap.to(this.slingshotResult.model.position, {y: -5, duration: 1, ease: "power2.inOut", onComplete: () => {
+          this.experience.scene.remove(this.slingshotResult.model)
+        }})
+      }
     }
   }
