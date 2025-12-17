@@ -128,8 +128,9 @@ export default class SelectObject extends EventEmitter {
 
     // animations d'apparition puis rotation de l'objet sélectionné au centre
     let tl = gsap.timeline()
-    tl.fromTo(result.model.scale, {x: this.selectedObject.scale.x * 1, y: this.selectedObject.scale.y * 1, z: this.selectedObject.scale.z * 1}, {x: this.selectedObject.scale.x * 2, y: this.selectedObject.scale.y * 2, z: this.selectedObject.scale.z * 2,duration: 0.25,ease: "bounce.out"})
-    tl.to(result.model.rotation,{y: result.model.rotation.y + Math.PI * 2,duration: 3,ease: "none",repeat: -1,})
+    tl.fromTo(result.model.scale, {x: this.selectedObject.scale.x * 1, y: this.selectedObject.scale.y * 1, z: this.selectedObject.scale.z * 1}, {x: this.selectedObject.scale.x * 2.5, y: this.selectedObject.scale.y * 2.5, z: this.selectedObject.scale.z * 2.5,duration: 0.25,ease: "power2.inOut"})
+    tl.to(result.model.scale, {x: this.selectedObject.scale.x * 2, y: this.selectedObject.scale.y * 2, z: this.selectedObject.scale.z * 2,duration: 0.25,ease: "power2.inOut"})
+    tl.to(result.model.rotation,{y: result.model.rotation.y + Math.PI * 2,duration: 3,ease: "none",repeat: -1})
 
     if (this.currentSelectedModel) {
       this.experience.scene.remove(this.currentSelectedModel);
