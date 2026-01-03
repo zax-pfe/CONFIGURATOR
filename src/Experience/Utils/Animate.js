@@ -17,8 +17,11 @@ export default class Animate
             if (object.update) {
                 object.update(this.time)
             }
-            if (object.entrance){
-                object.entrance(this.time)
+            if (object.hover){
+                object.hover(this.time)
+            }
+            if (object.followCam){
+                object.followCam(this.time)
             }
         }
     }

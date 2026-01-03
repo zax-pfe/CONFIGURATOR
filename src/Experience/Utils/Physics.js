@@ -18,7 +18,7 @@ export default class Physics extends EventEmitter {
     this.world = new CANNON.World();
     this.world.broadphase = new CANNON.SAPBroadphase(this.world);
     this.world.allowSleep = true;
-    this.world.gravity.set(0, -3.82, 0);
+    this.world.gravity.set(0, -9.82, 0);
     this.setUpMaterial();
     this.setUpContactMaterial();
 
