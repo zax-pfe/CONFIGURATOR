@@ -1,16 +1,20 @@
+import * as THREE from "three";
 import Physics from "../Utils/Physics.js";
 import Experience from "../Experience.js";
 import EventEmitter from "../Utils/EventEmitter.js";
+import { gsap } from "gsap";
 
 export default class ThrowObject extends EventEmitter {
-  constructor() {
+  constructor(slingshot) {
     super();
     this.experience = new Experience();
     this.time = this.experience.time;
-    this.objectsToAnimate = this.experience.animate.objectsToAnimate;
     this.mobileData = this.experience.mobileData;
     this.debug = this.experience.debug;
     this.physics = new Physics();
+    this.objectsToAnimate = this.experience.animate.objectsToAnimate;
+
+    this.slingshot = slingshot;
 
     this.items = [];
     this.itemNames = [];
@@ -36,48 +40,26 @@ export default class ThrowObject extends EventEmitter {
     });
   }
 
-  addToWorld() {
-    // const result = this.objectToThrow.create();
-    // setup l'animation de l'objet si souhaité
-    // si l'objet est animé, l'ajouter à la liste des objets animés et le mettre à jour
-    if (this.result.update) {
-      this.objectToThrow.setAnimation(this.result);
-      this.objectsToAnimate.push(this.result);
-    }
+  followCamera(result, z, y) {
+    const speed = 10; // Vitesse de suivi de la camera
+    const distanceZ = z;
+    const offsetY = y;
 
-    // this.experience.scene.add(result.model);
-    this.physics.world.addBody(this.result.body);
-
-    const speed = 2 * this.power;
-    this.result.body.velocity.set(this.angleX, this.angleY, -speed);
-
-    if (this.result.music) {
-      this.experience.soundManager.startMusic(this.result.music);
-    }
-
-    this.physics.objectsToUpdate.push({
-      mesh: this.result.model,
-      body: this.result.body,
-    });
-  }
-
-  setEntranceAnimation(result) {
-    const radius = 2;
-    const speed = 1;
-
-    result.entrance = (time) => {
-      const target = { x: 0, y: 5, z: 75 };
+    result.followCam = (time) => {
       if (this.throwPhase) {
-        // const deltaTime = time.delta * 0.001;
-        const deltaTime = time.delta * 0.002;
+        const deltaTime = time.delta * 0.001;
 
-        const angleH = this.experience.mobileData.throwing.angleH;
-        const angleV = this.experience.mobileData.throwing.angleV;
+        const camera = this.experience.camera.instance; // recupere la camera
 
+        const offsetVector = new THREE.Vector3(0, offsetY, -distanceZ); // position de l'objet par rapport à la caméra
+        offsetVector.applyQuaternion(camera.quaternion); // applique la rotation de la camera au vecteur
+        const target = camera.position.clone().add(offsetVector); // cible = pos camera + vecteur
+
+        // appliquer le mouvement (avec lerp)
         result.model.position.x +=
           (target.x - result.model.position.x) * deltaTime * speed;
         result.model.position.y +=
-          (target.y - result.model.position.y) * deltaTime * speed * 2;
+          (target.y - result.model.position.y) * deltaTime * speed;
         result.model.position.z +=
           (target.z - result.model.position.z) * deltaTime * speed;
       } else {
@@ -90,11 +72,20 @@ export default class ThrowObject extends EventEmitter {
   }
 
   createSelectedObject() {
+    // object to throw
     this.result = this.objectToThrow.create();
     this.result.model.position.set(0, 15, 35);
     this.experience.scene.add(this.result.model);
-    this.setEntranceAnimation(this.result);
+    this.followCamera(this.result, 12, -4);
     this.objectsToAnimate.push(this.result);
+
+    // slingshot
+    this.slingshotResult = this.slingshot.create();
+    this.slingshotResult.model.position.set(0, -10, 75);
+    this.experience.scene.add(this.slingshotResult.model);
+    this.followCamera(this.slingshotResult, 16, -4);
+    this.objectsToAnimate.push(this.slingshotResult);
+    // console.log(this.slingshotResult)
   }
 
   throwObject(payload) {
@@ -103,18 +94,27 @@ export default class ThrowObject extends EventEmitter {
     const angleY = payload.angleV;
 
     // const result = this.objectToThrow.create();
-    // setup l'animation de l'objet si souhaité
-    // si l'objet est animé, l'ajouter à la liste des objets animés et le mettre à jour
-    if (this.result.update) {
-      this.objectToThrow.setAnimation(this.result);
-      this.objectsToAnimate.push(this.result);
-    }
 
-    // this.experience.scene.add(this.result.model);
+    // this.experience.scene.add(result.model);
     this.physics.world.addBody(this.result.body);
 
     const speed = strength * 0.5;
     this.result.body.velocity.set(angleX, angleY, -speed);
+
+    this.physics.objectsToUpdate.push({
+      mesh: this.result.model,
+      body: this.result.body,
+    });
+  }
+
+  addToWorld() {
+    // const result = this.objectToThrow.create();
+
+    // this.experience.scene.add(result.model);
+    this.physics.world.addBody(this.result.body);
+
+    const speed = 2 * this.power;
+    this.result.body.velocity.set(this.angleX, this.angleY, -speed);
 
     this.physics.objectsToUpdate.push({
       mesh: this.result.model,
@@ -150,5 +150,16 @@ export default class ThrowObject extends EventEmitter {
     }
   }
 
-  update() {}
+  destroySlingshot() {
+    if (this.slingshotResult.model) {
+      gsap.to(this.slingshotResult.model.position, {
+        y: -5,
+        duration: 1,
+        ease: "power2.inOut",
+        onComplete: () => {
+          this.experience.scene.remove(this.slingshotResult.model);
+        },
+      });
+    }
+  }
 }
