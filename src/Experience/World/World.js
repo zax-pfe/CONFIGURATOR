@@ -33,11 +33,11 @@ export default class World {
       // this.cubeGenerator = new GenerateRandomCube();
 
       // creation du public manager
-      this.publicManager = new PublicManager();
+      // this.publicManager = new PublicManager();
 
       // Création de la scene avec hitbox
       this.sceneHitBox = new SceneHitBox();
-      this.listNonPhysicObjects.push(new Scene());
+      // this.listNonPhysicObjects.push(new Scene());
       // this.listNonPhysicObjects.push(new Light({ x: -4.5, y: -2.8, z: 0 }));
       // this.listNonPhysicObjects.push(new Light({ x: 45, y: -2.8, z: 0 }));
       // this.listNonPhysicObjects.push(new Light({ x: 20, y: -5.6, z: -40 }));
@@ -69,8 +69,8 @@ export default class World {
     }
 
     // update chaque instance de la classe star
-    for (const instance of this.starInstances){
-      instance.update()
+    for (const instance of this.starInstances) {
+      instance.update();
     }
   }
 }

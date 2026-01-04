@@ -13,7 +13,7 @@ export default class PublicManager {
     // Nous permet de calculer la distance des membres du public par rapport au centre
     this.centerPostion = { x: 0, y: 0, z: 0 };
 
-    this.publicZoneMaxRadius = 50;
+    this.publicZoneMaxRadius = 100;
     this.publicZoneMinRadius = 30;
     this.maxAngle = (1 / 8) * Math.PI;
     this.minAngle = (7 / 8) * Math.PI;
@@ -21,7 +21,7 @@ export default class PublicManager {
 
     this.publicBaseSpeed = 0.03;
 
-    this.maxInstances = 2;
+    this.maxInstances = 100;
 
     // objet 3D temporaire pour positionner les instances
     this.dummy = new THREE.Object3D();
@@ -34,6 +34,10 @@ export default class PublicManager {
   init() {
     this.public = new Public();
     const test = this.public.model.children[0].children[0];
+
+    console.log("this starInstance", this.public.starInstance);
+
+    // this.public.starInstance.animationState.play("jump");
 
     // creer un instant mesh de public avec le modèle
     this.instanceMesh = new THREE.InstancedMesh(

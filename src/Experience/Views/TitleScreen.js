@@ -22,7 +22,7 @@ export default class TitleScreen extends EventEmitter {
   start() {
     // Create the title screen div
     this.titleDiv = document.createElement("div");
-    this.titleDiv.innerHTML = "Title screen";
+    // this.titleDiv.innerHTML = "Title screen";
     this.titleDiv.style.cssText = `
       position: fixed;
       top: 50%;

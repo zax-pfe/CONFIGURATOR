@@ -36,12 +36,12 @@ export default class Camera {
     this.controls = new OrbitControls(this.instance, this.canvas);
     this.controls.enableDamping = true;
 
-    this.controls.enabled = false;
+    this.controls.enabled = true;
     if (this.debug.active) {
       // Debug
       const folder = this.debug.ui.addFolder("Camera");
       this.debugObject = {
-        controlsEnabled: false,
+        controlsEnabled: true,
       };
       folder.add(this.debugObject, "controlsEnabled").onChange((e) => {
         this.controls.enabled = !this.controls.enabled;

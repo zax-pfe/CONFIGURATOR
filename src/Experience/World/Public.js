@@ -24,6 +24,10 @@ export default class Public {
     // );
 
     const result = this.startest.create();
+    this.starInstance = result;
+
+    console.log("result before", result);
+
     // this.startest.setAnimation(result);
 
     console.log("result", result);
@@ -31,7 +35,7 @@ export default class Public {
 
     this.model = result.model;
     result.animationState = "dance";
-    this.startest.setAnimation(result);
+    // this.startest.setAnimation(result);
     this.experience.animate.objectsToAnimate.push(result);
     this.animation = result.update;
 

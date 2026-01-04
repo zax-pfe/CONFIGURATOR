@@ -57,7 +57,7 @@ export default class SelectAndLaunch extends EventEmitter {
     this.speaker2textured = new Speaker2Textured();
     this.speaker3textured = new Speaker3Textured();
     this.Speaker4Textured = new Speaker4Textured();
-    this.lightBaked = new LightBaked();
+    // this.lightBaked = new LightBaked();
     // this.star = new Star();
     this.starTest = new StarTest();
     // on ajoute l'instance de la calsse au tableau d'update dans world
@@ -77,7 +77,7 @@ export default class SelectAndLaunch extends EventEmitter {
       this.speaker2textured,
       this.speaker3textured,
       this.Speaker4Textured,
-      this.lightBaked,
+      // this.lightBaked,
       // this.star,
       this.starTest
     );

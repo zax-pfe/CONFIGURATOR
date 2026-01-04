@@ -13,6 +13,7 @@ import Physics from "./Utils/Physics.js";
 import SoundManager from "./Utils/SoundManager.js";
 import MobileData from "./Utils/MobileData.js";
 import Animate from "./Utils/Animate.js";
+import Fireworks from "./World/Effects/Fireworks.js";
 
 console.log(sources);
 let instance = null;
@@ -53,6 +54,8 @@ export default class Experience {
     this.physics = new Physics();
     // Permet de gerer le sound
     this.soundManager = new SoundManager();
+    // Fireworks effect
+    this.fireworks = new Fireworks();
 
     this.animate = new Animate();
 
