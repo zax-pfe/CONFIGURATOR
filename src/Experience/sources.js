@@ -96,7 +96,7 @@ export default [
   {
     name: "StarModel",
     type: "gltfModel",
-    path: "models/Star/oyo2.glb",
+    path: "models/Star/rockstar.glb",
   },
   {
     name: "SceneModel",
@@ -121,12 +121,17 @@ export default [
   {
     name: "SpotLightModel",
     type: "gltfModel",
-    path: "models/Lights/spot.glb",
+    path: "models/Lights/spotlight.glb",
   },
   {
     name: "SpotLightModel2",
     type: "gltfModel",
-    path: "models/Lights/spot2.glb",
+    path: "models/Lights/moving-spotlight.glb",
+  },
+  {
+    name: "Laser",
+    type: "gltfModel",
+    path: "models/Lights/laser.glb",
   },
   {
     name: "sceneV4",
@@ -137,5 +142,10 @@ export default [
     name: "lightBlender",
     type: "gltfModel",
     path: "models/Effects/light.glb",
+  },
+  {
+    name: "lightTexture",
+    type: "texture",
+    path: "models/Effects/light-texture.png",
   },
 ];

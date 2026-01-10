@@ -135,6 +135,11 @@ export default class SelectObject extends EventEmitter {
     if (this.currentSelectedModel) {
       this.experience.scene.remove(this.currentSelectedModel);
     }
+
+    if (result.lightBeam) {
+      result.lightBeam.show();
+    }
+
     this.experience.scene.add(result.model);
     this.currentSelectedModel = result.model;
   }
@@ -192,6 +197,11 @@ export default class SelectObject extends EventEmitter {
     if (this.currentSelectedModel) {
       this.experience.scene.remove(this.currentSelectedModel);
     }
+
+    if (result.lightBeam) {
+      result.lightBeam.show();
+    }
+
     this.experience.scene.add(result.model);
     this.currentSelectedModel = result.model;
   }

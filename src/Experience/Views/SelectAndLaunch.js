@@ -2,6 +2,8 @@ import EventEmitter from "../Utils/EventEmitter";
 import Experience from "../Experience";
 
 import SpotLightHitbox from "../World/Object/Lights/SpotLight.js";
+import MovingSpotLightHitbox from "../World/Object/Lights/MovingLight.js";
+import Laser from "../World/Object/Lights/Laser.js";
 import Star from "../World/Object/Star/Star.js";
 import StarTest from "../World/Object/Star/StarTest.js"
 import DiscoBallHitbox from "../World/Object/RandomObjects/DiscoBall.js";
@@ -11,7 +13,6 @@ import SpeakerHitbox from "../World/Object/Speakers/SpeakerHitbox.js";
 import Speaker2Hitbox from "../World/Object/Speakers/Speaker2Hitbox.js";
 import Speaker3Hitbox from "../World/Object/Speakers/Speaker3Hitbox.js";
 import Speaker4Hitbox from "../World/Object/Speakers/Speaker4Hitbox.js";
-import SpotLightHitbox2 from "../World/Object/Lights/Spotlight2.js";
 import SpeakerTextured from "../World/Object/Speakers/SpeakerTextured.js";
 import Speaker2Textured from "../World/Object/Speakers/Speaker2Textured.js";
 import Speaker3Textured from "../World/Object/Speakers/Speaker3Textured.js";
@@ -52,7 +53,8 @@ export default class SelectAndLaunch extends EventEmitter {
     this.choppe = new ChoppeHitbox();
     this.discoBall = new DiscoBallHitbox();
     this.spotLight = new SpotLightHitbox();
-    this.spotLight2 = new SpotLightHitbox2();
+    this.movingSpotLight = new MovingSpotLightHitbox();
+    this.laser = new Laser();
     this.speaker1textured = new SpeakerTextured();
     this.speaker2textured = new Speaker2Textured();
     this.speaker3textured = new Speaker3Textured();
@@ -72,7 +74,8 @@ export default class SelectAndLaunch extends EventEmitter {
       this.choppe,
       this.discoBall,
       this.spotLight,
-      this.spotLight2,
+      this.movingSpotLight,
+      this.laser,
       this.speaker1textured,
       this.speaker2textured,
       this.speaker3textured,
