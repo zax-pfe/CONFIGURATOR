@@ -13,6 +13,7 @@ import Physics from "./Utils/Physics.js";
 import SoundManager from "./Utils/SoundManager.js";
 import MobileData from "./Utils/MobileData.js";
 import Animate from "./Utils/Animate.js";
+import Timer from "./Utils/Timer.js";
 
 console.log(sources);
 let instance = null;
@@ -58,6 +59,8 @@ export default class Experience {
 
     this.connection = new Connection();
 
+    this.gameTimer = new Timer();
+
     // Resize event
     this.sizes.on("resize", () => {
       this.resize();
@@ -93,6 +96,7 @@ export default class Experience {
     this.renderer.update();
     this.physics.update(this.time.delta);
     this.stats.stats.end();
+    this.gameTimer.update(this.time.delta);
   }
 
   destroy() {

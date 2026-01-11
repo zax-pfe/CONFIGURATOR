@@ -32,8 +32,14 @@ export default class SelectAndLaunch extends EventEmitter {
     this.experience = new Experience();
     this.debug = this.experience.debug;
     this.connection = this.experience.connection;
+    this.gameTimer = this.experience.gameTimer;
 
     this.items = {};
+    this.stars = {};
+
+    this.gameDuration = 10;
+    this.timeIsUp = false;
+    this.isStarPhase = false;
 
     this.setupAvailableObjects();
     
@@ -41,12 +47,18 @@ export default class SelectAndLaunch extends EventEmitter {
     
     // initialize SelectObject and ThrowObject
     this.slingshot = new Slingshot();
-    this.selectObject = new SelectObject(this.items);
+    this.selectObject = new SelectObject(this.items, this.stars);
     this.throwObject = new ThrowObject(this.slingshot);
+
+    this.gameTimer.on("timerEnd", () => {
+        console.log("timer end");
+        this.timeIsUp = true;
+    });
   }
 
   setupAvailableObjects() {
     const objectsTypes = [];
+    const starTypes = [];
 
     this.speaker2 = new Speaker2Hitbox();
     this.speaker3 = new Speaker3Hitbox();
@@ -87,25 +99,39 @@ export default class SelectAndLaunch extends EventEmitter {
       this.speaker2textured,
       this.speaker3textured,
       this.Speaker4Textured,
-      // this.star,
-      this.rockStar,
-      this.girlStar,
-      this.daftStar,
     );
 
     for (const object of objectsTypes) {
       this.items[object.name] = object;
     }
+
+    starTypes.push(
+      // this.star,
+      this.rockStar,
+      this.girlStar,
+      this.daftStar,
+    )
+
+    for (const star of starTypes) {
+      this.stars[star.name] = star;
+    }
   }
 
-  selectAndLaunch() {
+  selectAndLaunch(isStarPhase = false) {
+    this.isStarPhase = isStarPhase;
+
     this.experience.world.controlManager.currentScene = "select";
     // envoie message au mobile pour indiquer la phase
     this.connection.sendMessage("select")
     // creer le debug de selection de l'objet
     this.selectObject.createDebug();
+
+
     // selectionne 5 objets au hasard parmis tout les objets disponibles
-    this.selectObject.selectRandomObject();
+    // this.selectObject.selectRandomObject();
+    this.selectObject.selectObjectsOrStars(this.isStarPhase);
+
+
     // creer les mesh des objets selectionnés et les disposer en cercle
     this.selectObject.createSelectedObjectsMeshes();
     // informe que l'on est en phase de selection
@@ -142,37 +168,90 @@ export default class SelectAndLaunch extends EventEmitter {
       // on clean les events listeners
       this.selectObject.off("objectSelected");
       this.throwObject.off("objectThrown");
+
+      this.destroyDebug();
+
+      this.checkNextStep();
     });
   }
 
+  checkNextStep() {
+    // si deja en phase star = fin
+    if (this.isStarPhase) {
+        console.log("Ending Experience");
+        this.end();
+        return;
+    }
+    // phase objets et temps terminé
+    if (this.timeIsUp) {
+        console.log("Starting Star Phase (Bonus)");
+        this.createDebug(true); // debug pour Star phase
+        this.selectAndLaunch(true); // true = lance la phase Star
+    // phase objet temps pas terminé
+    } else {
+        console.log("Next normal object...");
+        this.createDebug(false); // debug normal
+        this.selectAndLaunch(false); // false = lance la phase normale
+    }
+  }
+
   start() {
-    this.selectAndLaunch();
+    // this.selectAndLaunch();
+    this.timeIsUp = false;
+    this.isStarPhase = false;
+    this.gameTimer.start(this.gameDuration);
+    this.createDebug(false);
+    this.selectAndLaunch(false);
   }
 
   end() {
     console.log("Select and Launch end called - from SelectAndLaunch");
+    this.gameTimer.stop();
+
     // Clean les events listeners
     this.selectObject.off("objectSelected");
+    this.selectObject.destroyElements();
+    this.selectObject.destroyDebug();
     this.throwObject.off("objectThrown");
+    this.throwObject.destroyObject();
+    this.throwObject.destroySlingshot();
+    this.throwObject.destroyDebug();
     this.destroyDebug();
     this.trigger("selectAndLaunchEnd");
   }
 
-  createDebug() {
+  createDebug(isStarPhase) {
     if (this.experience.debug.active) {
+      this.destroyDebug();
       this.debugFolder = this.debug.ui.addFolder("SelectAndLaunch");
 
+      // const debugObject = {
+      //   replay: () => {
+      //     this.destroyDebug();
+      //     this.selectAndLaunch();
+      //   },
+      //   pass: () => {
+      //     this.end();
+      //   },
+      // };
+
       const debugObject = {
-        replay: () => {
-          this.destroyDebug();
-          this.selectAndLaunch();
+        skipTimer: () => {
+          // force la fin du timer pour tester la transition
+          this.gameTimer.remaining = 0; // declenche timerEnd au prochain update
         },
         pass: () => {
           this.end();
         },
       };
-      this.debugFolder.add(debugObject, "replay");
-      this.debugFolder.add(debugObject, "pass");
+      
+      if (!isStarPhase) {
+          this.debugFolder.add(debugObject, "skipTimer").name("Finish Timer Now");
+      }
+      this.debugFolder.add(debugObject, "pass")
+
+      // this.debugFolder.add(debugObject, "replay");
+      // this.debugFolder.add(debugObject, "pass");
     }
   }
   destroyDebug() {

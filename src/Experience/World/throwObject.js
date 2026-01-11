@@ -29,9 +29,11 @@
       this.angleY = 0;
       this.objectToThrow = null;
 
+      // boolean pour controler la reception de la data du mobile pour le lancer
+      // si on est en phase de lancer, alors on ecoute les messages de lancer du mobile
       this.throwPhase = false;
 
-      // ecoute l'événement de réception d'un message du mobile
+      // ecoute l'événement de relachement du doigt pour lancer l'objet
       this.mobileData.on("throwRelease", (payload) => {
         if (!this.throwPhase) return;
 
@@ -149,7 +151,17 @@
       }
     }
 
+    destroyObject(){
+      if (this.result == undefined | null) return;
+      if(this.result.model){
+        gsap.to(this.result.model.position, {y: -5, duration: 1, ease: "power2.inOut", onComplete: () => {
+          this.experience.scene.remove(this.result.model)
+        }})
+      }
+    }
+
     destroySlingshot(){
+      if (this.result == undefined | null) return;
       if(this.slingshotResult.model){
         gsap.to(this.slingshotResult.model.position, {y: -5, duration: 1, ease: "power2.inOut", onComplete: () => {
           this.experience.scene.remove(this.slingshotResult.model)
