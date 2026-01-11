@@ -94,9 +94,19 @@ export default [
     path: "models/Speaker/Speaker4/4-speaker-Dynaudio.glb",
   },
   {
-    name: "StarModel",
+    name: "RockStarModel",
     type: "gltfModel",
     path: "models/Star/rockstar.glb",
+  },
+  {
+    name: "GirlStarModel",
+    type: "gltfModel",
+    path: "models/Star/girlstar.glb",
+  },
+  {
+    name: "DaftStarModel",
+    type: "gltfModel",
+    path: "models/Star/daftstar.glb",
   },
   {
     name: "SceneModel",

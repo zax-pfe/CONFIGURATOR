@@ -49,7 +49,7 @@ export default class Laser {
     this.lightMesh = new lightBeam(this.MeshHitBox.model, {
         color: 'red',
         direction: new Vector3(0.75, 0, 0),
-        radiusTop: 0.05,
+        radiusTop: 0.1,
         spreadRatio: 0,
         height: 50,
         laser: true,

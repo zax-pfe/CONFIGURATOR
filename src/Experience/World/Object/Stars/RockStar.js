@@ -3,11 +3,11 @@ import Experience from "../../../Experience.js";
 import Physics from "../../../Utils/Physics.js";
 import * as THREE from "three";
 
-export default class StarTest {
+export default class RockStar {
   constructor() {
     this.experience = new Experience();
     this.time = this.experience.time;
-    this.resource = this.experience.resources.items.StarModel;
+    this.resource = this.experience.resources.items.RockStarModel;
     this.debug = this.experience.debug;
     this.physics = new Physics();
 
@@ -24,7 +24,7 @@ export default class StarTest {
     this.scale = { x: 1, y: 1, z: 1 };
     this.rotation = { x: 0, y: 3.14, z: 0 };
     this.mass = 1;
-    this.name = "StarTest";
+    this.name = "RockStar";
     this.hitBoxType = "cylinder";
     this.activatePhysics = true;
     this.material = this.physics.stickyMaterial;

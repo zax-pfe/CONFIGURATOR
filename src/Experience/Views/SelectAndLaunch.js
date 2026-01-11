@@ -1,11 +1,13 @@
-import EventEmitter from "../Utils/EventEmitter";
-import Experience from "../Experience";
+import EventEmitter from "../Utils/EventEmitter.js";
+import Experience from "../Experience.js";
 
 import SpotLightHitbox from "../World/Object/Lights/SpotLight.js";
 import MovingSpotLightHitbox from "../World/Object/Lights/MovingLight.js";
 import Laser from "../World/Object/Lights/Laser.js";
-import Star from "../World/Object/Star/Star.js";
-import StarTest from "../World/Object/Star/StarTest.js"
+import Star from "../World/Object/Stars/Star.js";
+import RockStar from "../World/Object/Stars/RockStar.js"
+import GirlStar from "../World/Object/Stars/GirlStar.js";
+import DaftStar from "../World/Object/Stars/DaftStar.js";
 import DiscoBallHitbox from "../World/Object/RandomObjects/DiscoBall.js";
 import ChoppeHitbox from "../World/Object/RandomObjects/Choppe.js";
 import BottleHitbox from "../World/Object/RandomObjects/Bottle.js";
@@ -45,6 +47,7 @@ export default class SelectAndLaunch extends EventEmitter {
 
   setupAvailableObjects() {
     const objectsTypes = [];
+
     this.speaker2 = new Speaker2Hitbox();
     this.speaker3 = new Speaker3Hitbox();
     this.speaker1 = new SpeakerHitbox();
@@ -60,9 +63,13 @@ export default class SelectAndLaunch extends EventEmitter {
     this.speaker3textured = new Speaker3Textured();
     this.Speaker4Textured = new Speaker4Textured();
     // this.star = new Star();
-    this.starTest = new StarTest();
+    this.rockStar = new RockStar();
+    this.girlStar = new GirlStar();
+    this.daftStar = new DaftStar();
     // on ajoute l'instance de la calsse au tableau d'update dans world
-    this.experience.world.registerStarInstance(this.starTest);
+    this.experience.world.registerStarInstance(this.rockStar);
+    this.experience.world.registerStarInstance(this.girlStar);
+    this.experience.world.registerStarInstance(this.daftStar);
 
 
     objectsTypes.push(
@@ -81,7 +88,9 @@ export default class SelectAndLaunch extends EventEmitter {
       this.speaker3textured,
       this.Speaker4Textured,
       // this.star,
-      this.starTest,
+      this.rockStar,
+      this.girlStar,
+      this.daftStar,
     );
 
     for (const object of objectsTypes) {
@@ -91,6 +100,7 @@ export default class SelectAndLaunch extends EventEmitter {
 
   selectAndLaunch() {
     this.experience.world.controlManager.currentScene = "select";
+    // envoie message au mobile pour indiquer la phase
     this.connection.sendMessage("select")
     // creer le debug de selection de l'objet
     this.selectObject.createDebug();
@@ -98,15 +108,16 @@ export default class SelectAndLaunch extends EventEmitter {
     this.selectObject.selectRandomObject();
     // creer les mesh des objets selectionnés et les disposer en cercle
     this.selectObject.createSelectedObjectsMeshes();
-
+    // informe que l'on est en phase de selection
     this.selectObject.selectPhase = true
 
     // si on clique sur valide la selection.
     this.selectObject.on("objectSelected", () => {
+      // informe que l'on n'est plus en phase de selection
       this.selectObject.selectPhase = false
 
-
       this.experience.world.controlManager.currentScene = "throw";
+      // envooie message au mobile pour indiquer la phase
       this.connection.sendMessage("throw")
 
       // on detruit le debug de selection dans selectObject
@@ -115,7 +126,7 @@ export default class SelectAndLaunch extends EventEmitter {
 
       this.throwObject.createSelectedObject()
 
-      // on initie la phase de lancer dans throwObject
+      // informe que l'on est en phase de lancer
       this.throwObject.throwPhase = true
       // on crée le debug de lancé
       this.throwObject.createDebug();
