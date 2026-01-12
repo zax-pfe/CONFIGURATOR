@@ -74,7 +74,6 @@ export default class SelectAndLaunch extends EventEmitter {
     this.speaker2textured = new Speaker2Textured();
     this.speaker3textured = new Speaker3Textured();
     this.Speaker4Textured = new Speaker4Textured();
-    // this.lightBaked = new LightBaked();
     // this.star = new Star();
     this.rockStar = new RockStar();
     this.girlStar = new GirlStar();
@@ -105,7 +104,12 @@ export default class SelectAndLaunch extends EventEmitter {
       this.items[object.name] = object;
     }
 
-    starTypes.push(this.rockStar, this.girlStar, this.daftStar);
+    starTypes.push(
+      // this.star,
+      this.rockStar,
+      this.girlStar,
+      this.daftStar
+    );
 
     for (const star of starTypes) {
       this.stars[star.name] = star;

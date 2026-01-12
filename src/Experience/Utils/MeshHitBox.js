@@ -12,7 +12,6 @@ import { cloneSkinnedModel } from "./cloneSkinnedModel.js";
 
 export default class MeshHitBox {
   constructor(
-    positions,
     scale,
     rotation,
     resources,
@@ -20,7 +19,6 @@ export default class MeshHitBox {
     material,
     hitBoxType,
     name,
-    activetePhysics,
     selectedSound,
     animated
   ) {
@@ -49,12 +47,11 @@ export default class MeshHitBox {
     this.material = material;
     this.name = name;
     this.hitBoxType = hitBoxType;
-    this.activetePhysics = activetePhysics;
     this.addShadow = true;
     this.animated = animated;
 
-    this.createDebug();
     console.log("Object with hitbox initialized", this.name);
+    this.createDebug();
 
     this.setModel();
     if (this.addShadow) {
@@ -125,35 +122,25 @@ export default class MeshHitBox {
 
   createDebug() {
     if (this.debug.active) {
-      if (!this.activetePhysics) {
-        this.debugFolder = this.debug.ui.addFolder(this.name);
-        this.debugFolder
-          .add(this.rotation, "y", -Math.PI, Math.PI, 0.01)
-          .name("rotY");
-        this.debugFolder.add(this.positions, "x", -10, 10, 0.1).name("posX");
-        this.debugFolder.add(this.positions, "y", -10, 10, 0.1).name("posY");
-        this.debugFolder.add(this.positions, "z", -10, 10, 0.1).name("posZ");
-      }
+      this.debugFolder = this.debug.ui.addFolder(this.name);
+      this.debugFolder
+        .add(this.rotation, "y", -Math.PI, Math.PI, 0.01)
+        .name("rotY");
+      this.debugFolder.add(this.positions, "x", -10, 10, 0.1).name("posX");
+      this.debugFolder.add(this.positions, "y", -10, 10, 0.1).name("posY");
+      this.debugFolder.add(this.positions, "z", -10, 10, 0.1).name("posZ");
     }
   }
 
   update() {
     // Update c'est uniquement pour mettre a jour les elements dans le debug UI
     // update the model position and rotation to match the physics body
-    if (this.activetePhysics) {
-      this.model.position.copy(this.body.position);
-      this.model.quaternion.copy(this.body.quaternion);
-    } else {
-      this.model.position.set(
-        this.positions.x,
-        this.positions.y,
-        this.positions.z
-      );
-      this.model.rotation.set(
-        this.rotation.x,
-        this.rotation.y,
-        this.rotation.z
-      );
-    }
+
+    this.model.position.set(
+      this.positions.x,
+      this.positions.y,
+      this.positions.z
+    );
+    this.model.rotation.set(this.rotation.x, this.rotation.y, this.rotation.z);
   }
 }
