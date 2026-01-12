@@ -1,6 +1,8 @@
 import Experience from "../Experience";
 import * as THREE from "three";
-import StarTest from "./Object/Star/StarTest";
+// import StarTest from "./Object/Star/StarTest";
+// import Star from "../World/Object/Stars/Star";
+import RockStar from "./Object/Stars/RockStar";
 
 export default class Public {
   constructor() {
@@ -8,7 +10,8 @@ export default class Public {
     this.scene = this.experience.scene;
     this.debug = this.experience.debug;
 
-    this.startest = new StarTest();
+    this.public = new RockStar();
+    this.experience.world.registerStarInstance(this.public);
 
     this.dimmensions = { width: 0.5, height: 2, depth: 1 };
 
@@ -22,22 +25,20 @@ export default class Public {
     //   this.dimmensions.height,
     //   this.dimmensions.depth
     // );
+    console.log("Creating public instance");
+    const result = this.public.create();
 
-    const result = this.startest.create();
-    this.starInstance = result;
+    console.log("this.public.create()", result);
+    this.publicInstance = result;
 
     console.log("result before", result);
-
-    // this.startest.setAnimation(result);
-
     console.log("result", result);
-    // console.log("result model", result.model);
 
     this.model = result.model;
     result.animationState = "dance";
-    // this.startest.setAnimation(result);
-    this.experience.animate.objectsToAnimate.push(result);
-    this.animation = result.update;
+
+    // this.experience.animate.objectsToAnimate.push(result);
+    // this.animation = result.update;
 
     // this.update = result.update;
 

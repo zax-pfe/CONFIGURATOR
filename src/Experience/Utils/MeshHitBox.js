@@ -12,6 +12,7 @@ import { cloneSkinnedModel } from "./cloneSkinnedModel.js";
 
 export default class MeshHitBox {
   constructor(
+    positions,
     scale,
     rotation,
     resources,
@@ -19,7 +20,8 @@ export default class MeshHitBox {
     material,
     hitBoxType,
     name,
-    impactSound,
+    activetePhysics,
+    selectedSound,
     animated
   ) {
     //setupt the experience
@@ -29,9 +31,7 @@ export default class MeshHitBox {
 
     // setupt the sound manager
     this.soundManager = new SoundManager();
-    // this.soundManager = this.experience.soundManager;
-    // console.log("Selected sound for hitbox:", impactSound);
-    this.soundManager.impactSound = impactSound;
+    this.soundManager.selectedSound = selectedSound;
 
     // setupt the physicWorld
     this.physics = new Physics();
@@ -49,14 +49,14 @@ export default class MeshHitBox {
     this.material = material;
     this.name = name;
     this.hitBoxType = hitBoxType;
+    this.activetePhysics = activetePhysics;
     this.addShadow = true;
     this.animated = animated;
 
-    // this.createDebug();
+    this.createDebug();
+    console.log("Object with hitbox initialized", this.name);
 
     this.setModel();
-
-    // appliquer l'ombre aux enfants du modele
     if (this.addShadow) {
       this.model.traverse((child) => {
         if (child instanceof THREE.Mesh) {
@@ -69,7 +69,6 @@ export default class MeshHitBox {
 
   setModel() {
     if (this.animated) {
-      console.log("Cloning skinned model for:", this.name);
       this.model = cloneSkinnedModel(this.resources.scene);
       // this.model = this.resources.scene;
     } else {
@@ -82,20 +81,7 @@ export default class MeshHitBox {
       this.positions.y,
       this.positions.z
     );
-
-    // appliquer un Mesh Basic Material pour que les objets
-    // ne recoivent pas de lumiere pendant la selection
-    // this.model.traverse((child) => {
-    //   if (child instanceof THREE.Mesh) {
-    //     child.material = new THREE.MeshBasicMaterial({
-    //       map: child.material.map,
-    //       color: child.material.color,
-    //     });
-
-    //     child.castShadow = false;
-    //     child.receiveShadow = false;
-    //   }
-    // });
+    // this.model.updateMatrixWorld(true);
   }
 
   createHitBox() {
@@ -139,13 +125,15 @@ export default class MeshHitBox {
 
   createDebug() {
     if (this.debug.active) {
-      this.debugFolder = this.debug.ui.addFolder(this.name);
-      this.debugFolder
-        .add(this.rotation, "y", -Math.PI, Math.PI, 0.01)
-        .name("rotY");
-      this.debugFolder.add(this.positions, "x", -10, 10, 0.1).name("posX");
-      this.debugFolder.add(this.positions, "y", -10, 10, 0.1).name("posY");
-      this.debugFolder.add(this.positions, "z", -10, 10, 0.1).name("posZ");
+      if (!this.activetePhysics) {
+        this.debugFolder = this.debug.ui.addFolder(this.name);
+        this.debugFolder
+          .add(this.rotation, "y", -Math.PI, Math.PI, 0.01)
+          .name("rotY");
+        this.debugFolder.add(this.positions, "x", -10, 10, 0.1).name("posX");
+        this.debugFolder.add(this.positions, "y", -10, 10, 0.1).name("posY");
+        this.debugFolder.add(this.positions, "z", -10, 10, 0.1).name("posZ");
+      }
     }
   }
 

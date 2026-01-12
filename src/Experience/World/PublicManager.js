@@ -35,7 +35,7 @@ export default class PublicManager {
     this.public = new Public();
     const test = this.public.model.children[0].children[0];
 
-    console.log("this starInstance", this.public.starInstance);
+    console.log("this public Instance", this.public.publicInstance);
 
     // this.public.starInstance.animationState.play("jump");
 

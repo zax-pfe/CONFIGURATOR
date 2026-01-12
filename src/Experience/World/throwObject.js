@@ -29,14 +29,12 @@ export default class ThrowObject extends EventEmitter {
     this.objectToThrow = null;
 
     this.throwPhase = false;
+    // boolean pour controler la reception de la data du mobile pour le lancer
+    // si on est en phase de lancer, alors on ecoute les messages de lancer du mobile
 
-      // boolean pour controler la reception de la data du mobile pour le lancer
-      // si on est en phase de lancer, alors on ecoute les messages de lancer du mobile
-      this.throwPhase = false;
-
-      // ecoute l'événement de relachement du doigt pour lancer l'objet
-      this.mobileData.on("throwRelease", (payload) => {
-        if (!this.throwPhase) return;
+    // ecoute l'événement de relachement du doigt pour lancer l'objet
+    this.mobileData.on("throwRelease", (payload) => {
+      if (!this.throwPhase) return;
 
       this.trigger("objectThrown");
     });
@@ -123,34 +121,22 @@ export default class ThrowObject extends EventEmitter {
       body: this.result.body,
     });
   }
-
-    destroyObject(){
-      if (this.result == undefined | null) return;
-      if(this.result.model){
-        gsap.to(this.result.model.position, {y: -5, duration: 1, ease: "power2.inOut", onComplete: () => {
-          this.experience.scene.remove(this.result.model)
-        }})
-      }
-    }
-
-    destroySlingshot(){
-      if (this.result == undefined | null) return;
-      if(this.slingshotResult.model){
-        gsap.to(this.slingshotResult.model.position, {y: -5, duration: 1, ease: "power2.inOut", onComplete: () => {
-          this.experience.scene.remove(this.slingshotResult.model)
-        }})
-      }
-    }
-  }
-
-  destroyDebug() {
-    if (this.debugFolder) {
-      this.debugFolder.destroy();
-      this.debugFolder = null;
+  destroyObject() {
+    if (!this.result) return;
+    if (this.result.model) {
+      gsap.to(this.result.model.position, {
+        y: -5,
+        duration: 1,
+        ease: "power2.inOut",
+        onComplete: () => {
+          this.experience.scene.remove(this.result.model);
+        },
+      });
     }
   }
 
   destroySlingshot() {
+    if (!this.slingshotResult) return;
     if (this.slingshotResult.model) {
       gsap.to(this.slingshotResult.model.position, {
         y: -5,
@@ -160,6 +146,13 @@ export default class ThrowObject extends EventEmitter {
           this.experience.scene.remove(this.slingshotResult.model);
         },
       });
+    }
+  }
+
+  destroyDebug() {
+    if (this.debugFolder) {
+      this.debugFolder.destroy();
+      this.debugFolder = null;
     }
   }
 }

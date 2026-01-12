@@ -3,7 +3,7 @@ import * as THREE from "three";
 import fireworkVertexShader from "../../../shaders/fireworks/vertex.glsl";
 import fireworkFragmentShader from "../../../shaders/fireworks/fragment.glsl";
 
-console.log("Fireworks module loaded:", fireworkFragmentShader);
+// console.log("Fireworks module loaded:", fireworkFragmentShader);
 
 export default class Fireworks {
   constructor() {

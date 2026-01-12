@@ -4,7 +4,7 @@ import Experience from "../Experience.js";
 import SpotLightHitbox from "../World/Object/Lights/SpotLight.js";
 import MovingSpotLightHitbox from "../World/Object/Lights/MovingLight.js";
 import Laser from "../World/Object/Lights/Laser.js";
-import Star from "../World/Object/Stars/Star.js";
+// import Star from "../World/Object/Stars/Star.js";
 import RockStar from "../World/Object/Stars/RockStar.js";
 import GirlStar from "../World/Object/Stars/GirlStar.js";
 import DaftStar from "../World/Object/Stars/DaftStar.js";
@@ -105,12 +105,7 @@ export default class SelectAndLaunch extends EventEmitter {
       this.items[object.name] = object;
     }
 
-    starTypes.push(
-      // this.star,
-      this.rockStar,
-      this.girlStar,
-      this.daftStar
-    );
+    starTypes.push(this.rockStar, this.girlStar, this.daftStar);
 
     for (const star of starTypes) {
       this.stars[star.name] = star;
