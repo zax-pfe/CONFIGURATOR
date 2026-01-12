@@ -23,7 +23,8 @@ export default class Speaker2Hitbox {
     this.hitBoxType = "cylinder";
     this.activatePhysics = true;
     this.material = this.physics.slipperyMaterial;
-    this.sound = this.experience.soundManager.bambooHitSound;
+    this.sound = this.experience.soundManager.soundLibrary.hit.bamboo;
+    this.music = this.experience.soundManager.soundLibrary.drums.alternate;
   }
 
   create() {
@@ -44,6 +45,7 @@ export default class Speaker2Hitbox {
       name: this.name,
       model: this.MeshHitBox.model,
       body: this.MeshHitBox.body,
+      music: this.music,
     };
   }
 }

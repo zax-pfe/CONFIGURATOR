@@ -22,7 +22,8 @@ export default class SpeakerTextured {
     this.hitBoxType = "box";
     this.activatePhysics = true;
     this.material = this.physics.plasticMaterial;
-    this.sound = this.experience.soundManager.punchSound;
+    this.sound = this.experience.soundManager.soundLibrary.hit.bamboo;
+    this.music = this.experience.soundManager.soundLibrary.drums.alternate;
   }
 
   create() {
@@ -42,6 +43,7 @@ export default class SpeakerTextured {
       name: this.name,
       model: this.MeshHitBox.model,
       body: this.MeshHitBox.body,
+      music: this.music,
     };
   }
 }

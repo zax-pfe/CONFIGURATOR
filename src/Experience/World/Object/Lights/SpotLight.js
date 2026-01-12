@@ -1,7 +1,7 @@
 import MeshHitBox from "../../../Utils/MeshHitBox.js";
 import Experience from "../../../Experience.js";
 import Physics from "../../../Utils/Physics.js";
-import lightBeam from "./lightBeam.js"
+import lightBeam from "./lightBeam.js";
 import { Vector3 } from "three";
 
 export default class SpotLightHitbox {
@@ -30,7 +30,8 @@ export default class SpotLightHitbox {
     // the parameters of the object
     this.activatePhysics = true;
     this.material = this.physics.plasticMaterial;
-    this.sound = this.experience.soundManager.punchSound;
+    this.sound = this.experience.soundManager.soundLibrary.hit.bamboo;
+    this.music = this.experience.soundManager.soundLibrary.drums.alternate;
   }
 
   create() {
@@ -47,18 +48,19 @@ export default class SpotLightHitbox {
       this.sound
     );
     this.lightMesh = new lightBeam(this.MeshHitBox.model, {
-        color: 'green',
-        direction: new Vector3(0.75, 0, 0),
-        radiusTop: 0.65,
-        spreadRatio: 0.2175,
-        height: 20,
-        laser: false,
+      color: "green",
+      direction: new Vector3(0.75, 0, 0),
+      radiusTop: 0.65,
+      spreadRatio: 0.2175,
+      height: 20,
+      laser: false,
     });
     return {
       name: this.name,
       model: this.MeshHitBox.model,
       body: this.MeshHitBox.body,
-      lightBeam: this.lightMesh
+      music: this.music,
+      lightBeam: this.lightMesh,
     };
   }
 }

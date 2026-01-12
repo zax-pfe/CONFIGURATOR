@@ -158,4 +158,9 @@ export default [
     type: "texture",
     path: "models/Effects/light-texture.png",
   },
+  {
+    name: "SceneFinalModel",
+    type: "gltfModel",
+    path: "models/Scene/sceneFinal.glb",
+  },
 ];

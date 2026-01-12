@@ -6,15 +6,20 @@ export default class ShowExperience extends EventEmitter {
     super();
     this.experience = new Experience();
     this.debug = this.experience.debug;
+    this.soundManager = this.experience.soundManager;
     this.connection = this.experience.connection;
   }
 
   start() {
     console.log("Show Experience start from ShowExperience");
+    this.soundManager.playSelectedMusics();
     this.createDebug();
   }
 
   end() {
+    this.soundManager.stopSelectedMusics();
+    this.soundManager.selectedObjectsMusic = {};
+
     console.log("Show Experience end called - from ShowExperience");
     this.trigger("showExperienceEnd");
     this.destroyDebug();

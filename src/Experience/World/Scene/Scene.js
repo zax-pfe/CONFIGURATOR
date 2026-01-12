@@ -7,6 +7,7 @@ export default class Scene {
     // setupt the experience
     this.experience = new Experience();
     this.scene = this.experience.scene;
+    // this.resource = this.experience.resources.items.SceneFinalModel;
     this.resource = this.experience.resources.items.sceneV4;
 
     this.setup();

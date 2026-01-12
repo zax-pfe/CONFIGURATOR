@@ -25,7 +25,8 @@ export default class Speaker4Textured {
     // the parameters of the object
     this.activatePhysics = true;
     this.material = this.physics.slipperyMaterial;
-    this.sound = this.experience.soundManager.punchSound;
+    this.sound = this.experience.soundManager.soundLibrary.hit.bamboo;
+    this.music = this.experience.soundManager.soundLibrary.drums.alternate;
   }
 
   create(position = { x: 0, y: 10, z: 0 }) {
@@ -46,8 +47,9 @@ export default class Speaker4Textured {
       name: this.name,
       model: this.MeshHitBox.model,
       body: this.MeshHitBox.body,
+      music: this.music,
     };
   }
 
-  delete() {}
+  // delete() {}
 }

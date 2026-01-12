@@ -26,7 +26,10 @@ export default class BottleHitbox {
     // the parameters of the object
     this.activatePhysics = true;
     this.material = this.physics.plasticMaterial;
-    this.sound = this.experience.soundManager.punchSound;
+    this.sound = this.experience.soundManager.soundLibrary.hit.hit;
+    // console.log("Bottle hit sound", this.sound);
+    this.music = null;
+    this.music = this.experience.soundManager.soundLibrary.drums.alternate;
   }
 
   create() {
@@ -40,12 +43,15 @@ export default class BottleHitbox {
       this.hitBoxType,
       this.name,
       this.activatePhysics,
-      this.sound
+      this.sound,
+      null,
+      this.music
     );
     return {
       name: this.name,
       model: this.MeshHitBox.model,
       body: this.MeshHitBox.body,
+      music: this.music,
     };
   }
 }

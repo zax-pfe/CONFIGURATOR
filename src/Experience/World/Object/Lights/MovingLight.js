@@ -30,8 +30,7 @@ export default class MovingSpotLightHitbox {
     // the parameters of the object
     this.activatePhysics = true;
     this.material = this.physics.stickyMaterial;
-    this.sound = this.experience.soundManager.punchSound;
-
+    this.sound = this.experience.soundManager.soundLibrary.hit.bamboo;
   }
 
   create() {
@@ -48,18 +47,18 @@ export default class MovingSpotLightHitbox {
       this.sound
     );
     this.lightMesh = new lightBeam(this.MeshHitBox.model, {
-        color: 'pink',
-        direction: new Vector3(-0.725, -1, 0),
-        radiusTop: 0.02,
-        spreadRatio: 0.1750,
-        height: 20,
-        laser: false,
+      color: "pink",
+      direction: new Vector3(-0.725, -1, 0),
+      radiusTop: 0.02,
+      spreadRatio: 0.175,
+      height: 20,
+      laser: false,
     });
     return {
       name: this.name,
       model: this.MeshHitBox.model,
       body: this.MeshHitBox.body,
-      lightBeam: this.lightMesh
+      lightBeam: this.lightMesh,
     };
   }
 }

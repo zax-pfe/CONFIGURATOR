@@ -28,7 +28,10 @@ export default class DiscoBallHitbox {
     // the parameters of the object
     this.activatePhysics = true;
     this.material = this.physics.stickyMaterial;
-    this.sound = this.experience.soundManager.hitSound;
+    this.sound = this.experience.soundManager.soundLibrary.hit.bamboo;
+    // console.log("DiscoBall hit sound", this.sound);
+    this.music = this.experience.soundManager.soundLibrary.drums.alternate;
+    // console.log("DiscoBall music", this.music);
   }
 
   create() {
@@ -42,12 +45,15 @@ export default class DiscoBallHitbox {
       this.hitBoxType,
       this.name,
       this.activatePhysics,
-      this.sound
+      this.sound,
+      null,
+      this.music
     );
     return {
       name: this.name,
       model: this.MeshHitBox.model,
       body: this.MeshHitBox.body,
+      music: this.music,
     };
   }
 }

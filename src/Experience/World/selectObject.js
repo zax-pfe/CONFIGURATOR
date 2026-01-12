@@ -10,7 +10,8 @@ export default class SelectObject extends EventEmitter {
     this.experience = new Experience();
     this.scene = this.experience.scene;
     this.debug = this.experience.debug;
-    this.mobileData = this.experience.mobileData
+    this.soundManager = this.experience.soundManager;
+    this.mobileData = this.experience.mobileData;
 
     // liste des objets pouvant etre selectionnés
     this.objects = objects;
@@ -19,11 +20,18 @@ export default class SelectObject extends EventEmitter {
     // PARAMETER OF THE WHEEL
     this.wheelRadius = 8;
     this.wheelPosition = { x: 0, y: 15, z: 35 };
-    
+
     this.numberOfObjects = 5;
-    
+
     this.angleStep = (2 * Math.PI) / this.numberOfObjects;
     this.circlePositions = this.generateCirclePositions();
+
+    //MUSIC
+    // dictionnaire avec les musiques selectionnée des objets.
+    this.selectedObjectsMusic = this.soundManager.selectedObjectsMusic;
+    // variable qui stocke la musique de l'objet au centre
+    // pour la jouter et la stop
+    this.currentSelectedMusic = null;
 
     // parameter of the objet selector
     // ID of the selected object
@@ -35,33 +43,36 @@ export default class SelectObject extends EventEmitter {
     // objet selectionné pour le lancé
     this.objectToLaunch = null;
 
-    this.selectedObject = 0
+    this.selectedObject = 0;
 
     // boolean pour controler la reception de la data du mobile pour le lancer
     // si on est en phase de selection, alors on ecoute les messages de sélection du mobile
-    this.selectPhase = false
+    this.selectPhase = false;
 
     // quand l'utilisateur survole un objet sur le mobile
     this.mobileData.on("mobileHover", (payload) => {
       if (!this.selectPhase) return;
 
-      this.setSelectedObjectMobile(payload)
-
+      this.setSelectedObjectMobile(payload);
     });
 
-    // quand l'utilisateurselectionne un objet sur le mobile 
+    // quand l'utilisateurselectionne un objet sur le mobile
     this.mobileData.on("mobileSelect", (payload) => {
       if (!this.selectPhase) return;
 
-        this.deleteElements();
+      this.deleteElements();
 
-        this.objectToLaunch = this.selectedObject;
-        if (this.currentSelectedModel) {
-          this.experience.scene.remove(this.currentSelectedModel);
-        }
-        this.destroyDebug();
-
-        this.trigger("objectSelected");
+      this.objectToLaunch = this.selectedObject;
+      if (this.currentSelectedModel) {
+        this.experience.scene.remove(this.currentSelectedModel);
+      }
+      this.destroyDebug();
+      // clean the music playing
+      this.currentSelectedMusic?.pause();
+      this.currentSelectedMusic = null;
+      this.selectedObjectsMusic[this.selectedObject.name] =
+        this.currentSelectedMusic;
+      this.trigger("objectSelected");
     });
   }
 
@@ -117,7 +128,7 @@ export default class SelectObject extends EventEmitter {
 
   // creer les mesh des objets selectionnées.
   createSelectedObjectsMeshes() {
-    this.wheelObjects = []
+    this.wheelObjects = [];
 
     for (let [index, object] of this.randomSelectedObjects.entries()) {
       const result = object.create();
@@ -125,25 +136,45 @@ export default class SelectObject extends EventEmitter {
       const originalRotation = result.model.rotation.clone();
 
       // animation d'apparition des objets de la roue (position + scale)
-      gsap.fromTo(result.model.position, {x: 0, y: 0, z: 0,}, {x: this.circlePositions[index].x, y: this.circlePositions[index].y, z: this.circlePositions[index].z, duration: 1.5, ease: "expo.out"})
-      gsap.fromTo(result.model.scale, {x: 0, y: 0, z: 0,}, {x: result.model.scale.x, y: result.model.scale.y, z: result.model.scale.z, duration: 1.5, ease: "expo.out"})
+      gsap.fromTo(
+        result.model.position,
+        { x: 0, y: 0, z: 0 },
+        {
+          x: this.circlePositions[index].x,
+          y: this.circlePositions[index].y,
+          z: this.circlePositions[index].z,
+          duration: 1.5,
+          ease: "expo.out",
+        }
+      );
+      gsap.fromTo(
+        result.model.scale,
+        { x: 0, y: 0, z: 0 },
+        {
+          x: result.model.scale.x,
+          y: result.model.scale.y,
+          z: result.model.scale.z,
+          duration: 1.5,
+          ease: "expo.out",
+        }
+      );
 
       // displayed model permet de savoir quels models sont affichés
       // c'est surtout utile pour les supprimer ensuite
       this.displayedModels.push(result.model);
       this.experience.scene.add(result.model);
       this.wheelObjects.push({
-        model: result.model, 
-        rotation: originalRotation
-      })
+        model: result.model,
+        rotation: originalRotation,
+      });
     }
   }
 
   setSelectedObjectMobile(payload) {
-    const index =  payload.index;
+    const index = payload.index;
     this.selectedObject = this.randomSelectedObjects[index];
 
-    this.tiltSelectedObject(index)
+    this.tiltSelectedObject(index);
 
     const result = this.selectedObject.create();
     result.model.position.set(
@@ -152,12 +183,36 @@ export default class SelectObject extends EventEmitter {
       this.wheelPosition.z
     );
 
-
     // animations d'apparition puis rotation de l'objet sélectionné au centre
-    let tl = gsap.timeline()
-    tl.fromTo(result.model.scale, {x: this.selectedObject.scale.x * 1, y: this.selectedObject.scale.y * 1, z: this.selectedObject.scale.z * 1}, {x: this.selectedObject.scale.x * 2.5, y: this.selectedObject.scale.y * 2.5, z: this.selectedObject.scale.z * 2.5,duration: 0.25,ease: "power2.inOut"})
-    tl.to(result.model.scale, {x: this.selectedObject.scale.x * 2, y: this.selectedObject.scale.y * 2, z: this.selectedObject.scale.z * 2,duration: 0.25,ease: "power2.inOut"})
-    tl.to(result.model.rotation,{y: result.model.rotation.y + Math.PI * 2,duration: 3,ease: "none",repeat: -1})
+    let tl = gsap.timeline();
+    tl.fromTo(
+      result.model.scale,
+      {
+        x: this.selectedObject.scale.x * 1,
+        y: this.selectedObject.scale.y * 1,
+        z: this.selectedObject.scale.z * 1,
+      },
+      {
+        x: this.selectedObject.scale.x * 2.5,
+        y: this.selectedObject.scale.y * 2.5,
+        z: this.selectedObject.scale.z * 2.5,
+        duration: 0.25,
+        ease: "power2.inOut",
+      }
+    );
+    tl.to(result.model.scale, {
+      x: this.selectedObject.scale.x * 2,
+      y: this.selectedObject.scale.y * 2,
+      z: this.selectedObject.scale.z * 2,
+      duration: 0.25,
+      ease: "power2.inOut",
+    });
+    tl.to(result.model.rotation, {
+      y: result.model.rotation.y + Math.PI * 2,
+      duration: 3,
+      ease: "none",
+      repeat: -1,
+    });
 
     if (this.currentSelectedModel) {
       this.experience.scene.remove(this.currentSelectedModel);
@@ -171,34 +226,33 @@ export default class SelectObject extends EventEmitter {
     this.currentSelectedModel = result.model;
   }
 
-  tiltSelectedObject(index){
-    const tiltAngle = -0.5; 
+  tiltSelectedObject(index) {
+    const tiltAngle = -0.5;
 
     for (let i = 0; i < this.wheelObjects.length; i++) {
       const objectData = this.wheelObjects[i];
-      
+
       if (i === index) {
-        
         gsap.to(objectData.model.rotation, {
-            x: objectData.rotation.x, // On garde x et y fixes
-            y: objectData.rotation.y, 
-            z: objectData.rotation.z + tiltAngle, // On ajoute l'inclinaison à la base
-            duration: 0.5, 
-            ease: "back.out(1.7)" // Petit effet de rebond sympa
+          x: objectData.rotation.x, // On garde x et y fixes
+          y: objectData.rotation.y,
+          z: objectData.rotation.z + tiltAngle, // On ajoute l'inclinaison à la base
+          duration: 0.5,
+          ease: "back.out(1.7)", // Petit effet de rebond sympa
         });
       } else {
         // Pour les objets NON sélectionnés : Retour à la position neutre
 
         // 1. Reset Rotation
         gsap.to(objectData.model.rotation, {
-            x: objectData.rotation.x,
-            y: objectData.rotation.y,
-            z: objectData.rotation.z, // Retour à la rotation d'origine sauvegardée
-            duration: 0.5,
-            ease: "power2.out"
+          x: objectData.rotation.x,
+          y: objectData.rotation.y,
+          z: objectData.rotation.z, // Retour à la rotation d'origine sauvegardée
+          duration: 0.5,
+          ease: "power2.out",
         });
       }
-    }  
+    }
   }
 
   // creer l'objet au centre
@@ -206,7 +260,7 @@ export default class SelectObject extends EventEmitter {
     this.selectedObject = this.randomSelectedObjects[this.selectedId - 1];
 
     // animation inclinaison de l'objet sélectionné dans la roue
-    this.tiltSelectedObject(this.selectedId - 1)
+    this.tiltSelectedObject(this.selectedId - 1);
 
     const result = this.selectedObject.create();
     result.model.position.set(
@@ -215,11 +269,50 @@ export default class SelectObject extends EventEmitter {
       this.wheelPosition.z
     );
 
+    // Si l'objet a une musique associée, quand l'objet change
+    // on joue la musique et reset le temps
+    if (result.music) {
+      this.currentSelectedMusic = result.music;
+      this.currentSelectedMusic.volume = 0.1;
+      this.currentSelectedMusic.currentTime = 0;
+      this.currentSelectedMusic.loop = true;
+      this.currentSelectedMusic.play();
+    } else {
+      // sinon on stop la musique courante
+      this.currentSelectedMusic?.pause();
+      this.currentSelectedMusic = null;
+    }
+
     // animations gsap apparition puis rotation de l'objet sélectionné au centre
-    let tl = gsap.timeline()
-    tl.fromTo(result.model.scale, {x: this.selectedObject.scale.x * 1, y: this.selectedObject.scale.y * 1, z: this.selectedObject.scale.z * 1}, {x: this.selectedObject.scale.x * 2.5, y: this.selectedObject.scale.y * 2.5, z: this.selectedObject.scale.z * 2.5,duration: 0.25,ease: "power2.inOut"})
-    tl.to(result.model.scale, {x: this.selectedObject.scale.x * 2, y: this.selectedObject.scale.y * 2, z: this.selectedObject.scale.z * 2,duration: 0.25,ease: "power2.inOut"})
-    tl.to(result.model.rotation,{y: result.model.rotation.y + Math.PI * 2,duration: 3,ease: "none",repeat: -1})
+    let tl = gsap.timeline();
+    tl.fromTo(
+      result.model.scale,
+      {
+        x: this.selectedObject.scale.x * 1,
+        y: this.selectedObject.scale.y * 1,
+        z: this.selectedObject.scale.z * 1,
+      },
+      {
+        x: this.selectedObject.scale.x * 2.5,
+        y: this.selectedObject.scale.y * 2.5,
+        z: this.selectedObject.scale.z * 2.5,
+        duration: 0.25,
+        ease: "power2.inOut",
+      }
+    );
+    tl.to(result.model.scale, {
+      x: this.selectedObject.scale.x * 2,
+      y: this.selectedObject.scale.y * 2,
+      z: this.selectedObject.scale.z * 2,
+      duration: 0.25,
+      ease: "power2.inOut",
+    });
+    tl.to(result.model.rotation, {
+      y: result.model.rotation.y + Math.PI * 2,
+      duration: 3,
+      ease: "none",
+      repeat: -1,
+    });
 
     if (this.currentSelectedModel) {
       this.experience.scene.remove(this.currentSelectedModel);
@@ -235,9 +328,16 @@ export default class SelectObject extends EventEmitter {
 
   deleteElements() {
     for (let object of this.displayedModels) {
-      gsap.to(object.position, {x: this.wheelPosition.x, y: this.wheelPosition.y, z: this.wheelPosition.z * 10, duration: 1, ease: "power2.inOut", onComplete: () => {
-        this.experience.scene.remove(object);
-      }})
+      gsap.to(object.position, {
+        x: this.wheelPosition.x,
+        y: this.wheelPosition.y,
+        z: this.wheelPosition.z * 10,
+        duration: 1,
+        ease: "power2.inOut",
+        onComplete: () => {
+          this.experience.scene.remove(object);
+        },
+      });
       // this.experience.scene.remove(object);
     }
   }
@@ -262,7 +362,16 @@ export default class SelectObject extends EventEmitter {
             this.experience.scene.remove(this.currentSelectedModel);
           }
           this.destroyDebug();
+
+          // clean the music playing
           this.trigger("objectSelected");
+          if (this.currentSelectedMusic) {
+            this.selectedObjectsMusic[this.selectedObject.name] =
+              this.currentSelectedMusic;
+          }
+          this.currentSelectedMusic?.pause();
+          this.currentSelectedMusic = null;
+          console.log("selected music", this.selectedObjectsMusic);
         },
       };
       this.debugFolder.add(debugObject, "validateChoice");
@@ -276,16 +385,30 @@ export default class SelectObject extends EventEmitter {
     }
   }
 
-  destroyElements(){
+  destroyElements() {
     if (this.currentSelectedModel) {
-      gsap.to(this.currentSelectedModel.position, {x: this.wheelPosition.x, y: this.wheelPosition.y, z: this.wheelPosition.z * 10, duration: 1, ease: "power2.inOut", onComplete: () => {
-        this.experience.scene.remove(this.currentSelectedModel);
-      }})
+      gsap.to(this.currentSelectedModel.position, {
+        x: this.wheelPosition.x,
+        y: this.wheelPosition.y,
+        z: this.wheelPosition.z * 10,
+        duration: 1,
+        ease: "power2.inOut",
+        onComplete: () => {
+          this.experience.scene.remove(this.currentSelectedModel);
+        },
+      });
     }
     for (let object of this.displayedModels) {
-      gsap.to(object.position, {x: this.wheelPosition.x, y: this.wheelPosition.y, z: this.wheelPosition.z * 10, duration: 1, ease: "power2.inOut", onComplete: () => {
-        this.experience.scene.remove(object);
-      }})
+      gsap.to(object.position, {
+        x: this.wheelPosition.x,
+        y: this.wheelPosition.y,
+        z: this.wheelPosition.z * 10,
+        duration: 1,
+        ease: "power2.inOut",
+        onComplete: () => {
+          this.experience.scene.remove(object);
+        },
+      });
     }
   }
 }

@@ -6,7 +6,6 @@ import { threeToCannon, ShapeType } from "three-to-cannon";
 import SoundManager from "../Utils/SoundManager.js";
 import { cloneSkinnedModel } from "./cloneSkinnedModel.js";
 
-
 // PERMET DE CREER UN OBJET 3D AVEC HITBOX PHYSIQUE
 // prend en parametre modele glb
 // default position, scale, rotation, mass, default material
@@ -23,7 +22,8 @@ export default class MeshHitBox {
     name,
     activetePhysics,
     selectedSound,
-    animated
+    animated,
+    music = null
   ) {
     //setupt the experience
     this.experience = new Experience();
@@ -32,7 +32,13 @@ export default class MeshHitBox {
 
     // setupt the sound manager
     this.soundManager = new SoundManager();
-    this.soundManager.selectedSound = selectedSound;
+    this.soundManager.impactSound = selectedSound;
+    // console.log("Selected sound in MeshHitBox:", this.soundManager.impactSound);
+    // console.log("Music in MeshHitBox:", music);
+
+    if (music) {
+      this.soundManager.playSound = music;
+    }
 
     // setupt the physicWorld
     this.physics = new Physics();
@@ -52,7 +58,7 @@ export default class MeshHitBox {
     this.hitBoxType = hitBoxType;
     this.activetePhysics = activetePhysics;
     this.addShadow = true;
-    this.animated = animated
+    this.animated = animated;
 
     this.createDebug();
     console.log("Object with hitbox initialized", this.name);
