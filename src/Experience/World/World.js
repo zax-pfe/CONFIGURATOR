@@ -50,7 +50,7 @@ export default class World {
     });
   }
 
-  // methode publique pour ajouter une instance de StarTest au tableau starInstances
+  // methode publique pour ajouter une instance de Star au tableau starInstances
   registerStarInstance(starManagerInstance) {
     this.starInstances.push(starManagerInstance);
   }

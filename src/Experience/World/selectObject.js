@@ -4,7 +4,7 @@ import { gsap } from "gsap";
 // les objets sont crées en amont et donnés a cette classe
 
 export default class SelectObject extends EventEmitter {
-  constructor(objects) {
+  constructor(objects, stars) {
     super();
 
     this.experience = new Experience();
@@ -14,11 +14,14 @@ export default class SelectObject extends EventEmitter {
 
     // liste des objets pouvant etre selectionnés
     this.objects = objects;
+    this.stars = stars;
 
     // PARAMETER OF THE WHEEL
     this.wheelRadius = 8;
     this.wheelPosition = { x: 0, y: 15, z: 35 };
+    
     this.numberOfObjects = 5;
+    
     this.angleStep = (2 * Math.PI) / this.numberOfObjects;
     this.circlePositions = this.generateCirclePositions();
 
@@ -34,8 +37,11 @@ export default class SelectObject extends EventEmitter {
 
     this.selectedObject = 0
 
+    // boolean pour controler la reception de la data du mobile pour le lancer
+    // si on est en phase de selection, alors on ecoute les messages de sélection du mobile
     this.selectPhase = false
 
+    // quand l'utilisateur survole un objet sur le mobile
     this.mobileData.on("mobileHover", (payload) => {
       if (!this.selectPhase) return;
 
@@ -43,11 +49,11 @@ export default class SelectObject extends EventEmitter {
 
     });
 
+    // quand l'utilisateurselectionne un objet sur le mobile 
     this.mobileData.on("mobileSelect", (payload) => {
       if (!this.selectPhase) return;
 
-
-        this.deleleteElements();
+        this.deleteElements();
 
         this.objectToLaunch = this.selectedObject;
         if (this.currentSelectedModel) {
@@ -60,15 +66,36 @@ export default class SelectObject extends EventEmitter {
   }
 
   // selectionner des objets au hasard
-  selectRandomObject() {
-    this.randomSelectedObjects = [];
-    const copyList = [...Object.values(this.objects)];
+  // selectRandomObject() {
+  //   this.randomSelectedObjects = [];
+  //   const copyList = [...Object.values(this.objects)];
 
-    for (let i = 0; i < this.numberOfObjects && copyList.length > 0; i++) {
-      const randomIndex = Math.floor(Math.random() * copyList.length);
-      this.randomSelectedObjects.push(copyList[randomIndex]);
-      copyList.splice(randomIndex, 1);
+  //   for (let i = 0; i < this.numberOfObjects && copyList.length > 0; i++) {
+  //     const randomIndex = Math.floor(Math.random() * copyList.length);
+  //     this.randomSelectedObjects.push(copyList[randomIndex]);
+  //     copyList.splice(randomIndex, 1);
+  //   }
+  // }
+
+  selectObjectsOrStars(isStarPhase = false) {
+    this.randomSelectedObjects = [];
+
+    if (isStarPhase) {
+      this.numberOfObjects = 3;
+      const copyList = [...Object.values(this.stars)];
+      this.randomSelectedObjects = copyList;
+    } else {
+      this.numberOfObjects = 5;
+      const copyList = [...Object.values(this.objects)];
+      for (let i = 0; i < this.numberOfObjects && copyList.length > 0; i++) {
+        const randomIndex = Math.floor(Math.random() * copyList.length);
+        this.randomSelectedObjects.push(copyList[randomIndex]);
+        copyList.splice(randomIndex, 1);
+      }
     }
+
+    this.angleStep = (2 * Math.PI) / this.numberOfObjects;
+    this.circlePositions = this.generateCirclePositions();
   }
 
   generateCirclePositions() {
@@ -135,6 +162,11 @@ export default class SelectObject extends EventEmitter {
     if (this.currentSelectedModel) {
       this.experience.scene.remove(this.currentSelectedModel);
     }
+
+    if (result.lightBeam) {
+      result.lightBeam.show();
+    }
+
     this.experience.scene.add(result.model);
     this.currentSelectedModel = result.model;
   }
@@ -192,11 +224,16 @@ export default class SelectObject extends EventEmitter {
     if (this.currentSelectedModel) {
       this.experience.scene.remove(this.currentSelectedModel);
     }
+
+    if (result.lightBeam) {
+      result.lightBeam.show();
+    }
+
     this.experience.scene.add(result.model);
     this.currentSelectedModel = result.model;
   }
 
-  deleleteElements() {
+  deleteElements() {
     for (let object of this.displayedModels) {
       gsap.to(object.position, {x: this.wheelPosition.x, y: this.wheelPosition.y, z: this.wheelPosition.z * 10, duration: 1, ease: "power2.inOut", onComplete: () => {
         this.experience.scene.remove(object);
@@ -219,7 +256,7 @@ export default class SelectObject extends EventEmitter {
       // add function to delete the object
       const debugObject = {
         validateChoice: () => {
-          this.deleleteElements();
+          this.deleteElements();
           this.objectToLaunch = this.selectedObject;
           if (this.currentSelectedModel) {
             this.experience.scene.remove(this.currentSelectedModel);
@@ -236,6 +273,19 @@ export default class SelectObject extends EventEmitter {
     if (this.debugFolder) {
       this.debugFolder.destroy();
       this.debugFolder = null;
+    }
+  }
+
+  destroyElements(){
+    if (this.currentSelectedModel) {
+      gsap.to(this.currentSelectedModel.position, {x: this.wheelPosition.x, y: this.wheelPosition.y, z: this.wheelPosition.z * 10, duration: 1, ease: "power2.inOut", onComplete: () => {
+        this.experience.scene.remove(this.currentSelectedModel);
+      }})
+    }
+    for (let object of this.displayedModels) {
+      gsap.to(object.position, {x: this.wheelPosition.x, y: this.wheelPosition.y, z: this.wheelPosition.z * 10, duration: 1, ease: "power2.inOut", onComplete: () => {
+        this.experience.scene.remove(object);
+      }})
     }
   }
 }

@@ -94,9 +94,19 @@ export default [
     path: "models/Speaker/Speaker4/4-speaker-Dynaudio.glb",
   },
   {
-    name: "StarModel",
+    name: "RockStarModel",
     type: "gltfModel",
-    path: "models/Star/oyo2.glb",
+    path: "models/Star/rockstar.glb",
+  },
+  {
+    name: "GirlStarModel",
+    type: "gltfModel",
+    path: "models/Star/girlstar.glb",
+  },
+  {
+    name: "DaftStarModel",
+    type: "gltfModel",
+    path: "models/Star/daftstar.glb",
   },
   {
     name: "SceneModel",
@@ -121,12 +131,17 @@ export default [
   {
     name: "SpotLightModel",
     type: "gltfModel",
-    path: "models/Lights/spot.glb",
+    path: "models/Lights/spotlight.glb",
   },
   {
     name: "SpotLightModel2",
     type: "gltfModel",
-    path: "models/Lights/spot2.glb",
+    path: "models/Lights/moving-spotlight.glb",
+  },
+  {
+    name: "Laser",
+    type: "gltfModel",
+    path: "models/Lights/laser.glb",
   },
   {
     name: "sceneV4",
@@ -139,29 +154,8 @@ export default [
     path: "models/Effects/light.glb",
   },
   {
-    name: "sceneV5",
-    type: "gltfModel",
-    path: "models/Scene/sceneV5.glb",
+    name: "lightTexture",
+    type: "texture",
+    path: "models/Effects/light-texture.png",
   },
-  {
-    name: "sceneV6",
-    type: "gltfModel",
-    path: "models/Scene/sceneV6.glb",
-  },
-  {
-    name: "sceneV7",
-    type: "gltfModel",
-    path: "models/Scene/sceneV7.glb",
-  },
-
-  {
-    name: "lightBaked",
-    type: "gltfModel",
-    path: "models/Lights/lasuperlightdas.glb",
-  },
-  // {
-  //   name: "lampeSol",
-  //   type: "gltfModel",
-  //   path: "models/Lights/LampeSol.glb",
-  // },
 ];

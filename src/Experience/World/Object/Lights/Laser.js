@@ -1,15 +1,15 @@
 import MeshHitBox from "../../../Utils/MeshHitBox.js";
 import Experience from "../../../Experience.js";
 import Physics from "../../../Utils/Physics.js";
-import lightBeam from "./lightBeam.js";
+import lightBeam from "./lightBeam.js"
 import { Vector3 } from "three";
 
-export default class SpotLightHitbox {
+export default class Laser {
   constructor() {
     // setupt the experience
     this.experience = new Experience();
     this.scene = this.experience.scene;
-    this.resource = this.experience.resources.items.SpotLightModel;
+    this.resource = this.experience.resources.items.Laser;
 
     // setupt the physicWorld
     this.physics = new Physics();
@@ -23,14 +23,19 @@ export default class SpotLightHitbox {
     this.scale = { x: 0.75, y: 0.75, z: 0.75 };
     this.rotation = { x: 0, y: 0, z: 0 };
     this.mass = 0.5;
-    this.name = "SpotLight";
+    this.name = "Laser";
     this.hitBoxType = "box";
+    // set this paramreter to false to be able
+    // to have the debug activate and change
+    // the parameters of the object
+    this.activatePhysics = true;
     this.material = this.physics.plasticMaterial;
-    this.sound = this.experience.soundManager.soundLibrary.hit.bamboo;
+    this.sound = this.experience.soundManager.punchSound;
   }
 
   create() {
     this.MeshHitBox = new MeshHitBox(
+      this.positions,
       this.scale,
       this.rotation,
       this.resource,
@@ -38,21 +43,22 @@ export default class SpotLightHitbox {
       this.material,
       this.hitBoxType,
       this.name,
+      this.activatePhysics,
       this.sound
     );
     this.lightMesh = new lightBeam(this.MeshHitBox.model, {
-      color: "green",
-      direction: new Vector3(0.75, 0, 0),
-      radiusTop: 0.65,
-      spreadRatio: 0.2175,
-      height: 20,
-      laser: false,
+        color: 'red',
+        direction: new Vector3(0.75, 0, 0),
+        radiusTop: 0.1,
+        spreadRatio: 0,
+        height: 50,
+        laser: true,
     });
     return {
       name: this.name,
       model: this.MeshHitBox.model,
       body: this.MeshHitBox.body,
-      lightBeam: this.lightMesh,
+      lightBeam: this.lightMesh
     };
   }
 }

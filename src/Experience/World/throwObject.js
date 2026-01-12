@@ -30,11 +30,13 @@ export default class ThrowObject extends EventEmitter {
 
     this.throwPhase = false;
 
-    // ecoute l'événement de réception d'un message du mobile
-    this.mobileData.on("throwRelease", (payload) => {
-      if (!this.throwPhase) return;
+      // boolean pour controler la reception de la data du mobile pour le lancer
+      // si on est en phase de lancer, alors on ecoute les messages de lancer du mobile
+      this.throwPhase = false;
 
-      this.throwObject(payload);
+      // ecoute l'événement de relachement du doigt pour lancer l'objet
+      this.mobileData.on("throwRelease", (payload) => {
+        if (!this.throwPhase) return;
 
       this.trigger("objectThrown");
     });
@@ -122,24 +124,22 @@ export default class ThrowObject extends EventEmitter {
     });
   }
 
-  createDebug() {
-    if (this.experience.debug.active) {
-      this.debugFolder = this.debug.ui.addFolder("ThrowObject");
+    destroyObject(){
+      if (this.result == undefined | null) return;
+      if(this.result.model){
+        gsap.to(this.result.model.position, {y: -5, duration: 1, ease: "power2.inOut", onComplete: () => {
+          this.experience.scene.remove(this.result.model)
+        }})
+      }
+    }
 
-      // choix de l'angle de lancé
-      this.debugFolder.add(this, "angleX", -10, 10, 1).name("angleX");
-      this.debugFolder.add(this, "angleY", -10, 10, 1).name("angleY");
-      // choix de la puissance du lancé
-      this.debugFolder.add(this, "power", 0.1, 5, 0.1).name("power");
-      // add function to launch the object
-      const debugObject = {
-        throw: () => {
-          this.addToWorld(this.angleX, this.angleY, this.power);
-          this.destroyDebug();
-          this.trigger("objectThrown");
-        },
-      };
-      this.debugFolder.add(debugObject, "throw");
+    destroySlingshot(){
+      if (this.result == undefined | null) return;
+      if(this.slingshotResult.model){
+        gsap.to(this.slingshotResult.model.position, {y: -5, duration: 1, ease: "power2.inOut", onComplete: () => {
+          this.experience.scene.remove(this.slingshotResult.model)
+        }})
+      }
     }
   }
 

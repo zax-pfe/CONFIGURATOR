@@ -1,19 +1,18 @@
-import MeshHitBox from "../../../Utils/MeshHitBox.js";
+import MeshHitBox from "../../../Utils/MeshHitBox.js"
 import Experience from "../../../Experience.js";
 import Physics from "../../../Utils/Physics.js";
 import * as THREE from "three";
 
-export default class StarTest {
+export default class RockStar {
   constructor() {
     this.experience = new Experience();
     this.time = this.experience.time;
-    this.resource = this.experience.resources.items.StarModel;
-    // console.log("StarTest resource", this.resource);
+    this.resource = this.experience.resources.items.RockStarModel;
     this.debug = this.experience.debug;
     this.physics = new Physics();
 
     // stocke les instances de la star
-    this.instances = [];
+    this.instances = []
     // compteur pour les id uniques
     this.instanceCount = 0;
 
@@ -21,13 +20,15 @@ export default class StarTest {
   }
 
   setupConstants() {
+    this.positions = { x: 0, y: 0, z: 0 };
     this.scale = { x: 1, y: 1, z: 1 };
     this.rotation = { x: 0, y: 3.14, z: 0 };
     this.mass = 1;
-    this.name = "StarTest";
+    this.name = "RockStar";
     this.hitBoxType = "cylinder";
+    this.activatePhysics = true;
     this.material = this.physics.stickyMaterial;
-    this.sound = this.experience.soundManager.soundLibrary.hit.bamboo;
+    this.sound = this.experience.soundManager.bambooHitSound;
     this.animated = true;
   }
 
@@ -35,15 +36,17 @@ export default class StarTest {
     this.instanceCount++;
     const instanceName = `${this.name}_${this.instanceCount}`;
 
-    // crée le MeshHitBox dans une variable LOCALE
+    // crée le MeshHitBox dans une variable LOCALE 
     const meshHitBoxInstance = new MeshHitBox(
+      this.positions,
       this.scale,
       this.rotation,
       this.resource,
       this.mass,
       this.material,
       this.hitBoxType,
-      instanceName,
+      instanceName, // nom unique
+      this.activatePhysics,
       this.sound,
       this.animated
     );
@@ -69,13 +72,13 @@ export default class StarTest {
     this.instances.push(starInstance);
 
     return starInstance;
-  }
+  } 
 
   update() {
     const deltaTime = this.time.delta * 0.001;
 
     // On boucle sur toutes les instances vivantes
-    for (const star of this.instances) {
+    for (const star of this.instances) {  
       // update Animation
       if (star.animationState && star.animationState.mixer) {
         star.animationState.mixer.update(deltaTime);
@@ -84,8 +87,7 @@ export default class StarTest {
   }
 
   _createAnimationState(model) {
-    if (!this.resource.animations || this.resource.animations.length === 0)
-      return null;
+    if (!this.resource.animations || this.resource.animations.length === 0) return null;
 
     const mixer = new THREE.AnimationMixer(model);
     const actions = {};
@@ -115,19 +117,20 @@ export default class StarTest {
 
   _createDebug(folderName, starInstance) {
     const folder = this.debug.ui.addFolder(folderName);
-
+    
     if (starInstance.animationState) {
-      const debugObject = {
-        playDance: () => starInstance.animationState.play("dance"),
-        playWalking: () => starInstance.animationState.play("walk"),
-        playJumping: () => starInstance.animationState.play("jump"),
-        playStand: () => starInstance.animationState.play("stand"),
-      };
-      folder.add(debugObject, "playDance");
-      folder.add(debugObject, "playWalking");
-      folder.add(debugObject, "playJumping");
-      folder.add(debugObject, "playStand");
+        const debugObject = {
+            playDance: () => starInstance.animationState.play("dance"),
+            playWalking: () => starInstance.animationState.play("walk"),
+            playJumping: () => starInstance.animationState.play("jump"),
+            playStand: () => starInstance.animationState.play("stand"),
+        };
+        folder.add(debugObject, "playDance");
+        folder.add(debugObject, "playWalking");
+        folder.add(debugObject, "playJumping");
+        folder.add(debugObject, "playStand");
     }
     folder.close();
   }
 }
+
