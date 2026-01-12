@@ -35,7 +35,7 @@ export default class World {
       // this.cubeGenerator = new GenerateRandomCube();
 
       // creation du public manager
-      // this.publicManager = new PublicManager();
+      this.publicManager = new PublicManager();
 
       // Création de la scene avec hitbox
       this.sceneHitBox = new SceneHitBox();

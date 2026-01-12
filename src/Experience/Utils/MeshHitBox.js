@@ -66,6 +66,7 @@ export default class MeshHitBox {
 
   setModel() {
     if (this.animated) {
+      console.log("Cloning animated model", this.resources.scene);
       this.model = cloneSkinnedModel(this.resources.scene);
       // this.model = this.resources.scene;
     } else {

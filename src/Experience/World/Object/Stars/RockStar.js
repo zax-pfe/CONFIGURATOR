@@ -1,4 +1,4 @@
-import MeshHitBox from "../../../Utils/MeshHitBox.js"
+import MeshHitBox from "../../../Utils/MeshHitBox.js";
 import Experience from "../../../Experience.js";
 import Physics from "../../../Utils/Physics.js";
 import * as THREE from "three";
@@ -12,7 +12,7 @@ export default class RockStar {
     this.physics = new Physics();
 
     // stocke les instances de la star
-    this.instances = []
+    this.instances = [];
     // compteur pour les id uniques
     this.instanceCount = 0;
 
@@ -20,13 +20,12 @@ export default class RockStar {
   }
 
   setupConstants() {
-    this.positions = { x: 0, y: 0, z: 0 };
+    // this.positions = { x: 0, y: 0, z: 0 };
     this.scale = { x: 1, y: 1, z: 1 };
     this.rotation = { x: 0, y: 3.14, z: 0 };
     this.mass = 1;
     this.name = "RockStar";
     this.hitBoxType = "cylinder";
-    this.activatePhysics = true;
     this.material = this.physics.stickyMaterial;
     this.sound = this.experience.soundManager.bambooHitSound;
     this.animated = true;
@@ -36,9 +35,8 @@ export default class RockStar {
     this.instanceCount++;
     const instanceName = `${this.name}_${this.instanceCount}`;
 
-    // crée le MeshHitBox dans une variable LOCALE 
+    // crée le MeshHitBox dans une variable LOCALE
     const meshHitBoxInstance = new MeshHitBox(
-      this.positions,
       this.scale,
       this.rotation,
       this.resource,
@@ -46,7 +44,6 @@ export default class RockStar {
       this.material,
       this.hitBoxType,
       instanceName, // nom unique
-      this.activatePhysics,
       this.sound,
       this.animated
     );
@@ -72,13 +69,13 @@ export default class RockStar {
     this.instances.push(starInstance);
 
     return starInstance;
-  } 
+  }
 
   update() {
     const deltaTime = this.time.delta * 0.001;
 
     // On boucle sur toutes les instances vivantes
-    for (const star of this.instances) {  
+    for (const star of this.instances) {
       // update Animation
       if (star.animationState && star.animationState.mixer) {
         star.animationState.mixer.update(deltaTime);
@@ -87,7 +84,8 @@ export default class RockStar {
   }
 
   _createAnimationState(model) {
-    if (!this.resource.animations || this.resource.animations.length === 0) return null;
+    if (!this.resource.animations || this.resource.animations.length === 0)
+      return null;
 
     const mixer = new THREE.AnimationMixer(model);
     const actions = {};
@@ -117,20 +115,19 @@ export default class RockStar {
 
   _createDebug(folderName, starInstance) {
     const folder = this.debug.ui.addFolder(folderName);
-    
+
     if (starInstance.animationState) {
-        const debugObject = {
-            playDance: () => starInstance.animationState.play("dance"),
-            playWalking: () => starInstance.animationState.play("walk"),
-            playJumping: () => starInstance.animationState.play("jump"),
-            playStand: () => starInstance.animationState.play("stand"),
-        };
-        folder.add(debugObject, "playDance");
-        folder.add(debugObject, "playWalking");
-        folder.add(debugObject, "playJumping");
-        folder.add(debugObject, "playStand");
+      const debugObject = {
+        playDance: () => starInstance.animationState.play("dance"),
+        playWalking: () => starInstance.animationState.play("walk"),
+        playJumping: () => starInstance.animationState.play("jump"),
+        playStand: () => starInstance.animationState.play("stand"),
+      };
+      folder.add(debugObject, "playDance");
+      folder.add(debugObject, "playWalking");
+      folder.add(debugObject, "playJumping");
+      folder.add(debugObject, "playStand");
     }
     folder.close();
   }
 }
-
