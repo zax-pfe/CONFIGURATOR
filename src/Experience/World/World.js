@@ -58,8 +58,8 @@ export default class World {
     }
 
     // update chaque instance de la classe star
-    for (const instance of this.starInstances){
-      instance.update()
+    for (const instance of this.starInstances) {
+      instance.update();
     }
   }
 }
