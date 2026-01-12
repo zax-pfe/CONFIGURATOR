@@ -14,6 +14,7 @@ import SoundManager from "./Utils/SoundManager.js";
 import MobileData from "./Utils/MobileData.js";
 import Animate from "./Utils/Animate.js";
 import Fireworks from "./World/Effects/Fireworks.js";
+import Environement from "./World/Environement.js";
 
 console.log(sources);
 let instance = null;
@@ -55,7 +56,7 @@ export default class Experience {
     // Permet de gerer le sound
     this.soundManager = new SoundManager();
     // Fireworks effect
-    this.fireworks = new Fireworks();
+    // this.fireworks = new Fireworks();
 
     this.animate = new Animate();
 

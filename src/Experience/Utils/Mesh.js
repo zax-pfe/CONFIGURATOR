@@ -30,6 +30,7 @@ export default class Mesh {
   }
 
   setModel() {
+    // this.model = this.resource.scene.clone();
     this.model = this.resource.scene.clone();
     this.model.scale.set(
       this.scale.x * this.scaleRatio,
