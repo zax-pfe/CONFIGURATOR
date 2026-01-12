@@ -5,7 +5,7 @@ import SpotLightHitbox from "../World/Object/Lights/SpotLight.js";
 import MovingSpotLightHitbox from "../World/Object/Lights/MovingLight.js";
 import Laser from "../World/Object/Lights/Laser.js";
 import Star from "../World/Object/Stars/Star.js";
-import RockStar from "../World/Object/Stars/RockStar.js"
+import RockStar from "../World/Object/Stars/RockStar.js";
 import GirlStar from "../World/Object/Stars/GirlStar.js";
 import DaftStar from "../World/Object/Stars/DaftStar.js";
 import DiscoBallHitbox from "../World/Object/RandomObjects/DiscoBall.js";
@@ -19,7 +19,7 @@ import SpeakerTextured from "../World/Object/Speakers/SpeakerTextured.js";
 import Speaker2Textured from "../World/Object/Speakers/Speaker2Textured.js";
 import Speaker3Textured from "../World/Object/Speakers/Speaker3Textured.js";
 import Speaker4Textured from "../World/Object/Speakers/Speaker4Textured.js";
-import Slingshot from "../World/Object/Slingshot/Slingshot.js"
+import Slingshot from "../World/Object/Slingshot/Slingshot.js";
 
 import ThrowObject from "../World/throwObject.js";
 import SelectObject from "../World/selectObject.js";
@@ -37,22 +37,22 @@ export default class SelectAndLaunch extends EventEmitter {
     this.items = {};
     this.stars = {};
 
-    this.gameDuration = 10;
+    this.gameDuration = 100;
     this.timeIsUp = false;
     this.isStarPhase = false;
 
     this.setupAvailableObjects();
-    
+
     console.log("SelectAndLaunch items", this.items);
-    
+
     // initialize SelectObject and ThrowObject
     this.slingshot = new Slingshot();
     this.selectObject = new SelectObject(this.items, this.stars);
     this.throwObject = new ThrowObject(this.slingshot);
 
     this.gameTimer.on("timerEnd", () => {
-        console.log("timer end");
-        this.timeIsUp = true;
+      console.log("timer end");
+      this.timeIsUp = true;
     });
   }
 
@@ -83,7 +83,6 @@ export default class SelectAndLaunch extends EventEmitter {
     this.experience.world.registerStarInstance(this.girlStar);
     this.experience.world.registerStarInstance(this.daftStar);
 
-
     objectsTypes.push(
       this.speaker1,
       this.speaker2,
@@ -98,7 +97,7 @@ export default class SelectAndLaunch extends EventEmitter {
       this.speaker1textured,
       this.speaker2textured,
       this.speaker3textured,
-      this.Speaker4Textured,
+      this.Speaker4Textured
     );
 
     for (const object of objectsTypes) {
@@ -109,8 +108,8 @@ export default class SelectAndLaunch extends EventEmitter {
       // this.star,
       this.rockStar,
       this.girlStar,
-      this.daftStar,
-    )
+      this.daftStar
+    );
 
     for (const star of starTypes) {
       this.stars[star.name] = star;
@@ -122,38 +121,36 @@ export default class SelectAndLaunch extends EventEmitter {
 
     this.experience.world.controlManager.currentScene = "select";
     // envoie message au mobile pour indiquer la phase
-    this.connection.sendMessage("select")
+    this.connection.sendMessage("select");
     // creer le debug de selection de l'objet
     this.selectObject.createDebug();
-
 
     // selectionne 5 objets au hasard parmis tout les objets disponibles
     // this.selectObject.selectRandomObject();
     this.selectObject.selectObjectsOrStars(this.isStarPhase);
 
-
     // creer les mesh des objets selectionnés et les disposer en cercle
     this.selectObject.createSelectedObjectsMeshes();
     // informe que l'on est en phase de selection
-    this.selectObject.selectPhase = true
+    this.selectObject.selectPhase = true;
 
     // si on clique sur valide la selection.
     this.selectObject.on("objectSelected", () => {
       // informe que l'on n'est plus en phase de selection
-      this.selectObject.selectPhase = false
+      this.selectObject.selectPhase = false;
 
       this.experience.world.controlManager.currentScene = "throw";
       // envooie message au mobile pour indiquer la phase
-      this.connection.sendMessage("throw")
+      this.connection.sendMessage("throw");
 
       // on detruit le debug de selection dans selectObject
       // on set l'objet a lancer dans throwObject
       this.throwObject.objectToThrow = this.selectObject.objectToLaunch;
 
-      this.throwObject.createSelectedObject()
+      this.throwObject.createSelectedObject();
 
       // informe que l'on est en phase de lancer
-      this.throwObject.throwPhase = true
+      this.throwObject.throwPhase = true;
       // on crée le debug de lancé
       this.throwObject.createDebug();
     });
@@ -178,20 +175,20 @@ export default class SelectAndLaunch extends EventEmitter {
   checkNextStep() {
     // si deja en phase star = fin
     if (this.isStarPhase) {
-        console.log("Ending Experience");
-        this.end();
-        return;
+      console.log("Ending Experience");
+      this.end();
+      return;
     }
     // phase objets et temps terminé
     if (this.timeIsUp) {
-        console.log("Starting Star Phase (Bonus)");
-        this.createDebug(true); // debug pour Star phase
-        this.selectAndLaunch(true); // true = lance la phase Star
-    // phase objet temps pas terminé
+      console.log("Starting Star Phase (Bonus)");
+      this.createDebug(true); // debug pour Star phase
+      this.selectAndLaunch(true); // true = lance la phase Star
+      // phase objet temps pas terminé
     } else {
-        console.log("Next normal object...");
-        this.createDebug(false); // debug normal
-        this.selectAndLaunch(false); // false = lance la phase normale
+      console.log("Next normal object...");
+      this.createDebug(false); // debug normal
+      this.selectAndLaunch(false); // false = lance la phase normale
     }
   }
 
@@ -244,11 +241,11 @@ export default class SelectAndLaunch extends EventEmitter {
           this.end();
         },
       };
-      
+
       if (!isStarPhase) {
-          this.debugFolder.add(debugObject, "skipTimer").name("Finish Timer Now");
+        this.debugFolder.add(debugObject, "skipTimer").name("Finish Timer Now");
       }
-      this.debugFolder.add(debugObject, "pass")
+      this.debugFolder.add(debugObject, "pass");
 
       // this.debugFolder.add(debugObject, "replay");
       // this.debugFolder.add(debugObject, "pass");

@@ -268,7 +268,8 @@ export default class SelectObject extends EventEmitter {
       this.wheelPosition.y,
       this.wheelPosition.z
     );
-
+    this.currentSelectedMusic?.pause();
+    this.currentSelectedMusic = null;
     // Si l'objet a une musique associée, quand l'objet change
     // on joue la musique et reset le temps
     if (result.music) {
@@ -364,14 +365,18 @@ export default class SelectObject extends EventEmitter {
           this.destroyDebug();
 
           // clean the music playing
-          this.trigger("objectSelected");
           if (this.currentSelectedMusic) {
             this.selectedObjectsMusic[this.selectedObject.name] =
               this.currentSelectedMusic;
           }
           this.currentSelectedMusic?.pause();
           this.currentSelectedMusic = null;
-          console.log("selected music", this.selectedObjectsMusic);
+          console.log(
+            "this.soundManager.soundLibrary.fx.buttonValid",
+            this.soundManager.soundLibrary.fx.buttonValid
+          );
+          this.soundManager.soundLibrary.fx.buttonValid.play();
+          this.trigger("objectSelected");
         },
       };
       this.debugFolder.add(debugObject, "validateChoice");

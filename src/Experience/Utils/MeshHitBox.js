@@ -61,7 +61,7 @@ export default class MeshHitBox {
     this.animated = animated;
 
     this.createDebug();
-    console.log("Object with hitbox initialized", this.name);
+    // console.log("Object with hitbox initialized", this.name);
 
     this.setModel();
     if (this.addShadow) {

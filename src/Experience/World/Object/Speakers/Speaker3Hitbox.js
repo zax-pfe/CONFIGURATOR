@@ -27,7 +27,7 @@ export default class Speaker3Hitbox {
     this.activatePhysics = true;
     this.material = this.physics.stickyMaterial;
     this.sound = this.experience.soundManager.soundLibrary.hit.bamboo;
-    this.music = this.experience.soundManager.soundLibrary.drums.alternate;
+    this.music = this.experience.soundManager.soundLibrary.guitar.guitar1;
   }
 
   create() {

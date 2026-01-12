@@ -9,6 +9,8 @@ export default class SoundManager extends EventEmitter {
 
     this.soundLibrary = {};
     this.setupDrum();
+    this.setupGuitar();
+    this.setUpFx();
     this.setupHitSound();
 
     this.impactSound = null;
@@ -42,6 +44,19 @@ export default class SoundManager extends EventEmitter {
     const drumSound = new Audio("/sounds/instruments/drumLoop.mp3");
     const drumSound2 = new Audio("/sounds/instruments/drumLoop2.mp3");
     this.soundLibrary.drums = { regular: drumSound, alternate: drumSound2 };
+  }
+
+  setupGuitar() {
+    const guitar1 = new Audio("/sounds/instruments/guitar/guitar1.wav");
+    const guitar2 = new Audio("/sounds/instruments/guitar/guitar2.wav");
+    this.soundLibrary.guitar = { guitar1: guitar1, guitar2: guitar2 };
+  }
+
+  setUpFx() {
+    const buttonValid = new Audio("/sounds/fx/valide.mp3");
+    const throwSound = new Audio("/sounds/fx/throw.mp3");
+
+    this.soundLibrary.fx = { buttonValid: buttonValid, throw: throwSound };
   }
 
   playHitSound = (collision) => {
