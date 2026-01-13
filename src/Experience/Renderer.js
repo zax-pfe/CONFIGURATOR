@@ -6,6 +6,8 @@ import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPa
 import { FilmPass } from "three/examples/jsm/postprocessing/FilmPass.js";
 import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass.js";
 import { ShaderPass } from "three/addons/postprocessing/ShaderPass.js";
+import { DotScreenPass } from "three/addons/postprocessing/DotScreenPass.js";
+import { FXAAShader } from "three/examples/jsm/shaders/FXAAShader.js";
 
 export default class Renderer {
   constructor() {
@@ -27,6 +29,8 @@ export default class Renderer {
 
     this.instance.toneMapping = THREE.CineonToneMapping;
     this.instance.toneMappingExposure = 1.75;
+    // this.instance.toneMappingExposure = 2.5;
+
     this.instance.shadowMap.enabled = true;
     this.instance.shadowMap.type = THREE.PCFSoftShadowMap;
     this.instance.setClearColor("#211d20");
@@ -45,8 +49,18 @@ export default class Renderer {
     unrealBloomPass.threshold = 0.6;
     this.composer.addPass(unrealBloomPass);
 
-    const filmPass = new FilmPass(1, 0.5, 2048, false);
-    this.composer.addPass(filmPass);
+    // const pass = new DotScreenPass(new THREE.Vector2(0, 0), 0.5, 0.8);
+    // this.composer.addPass(pass);
+
+    const fxaaPass = new ShaderPass(FXAAShader);
+    fxaaPass.material.uniforms["resolution"].value.set(
+      1 / this.sizes.width,
+      1 / this.sizes.height
+    );
+    this.composer.addPass(fxaaPass);
+
+    // const filmPass = new FilmPass(1, 0.5, 2048, false);
+    // this.composer.addPass(filmPass);
 
     // const outputPass = new OutputPass();
     // this.composer.addPass(outputPass);

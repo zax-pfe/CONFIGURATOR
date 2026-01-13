@@ -140,6 +140,7 @@ export default class ThrowObject extends EventEmitter {
         throw: () => {
           this.addToWorld(this.angleX, this.angleY, this.power);
           this.destroyDebug();
+
           this.soundManager.soundLibrary.fx.throw.play();
           this.trigger("objectThrown");
         },

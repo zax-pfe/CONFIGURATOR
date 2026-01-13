@@ -1,5 +1,6 @@
 import EventEmitter from "./EventEmitter";
 import Experience from "../Experience.js";
+import gsap from "gsap";
 
 export default class SoundManager extends EventEmitter {
   constructor() {
@@ -77,11 +78,58 @@ export default class SoundManager extends EventEmitter {
     music.play();
   }
 
+  fadeInMusic(music, duration = 2, targetVolume = 1) {
+    music.volume = 0;
+    music.loop = true;
+    music.currentTime = this.currentTimeInLoop;
+    music.play();
+
+    const startTime = performance.now();
+
+    const fade = (now) => {
+      const elapsed = (now - startTime) / 1000;
+      const progress = Math.min(elapsed / duration, 1);
+
+      music.volume = progress * targetVolume;
+
+      if (progress < 1) {
+        requestAnimationFrame(fade);
+      }
+    };
+
+    requestAnimationFrame(fade);
+  }
+
+  fadeMusic(music, type = "out", duration = 2, targetVolume = 0) {
+    const initialVolume = music.volume;
+    gsap.fromTo(
+      music,
+      { volume: type === "out" ? initialVolume : 0 },
+      {
+        volume: type === "out" ? 0 : targetVolume,
+        duration: duration,
+        onComplete: () => {
+          if (type === "out") {
+            music.pause();
+          }
+        },
+      }
+    );
+  }
+
   // Loop dans selectedMusic et lance les musiques
-  playSelectedMusics() {
+  playSelectedMusics(fade = false) {
     for (const key in this.selectedObjectsMusic) {
       const music = this.selectedObjectsMusic[key];
       this.startMusic(music);
+    }
+
+    if (fade) {
+      for (const key in this.selectedObjectsMusic) {
+        const music = this.selectedObjectsMusic[key];
+        // this.fadeInMusic(music, 4, 1);
+        this.fadeMusic(music, "in", 5, 1);
+      }
     }
   }
 

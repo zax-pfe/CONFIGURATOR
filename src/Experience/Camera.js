@@ -6,16 +6,16 @@ export default class Camera {
   constructor() {
     // console.log("Camera initialized");
     this.experience = new Experience();
-    this.resources = this.experience.resources
+    this.resources = this.experience.resources;
     this.sizes = this.experience.sizes;
     this.scene = this.experience.scene;
     this.canvas = this.experience.canvas;
     this.mobileData = this.experience.mobileData;
     this.debug = this.experience.debug;
-    
+
     // this.target = new THREE.Vector3(0, 5, 0);
     // this.smoothTarget = new THREE.Vector3(0, 5, 0);
-    
+
     this.setInstance();
     this.setOrbitControls();
   }
@@ -40,12 +40,12 @@ export default class Camera {
       // Debug
       const folder = this.debug.ui.addFolder("Camera");
       this.debugObject = {
-        controlsEnabled: false
-      }
+        controlsEnabled: false,
+      };
       folder.add(this.debugObject, "controlsEnabled").onChange((e) => {
-        this.controls.enabled = !this.controls.enabled
-        if(!e){
-          this.instance.position.set(0, 10, 87)
+        this.controls.enabled = !this.controls.enabled;
+        if (!e) {
+          this.instance.position.set(0, 10, 87);
         }
       });
     }
@@ -56,41 +56,47 @@ export default class Camera {
     this.instance.updateProjectionMatrix();
   }
 
-  updateCameraWithMobile(){
+  updateCameraWithMobile() {
     if (this.experience.world.controlManager) {
-      this.phase = this.experience.world.controlManager.currentScene
+      this.phase = this.experience.world.controlManager.currentScene;
 
-      if(this.phase == "throw"){
-        console.log("throw")
-  
+      if (this.phase == "throw") {
+        console.log("throw");
+
         const { angleH, angleV } = this.mobileData.throwing || {};
-    
+
         // convertir en radians
         const rotX = -THREE.MathUtils.degToRad(angleH);
         const rotY = THREE.MathUtils.degToRad(angleV);
-    
+
         // créer quaternion cible
-        const targetQuat = new THREE.Quaternion().setFromEuler(new THREE.Euler(rotY, rotX, 0));
-    
+        const targetQuat = new THREE.Quaternion().setFromEuler(
+          new THREE.Euler(rotY, rotX, 0)
+        );
+
         // interpoler la rotation actuelle vers la cible
         this.instance.quaternion.slerp(targetQuat, 0.025); // 0.1 = facteur de lissage
-
       } else {
-        const targetQuat = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, 0, 0));
-        this.instance.quaternion.slerp(targetQuat, 0.01); 
+        const targetQuat = new THREE.Quaternion().setFromEuler(
+          new THREE.Euler(0, 0, 0)
+        );
+        this.instance.quaternion.slerp(targetQuat, 0.01);
       }
     }
   }
 
   update() {
-    if(this.debug.active){
+    if (this.debug.active) {
       if (this.debugObject.controlsEnabled) {
-        this.controls.update()
+        this.controls.update();
+        // console.log(" camera position :", this.instance.position);
+
+        // this.instance.position.set(0, 10, 87);
       } else {
-        this.updateCameraWithMobile()
+        this.updateCameraWithMobile();
       }
     } else {
-      this.updateCameraWithMobile()
+      this.updateCameraWithMobile();
     }
   }
 }

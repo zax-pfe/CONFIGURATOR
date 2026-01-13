@@ -37,9 +37,8 @@ export default class World {
       // this.listNonPhysicObjects.push(new Light({ x: 45, y: -2.8, z: 0 }));
       // this.listNonPhysicObjects.push(new Light({ x: 20, y: -5.6, z: -40 }));
 
-      this.controlManager = new ControlManager();
-
       this.environement = new Environement();
+      this.controlManager = new ControlManager();
     });
   }
 
