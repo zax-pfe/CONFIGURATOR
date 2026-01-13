@@ -5,6 +5,7 @@ import GenerateRandomCube from "../World/Test/GenerateRandomCube.js";
 import ControlManager from "../Utils/ControlManager.js";
 import Scene from "./Scene/Scene.js";
 import Light from "./LightBlender/Light.js";
+import Screen from "./Screens/Screen.js";
 
 import SceneHitBox from "./Scene/SceneHitBox.js";
 
@@ -27,6 +28,7 @@ export default class World {
     this.resources = this.experience.resources;
 
     this.resources.on("ready", () => {
+      // this.screen = new Screen();
       // Permet de tester les objets physiques lancés
       // this.physicsBall = new PhysicsBall();
       // this.cubeGenerator = new GenerateRandomCube();
@@ -48,6 +50,9 @@ export default class World {
   }
 
   update() {
+    if (this.screen) {
+      this.screen.update();
+    }
     if (this.sceneHitBox) {
       this.sceneHitBox.update();
     }
