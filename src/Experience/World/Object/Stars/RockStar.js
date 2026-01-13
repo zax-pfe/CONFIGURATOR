@@ -53,6 +53,12 @@ export default class RockStar {
 
     // configurationd de l'animation
     const animationState = this._createAnimationState(meshHitBoxInstance.model);
+    
+    // ajout au debug panel
+    let debugFolder = null;
+    if (this.debug.active) {
+      debugFolder = this._createDebug(instanceName, animationState);
+    }
 
     // objet représentant l'instance de la star
     const starInstance = {
@@ -61,12 +67,8 @@ export default class RockStar {
       model: meshHitBoxInstance.model,
       body: meshHitBoxInstance.body,
       animationState: animationState,
+      debugFolder: debugFolder,
     };
-
-    // ajout au debug panel
-    if (this.debug.active) {
-      this._createDebug(instanceName, starInstance);
-    }
 
     // ajout au tableau de gestion
     this.instances.push(starInstance);
@@ -115,15 +117,15 @@ export default class RockStar {
     return { mixer, actions, play };
   }
 
-  _createDebug(folderName, starInstance) {
+  _createDebug(folderName, animationState) {
     const folder = this.debug.ui.addFolder(folderName);
     
-    if (starInstance.animationState) {
+    if (animationState) {
         const debugObject = {
-            playDance: () => starInstance.animationState.play("dance"),
-            playWalking: () => starInstance.animationState.play("walk"),
-            playJumping: () => starInstance.animationState.play("jump"),
-            playStand: () => starInstance.animationState.play("stand"),
+            playDance: () => animationState.play("dance"),
+            playWalking: () => animationState.play("walk"),
+            playJumping: () => animationState.play("jump"),
+            playStand: () => animationState.play("stand"),
         };
         folder.add(debugObject, "playDance");
         folder.add(debugObject, "playWalking");
@@ -131,6 +133,15 @@ export default class RockStar {
         folder.add(debugObject, "playStand");
     }
     folder.close();
+
+    return folder;
+  }
+
+  destroyDebug(starInstance){
+    if (starInstance.debugFolder) {
+        starInstance.debugFolder.destroy();
+    }
+    this.instances = this.instances.filter(s => s.id !== starInstance.id);
   }
 }
 
