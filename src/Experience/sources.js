@@ -109,6 +109,11 @@ export default [
     path: "models/Star/daftstar.glb",
   },
   {
+    name: "PublicModel",
+    type: "gltfModel",
+    path: "models/Star/public.glb",
+  },
+  {
     name: "SceneModel",
     type: "gltfModel",
     path: "models/Scene/scene.glb",

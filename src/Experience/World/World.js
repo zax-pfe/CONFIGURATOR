@@ -5,6 +5,7 @@ import GenerateRandomCube from "../World/Test/GenerateRandomCube.js";
 import ControlManager from "../Utils/ControlManager.js";
 import Scene from "./Scene/Scene.js";
 import Light from "./LightBlender/Light.js";
+import PublicManager from "./PublicManager.js"
 
 import SceneHitBox from "./Scene/SceneHitBox.js";
 
@@ -31,6 +32,9 @@ export default class World {
       // this.physicsBall = new PhysicsBall();
       // this.cubeGenerator = new GenerateRandomCube();
 
+      // creation du public manager
+      this.publicManager = new PublicManager();
+
       this.sceneHitBox = new SceneHitBox();
       this.listNonPhysicObjects.push(new Scene());
       // this.listNonPhysicObjects.push(new Light({ x: -4.5, y: -2.8, z: 0 }));
@@ -51,6 +55,10 @@ export default class World {
   update() {
     if (this.sceneHitBox) {
       this.sceneHitBox.update();
+    }
+
+    if (this.publicManager) {
+      this.publicManager.update();
     }
 
     for (const object of this.listNonPhysicObjects) {

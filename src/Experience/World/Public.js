@@ -1,8 +1,6 @@
 import Experience from "../Experience";
 import * as THREE from "three";
-// import StarTest from "./Object/Star/StarTest";
-// import Star from "../World/Object/Stars/Star";
-import RockStar from "./Object/Stars/RockStar";
+import PublicModel from "./Object/Stars/PublicModel";
 
 export default class Public {
   constructor() {
@@ -10,9 +8,8 @@ export default class Public {
     this.scene = this.experience.scene;
     this.debug = this.experience.debug;
 
-    this.public = new RockStar();
-
-    this.experience.world.registerStarInstance(this.public);
+    this.star = new PublicModel();
+    this.experience.world.registerStarInstance(this.star);
 
     this.dimmensions = { width: 0.5, height: 2, depth: 1 };
 
@@ -21,23 +18,26 @@ export default class Public {
   }
 
   setGeometry() {
-    // this.geometry = new THREE.BoxGeometry(
-    //   this.dimmensions.width,
-    //   this.dimmensions.height,
-    //   this.dimmensions.depth
-    // );
-    console.log("Creating public instance");
-    const result = this.public.create();
+    this.geometry = new THREE.BoxGeometry(
+      this.dimmensions.width,
+      this.dimmensions.height,
+      this.dimmensions.depth
+    );
 
-    console.log("this.public.create()", result);
-    this.publicInstance = result;
+    const result = this.star.create();
+    this.starInstance = result;
 
-    console.log("result before", result);
+    // this.starInstance.model.material.visible = false;
+    console.log("result before", result.model.visible);
+
+    // this.star.setAnimation(result);
+
     console.log("result", result);
+    // console.log("result model", result.model);
 
-    this.model = result.model;
-    result.animationState = "dance";
-
+    // this.model = result.model;
+    // result.animationState = "dance";
+    // // this.star.setAnimation(result);
     // this.experience.animate.objectsToAnimate.push(result);
     // this.animation = result.update;
 
@@ -45,7 +45,7 @@ export default class Public {
 
     // this.animationState = result.animationState;
 
-    // this.startest.animationState.play("dance");
+    // this.star.animationState.play("dance");
   }
 
   setMaterial() {
