@@ -167,5 +167,8 @@ export default [
     name: "SceneFinalModel",
     type: "gltfModel",
     path: "models/Scene/sceneFinal.glb",
+    name: "Slingshot",
+    type: "gltfModel",
+    path: "models/Slingshot/slingshot.glb",
   },
 ];

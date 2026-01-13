@@ -88,7 +88,7 @@
       this.slingshotResult = this.slingshot.create()
       this.slingshotResult.model.position.set(0,-10,75)
       this.experience.scene.add(this.slingshotResult.model)
-      this.followCamera(this.slingshotResult, 16, -4)
+      this.followCamera(this.slingshotResult, 20, -6)
       this.objectsToAnimate.push(this.slingshotResult)
       // console.log(this.slingshotResult)
     }
