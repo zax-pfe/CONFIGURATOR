@@ -122,15 +122,18 @@ export default class SelectAndLaunch extends EventEmitter {
 
     this.experience.world.controlManager.currentScene = "select";
     // envoie message au mobile pour indiquer la phase
-    this.connection.sendMessage("select")
-    // creer le debug de selection de l'objet
-    this.selectObject.createDebug();
-
+    if (this.isStarPhase) {
+      this.connection.sendMessage("select-star")
+    } else {
+      this.connection.sendMessage("select")
+    }
 
     // selectionne 5 objets au hasard parmis tout les objets disponibles
     // this.selectObject.selectRandomObject();
     this.selectObject.selectObjectsOrStars(this.isStarPhase);
 
+    // creer le debug de selection de l'objet
+    this.selectObject.createDebug();
 
     // creer les mesh des objets selectionnés et les disposer en cercle
     this.selectObject.createSelectedObjectsMeshes();
@@ -224,16 +227,6 @@ export default class SelectAndLaunch extends EventEmitter {
     if (this.experience.debug.active) {
       this.destroyDebug();
       this.debugFolder = this.debug.ui.addFolder("SelectAndLaunch");
-
-      // const debugObject = {
-      //   replay: () => {
-      //     this.destroyDebug();
-      //     this.selectAndLaunch();
-      //   },
-      //   pass: () => {
-      //     this.end();
-      //   },
-      // };
 
       const debugObject = {
         skipTimer: () => {
