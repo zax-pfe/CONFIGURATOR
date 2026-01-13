@@ -28,6 +28,7 @@
       this.angleX = 0;
       this.angleY = 0;
       this.objectToThrow = null;
+      this.isObjectThrown = false;
 
       // boolean pour controler la reception de la data du mobile pour le lancer
       // si on est en phase de lancer, alors on ecoute les messages de lancer du mobile
@@ -38,6 +39,7 @@
         if (!this.throwPhase) return;
 
         this.throwObject(payload);
+        this.isObjectThrown = true;
 
         this.trigger("objectThrown");
       });
@@ -73,6 +75,8 @@
     }
 
     createSelectedObject(){
+      this.isObjectThrown = false;
+
       // object to throw
       this.result = this.objectToThrow.create()
       this.result.model.position.set(0,15,35)
@@ -136,6 +140,7 @@
         const debugObject = {
           throw: () => {
             this.addToWorld(this.angleX, this.angleY, this.power);
+            this.isObjectThrown = true;
             this.destroyDebug();
             this.trigger("objectThrown");
           },
@@ -152,8 +157,9 @@
     }
 
     destroyObject(){
+      console.log("DESTROY OBJECT : " + this.isObjectThrown)
       if (this.result == undefined | null) return;
-      if(this.result.model){
+      if(!this.isObjectThrown && this.result.model){
         gsap.to(this.result.model.position, {y: -5, duration: 1, ease: "power2.inOut", onComplete: () => {
           this.experience.scene.remove(this.result.model)
         }})

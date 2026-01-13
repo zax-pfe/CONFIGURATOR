@@ -213,11 +213,15 @@ export default class SelectAndLaunch extends EventEmitter {
 
     // Clean les events listeners
     this.selectObject.off("objectSelected");
+    // détruit les objets de la roue et l'objet du centre
     this.selectObject.destroyElements();
+    // détruit le debug folder
     this.selectObject.destroyDebug();
     this.throwObject.off("objectThrown");
     this.throwObject.destroyObject();
+    // détruit le lance-pierre
     this.throwObject.destroySlingshot();
+    // détruit le debug folder
     this.throwObject.destroyDebug();
     this.destroyDebug();
     this.trigger("selectAndLaunchEnd");
