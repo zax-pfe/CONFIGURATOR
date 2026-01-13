@@ -20,23 +20,13 @@ export default class ShowExperience extends EventEmitter {
 
     // on crée l'overlay noir qui va permettre le fade in et out
     this.createOverlay();
-    // this.fadeLights(
-    //   3, // duration
-    //   5, // fromValue
-    //   0 // toValue
-    // );
-    // mettre un timer avant de fade in l'overlay
-
-    const center = new THREE.Vector3(0, 0, 0); // point regardé
-    const radius = 15;
-
-    const params = { angle: 0 };
 
     const timeline = gsap.timeline();
 
     timeline
       .to({}, { duration: 3 }) // Pause 3 secondes apres avoir jetté la star
       .to(
+        // fade out des lumières
         {},
         {
           duration: 2,
@@ -51,14 +41,17 @@ export default class ShowExperience extends EventEmitter {
       )
       // .to({}, { duration: 3 }) // Pause 3 secondes
       .to(
+        // fade in de l'overlay
         this.overlay,
         {
           duration: 2,
           opacity: 1,
+          ease: "power2.inOut",
         },
         "-=2"
-      ) // Fade in de l'overlay
+      )
       .to(
+        // Play music
         {},
         {
           duration: 1,
@@ -68,20 +61,25 @@ export default class ShowExperience extends EventEmitter {
           },
         }
       )
-      .to({}, { duration: 2 }) // Pause 2 secondes
-      // .to(this.camera.instance.position, {
-      //   duration: 0,
-      //   x: -6,
-      //   y: 7,
-      //   z: 17,
-      //   onComplete: () => {
-      //     this.camera.controls.update();
-      //   },
-      // })
-      .to(this.overlay, {
-        duration: 2,
-        opacity: 0,
-      })
+      .to(
+        // Pause sombre avec musique
+        {},
+        {
+          duration: 1,
+          onComplete: () => {
+            this.cameraMovements(); // lancer les mouvements de caméra
+          },
+        }
+      )
+      .to(
+        // Fade out de l'overlay
+        this.overlay,
+        {
+          duration: 2,
+          opacity: 0,
+          ease: "power2.inOut",
+        }
+      ) // Fade in des lumières
       .to(
         {},
         {
@@ -93,36 +91,74 @@ export default class ShowExperience extends EventEmitter {
               5 // toValue
             );
           },
-        },
-        "-=1"
-      )
-      .to(
-        params,
-        {
-          angle: Math.PI * 2, // tour complet
-          duration: 8,
-          ease: "none",
-          onUpdate: () => {
-            this.camera.instance.position.x =
-              center.x + Math.cos(params.angle) * radius;
-            this.camera.instance.position.z =
-              center.z + Math.sin(params.angle) * radius;
-
-            this.camera.instance.lookAt(center);
-            this.camera.controls.update();
-          },
-        },
-        "-=3"
+        }
       );
   }
 
   end() {
     this.soundManager.stopSelectedMusics();
     this.soundManager.selectedObjectsMusic = {};
+    this.cameraTimeline.kill();
 
     console.log("Show Experience end called - from ShowExperience");
     this.trigger("showExperienceEnd");
     this.destroyDebug();
+  }
+
+  cameraMovements() {
+    this.cameraTimeline = gsap.timeline();
+
+    const center = new THREE.Vector3(0, 5, 0);
+    const radius = 15;
+
+    const params = { angle: 0 };
+
+    this.cameraTimeline
+      .to(params, {
+        angle: Math.PI * 2, // tour complet
+        duration: 12,
+        ease: "none",
+        onUpdate: () => {
+          this.camera.instance.position.x =
+            center.x + Math.cos(params.angle) * radius;
+          this.camera.instance.position.z =
+            center.z + Math.sin(params.angle) * radius;
+          this.camera.instance.position.y =
+            5 + Math.sin(params.angle * 0.5) * 2; // petit mouvement vertical
+
+          this.camera.instance.lookAt(center);
+          this.camera.controls.update();
+        },
+        onComplete: () => {
+          // this.end();
+          console.log("First loop finished");
+        },
+      })
+      .fromTo(
+        this.camera.instance.position,
+        {
+          x: 1.3,
+          y: 0.25,
+          z: 5.5,
+        },
+        {
+          x: 4.5,
+          y: 0.78,
+          z: 21,
+          duration: 4,
+          ease: "power2.inOut",
+          onUpdate: () => {
+            this.camera.controls.update();
+          },
+          onComplete: () => {
+            console.log("finish camera animations");
+          },
+        }
+
+        // "-=4"
+      );
+
+    this.cameraTimeline.repeat(-1);
   }
 
   fadeLights(duration = 3, fromValue = 1, toValue = 0) {

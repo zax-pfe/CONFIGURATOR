@@ -8,6 +8,7 @@ import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass.js";
 import { ShaderPass } from "three/addons/postprocessing/ShaderPass.js";
 import { DotScreenPass } from "three/addons/postprocessing/DotScreenPass.js";
 import { FXAAShader } from "three/examples/jsm/shaders/FXAAShader.js";
+import { BokehPass } from "three/examples/jsm/postprocessing/BokehPass";
 
 export default class Renderer {
   constructor() {
@@ -42,6 +43,14 @@ export default class Renderer {
 
     const renderPass = new RenderPass(this.scene, this.camera.instance);
     this.composer.addPass(renderPass);
+
+    const bokehPass = new BokehPass(this.scene, this.camera.instance, {
+      focus: 1000,
+      aperture: 50,
+      maxblur: 0.002,
+    });
+
+    this.composer.addPass(bokehPass);
 
     const unrealBloomPass = new UnrealBloomPass();
     unrealBloomPass.strength = 0.3;
