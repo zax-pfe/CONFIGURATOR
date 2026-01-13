@@ -248,15 +248,6 @@ export default class SelectObject extends EventEmitter {
     this.currentSelectedModel = result.model;
   }
 
-  deleteElements() {
-    for (let object of this.displayedModels) {
-      gsap.to(object.position, {x: this.wheelPosition.x, y: this.wheelPosition.y, z: this.wheelPosition.z * 10, duration: 1, ease: "power2.inOut", onComplete: () => {
-        this.experience.scene.remove(object);
-      }})
-      // this.experience.scene.remove(object);
-    }
-  }
-
   cleanPreviousSelection() {
     // supprimer le modèle 3D de la scène
     if (this.currentSelectedModel) {
@@ -288,7 +279,7 @@ export default class SelectObject extends EventEmitter {
       // add function to delete the object
       const debugObject = {
         validateChoice: () => {
-          this.deleteElements();
+          this.destroyElements();
           this.objectToLaunch = this.selectedObject;
           if (this.currentSelectedModel) {
             // this.experience.scene.remove(this.currentSelectedModel);
