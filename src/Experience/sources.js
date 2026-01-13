@@ -163,4 +163,9 @@ export default [
     type: "texture",
     path: "models/Effects/light-texture.png",
   },
+  {
+    name: "Slingshot",
+    type: "gltfModel",
+    path: "models/Slingshot/slingshot.glb",
+  },
 ];

@@ -58,7 +58,7 @@ export default class SelectObject extends EventEmitter {
     this.mobileData.on("mobileSelect", (payload) => {
       if (!this.selectPhase) return;
 
-        this.deleteElements();
+        this.destroyElements();
 
         this.objectToLaunch = this.selectedObject;
         if (this.currentSelectedModel) {
