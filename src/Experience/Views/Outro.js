@@ -5,6 +5,8 @@ export default class Outro extends EventEmitter {
   constructor() {
     super();
     this.experience = new Experience();
+    this.size = this.experience.sizes;
+    this.pictureManager = this.experience.pictureManager;
     this.debug = this.experience.debug;
     this.connection = this.experience.connection;
   }
@@ -20,9 +22,30 @@ export default class Outro extends EventEmitter {
       font-size: 5rem;
       color: white;
       text-align: center;
-      z-index: 1000;
+      z-index: 30;
     `;
     document.body.appendChild(this.titleDiv);
+
+    this.pictureManager.pictures.forEach((dataURL) => {
+      const img = document.createElement("img");
+      img.src = dataURL;
+      img.style.width = "500px";
+      img.style.margin = "8px";
+      img.style.position = "absolute";
+      img.style.zIndex = "30";
+
+      // Générer un angle aléatoire entre -30 et +30 degrés
+      const angle = Math.random() * 60 - 30; // Math.random() * (max - min) + min
+      img.style.transform = `rotate(${angle}deg)`;
+
+      const top = Math.random() * this.size.height - 250;
+      const left = Math.random() * this.size.width - 250;
+      img.style.top = `${top}px`;
+      img.style.left = `${left}px`;
+
+      document.body.appendChild(img);
+    });
+
     this.createDebug();
   }
 

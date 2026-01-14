@@ -28,11 +28,10 @@ export default class Public {
     this.starInstance = result;
 
     // this.starInstance.model.material.visible = false;
-    console.log("result before", result.model.visible);
 
     // this.star.setAnimation(result);
 
-    console.log("result", result);
+    // console.log("result", result);
     // console.log("result model", result.model);
 
     // this.model = result.model;

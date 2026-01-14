@@ -8,7 +8,7 @@ export default class ShowExperience extends EventEmitter {
     super();
     this.experience = new Experience();
     this.camera = this.experience.camera; // movement de la caméra
-    this.renderer = this.experience.renderer; // pour faire les screenshots
+    this.pictureManager = this.experience.pictureManager;
     this.environement = this.experience.world.environement;
     this.debug = this.experience.debug;
     this.soundManager = this.experience.soundManager;
@@ -20,9 +20,7 @@ export default class ShowExperience extends EventEmitter {
     console.log("Show Experience start from ShowExperience");
     // this.soundManager.playSelectedMusics();
     this.publicManager.publicCount = 0;
-    this.publicManager.publicCreationLoop();
     this.createDebug();
-    this.renderer.instance.domElement.toDataURL("image/png");
 
     // on crée l'overlay noir qui va permettre le fade in et out
     this.createOverlay();
@@ -64,6 +62,7 @@ export default class ShowExperience extends EventEmitter {
 
           onComplete: () => {
             this.soundManager.playSelectedMusics(true);
+            this.publicManager.publicCreationLoop();
           },
         }
       )
@@ -117,8 +116,8 @@ export default class ShowExperience extends EventEmitter {
 
     const center = new THREE.Vector3(0, 5, 0);
     const radius = 15;
-
     const params = { angle: 0 };
+    const params2 = { angle: 0 };
 
     this.cameraTimeline
       .to(params, {
@@ -136,9 +135,14 @@ export default class ShowExperience extends EventEmitter {
           this.camera.instance.lookAt(center);
           this.camera.controls.update();
         },
+        onStart: () => {
+          // console.log("First loop started");
+          // this.pictureManager.takePicture();
+        },
         onComplete: () => {
           // this.end();
           console.log("First loop finished");
+          this.pictureManager.takePicture();
         },
       })
       .fromTo(
@@ -154,15 +158,53 @@ export default class ShowExperience extends EventEmitter {
           z: 21,
           duration: 4,
           ease: "power2.inOut",
+          onStart: () => {
+            // console.log("start camera animations");
+            // this.pictureManager.takePicture();
+          },
           onUpdate: () => {
             this.camera.controls.update();
           },
           onComplete: () => {
             console.log("finish camera animations");
+            this.pictureManager.takePicture();
           },
         }
 
         // "-=4"
+      )
+      .fromTo(
+        params2,
+        // faire un tour complet autour de la scène
+        { angle: 0 },
+        {
+          angle: -Math.PI * (2 / 3),
+          duration: 4,
+          ease: "none",
+          onUpdate: () => {
+            // Calcul position circulaire autour du centre
+            this.camera.instance.position.x =
+              center.x + Math.cos(params2.angle) * radius;
+            this.camera.instance.position.z =
+              center.z + Math.sin(params2.angle) * radius;
+
+            // Descente progressive : y de 15 à 5 par exemple
+            this.camera.instance.position.y =
+              15 - Math.sin(params2.angle * 0.5) * 10;
+
+            this.camera.instance.lookAt(center);
+            this.camera.controls.update();
+          },
+          onStart: () => {
+            // console.log("First loop started");
+            // this.pictureManager.takePicture();
+          },
+          onComplete: () => {
+            // this.end();
+            console.log("third loop finished");
+            this.pictureManager.takePicture();
+          },
+        }
       );
 
     this.cameraTimeline.repeat(-1);

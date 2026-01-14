@@ -14,6 +14,7 @@ import SoundManager from "./Utils/SoundManager.js";
 import MobileData from "./Utils/MobileData.js";
 import Animate from "./Utils/Animate.js";
 import Timer from "./Utils/Timer.js";
+import PictureManager from "./Utils/PictureManager.js";
 
 console.log(sources);
 let instance = null;
@@ -43,7 +44,7 @@ export default class Experience {
     // Permet de gerer les resources 3D qui sont loadées
     this.resources = new Resources(sources);
     // Permet de gérer les données reçues depuis le mobile
-    this.mobileData = new MobileData()
+    this.mobileData = new MobileData();
     // Permet de gerer la camera
     this.camera = new Camera();
     // Permet de gerer le renderer
@@ -54,8 +55,10 @@ export default class Experience {
     this.physics = new Physics();
     // Permet de gerer le sound
     this.soundManager = new SoundManager();
-
-    this.animate = new Animate()
+    // Picture manager
+    this.pictureManager = new PictureManager();
+    // Animation manager
+    this.animate = new Animate();
 
     this.connection = new Connection();
 
@@ -90,7 +93,7 @@ export default class Experience {
   update() {
     this.stats.stats.begin();
     // console.log("Experience update");
-    this.animate.update()
+    this.animate.update();
     this.camera.update();
     this.world.update();
     this.renderer.update();

@@ -18,7 +18,7 @@ export default class PublicManager {
     this.publicZoneMinRadius = 30;
     this.maxAngle = (1 / 8) * Math.PI;
     this.minAngle = (7 / 8) * Math.PI;
-    this.maxAngle = 0; 
+    this.maxAngle = 0;
     this.minAngle = Math.PI * 2;
     this.minDistanceBetweenPublic = 2;
 
@@ -33,25 +33,24 @@ export default class PublicManager {
     this.publicCount = 0;
     this.init();
   }
-  
+
   init() {
-    this.public = new Public();  
+    this.public = new Public();
     const test = this.public.starInstance.model;
-    console.log("this starInstance", this.public.starInstance);
 
     this.starGeometry = null;
     this.starMaterial = null;
 
     // recuperer la geometry et le materiau du public dans l'objet 3d importé
     test.traverse((child) => {
-        if (child.isMesh) {
-            this.starGeometry = child.geometry;
-            this.starMaterial = child.material; 
-        }
+      if (child.isMesh) {
+        this.starGeometry = child.geometry;
+        this.starMaterial = child.material;
+      }
     });
     if (!this.starGeometry) {
-        console.error("Aucune géométrie trouvée dans le modèle RockStar");
-        return;
+      console.error("Aucune géométrie trouvée dans le modèle RockStar");
+      return;
     }
 
     this.createInstancedMesh();
@@ -73,7 +72,10 @@ export default class PublicManager {
       this.instanceMesh.setMatrixAt(i, matrix);
     }
 
-    this.instanceMesh.instanceColor = new THREE.InstancedBufferAttribute(new Float32Array(this.maxInstances * 3), 3);
+    this.instanceMesh.instanceColor = new THREE.InstancedBufferAttribute(
+      new Float32Array(this.maxInstances * 3),
+      3
+    );
     this.scene.add(this.instanceMesh);
     this.instanceMesh.instanceMatrix.needsUpdate = true;
   }
@@ -85,7 +87,7 @@ export default class PublicManager {
 
     // parametrage de l'instance
     this.dummy.scale.set(0.25, 0.25, 0.25);
-    this.dummy.rotation.set(0,0,-0.1);
+    this.dummy.rotation.set(0, 0, -0.1);
     // couleur random
     const color = new THREE.Color();
     color.setHSL(Math.random(), Math.random(), 0.5);
@@ -142,39 +144,39 @@ export default class PublicManager {
   publicMovement() {
     // definir le mouvement du public : avance vers la scene
     // if (this.publicCount < this.maxInstances) {
-      for (const key in this.publicList) {
-        const publicMember = this.publicList[key];
-        const deltaX =
-          publicMember.data.speed * Math.cos(publicMember.data.angle);
-        const deltaZ =
-          publicMember.data.speed * Math.sin(publicMember.data.angle);
+    for (const key in this.publicList) {
+      const publicMember = this.publicList[key];
+      const deltaX =
+        publicMember.data.speed * Math.cos(publicMember.data.angle);
+      const deltaZ =
+        publicMember.data.speed * Math.sin(publicMember.data.angle);
 
-        const distanceFromCenter = this.calculateDistanceFromCenter(
-          publicMember.data.x,
-          publicMember.data.z
-        );
-        if (distanceFromCenter > this.publicZoneMinRadius) {
-          const noContact = this.checkCoordinates(publicMember.data, key);
+      const distanceFromCenter = this.calculateDistanceFromCenter(
+        publicMember.data.x,
+        publicMember.data.z
+      );
+      if (distanceFromCenter > this.publicZoneMinRadius) {
+        const noContact = this.checkCoordinates(publicMember.data, key);
 
-          // console.log("contact ??", contact);
-          if (noContact) {
-            publicMember.data.x -= deltaX;
-            publicMember.data.z -= deltaZ;
-          }
+        // console.log("contact ??", contact);
+        if (noContact) {
+          publicMember.data.x -= deltaX;
+          publicMember.data.z -= deltaZ;
         }
-
-        this.dummy.position.set(
-          publicMember.data.x,
-          publicMember.data.y + publicMember.data.jumpY, // le saut en plus
-          publicMember.data.z
-        ); 
-
-        this.dummy.rotation.y = -publicMember.data.angle + Math.PI * 0.5;
-
-        this.dummy.updateMatrix();
-        this.instanceMesh.setMatrixAt(key, this.dummy.matrix);
       }
-      this.instanceMesh.instanceMatrix.needsUpdate = true;
+
+      this.dummy.position.set(
+        publicMember.data.x,
+        publicMember.data.y + publicMember.data.jumpY, // le saut en plus
+        publicMember.data.z
+      );
+
+      this.dummy.rotation.y = -publicMember.data.angle + Math.PI * 0.5;
+
+      this.dummy.updateMatrix();
+      this.instanceMesh.setMatrixAt(key, this.dummy.matrix);
+    }
+    this.instanceMesh.instanceMatrix.needsUpdate = true;
     // }
   }
 
@@ -187,17 +189,17 @@ export default class PublicManager {
     // jump des personnages
     data.jumpY = 0;
     const triggerJump = () => {
-        const duration = 0.3;
-        gsap.to(data, {
-            jumpY: 1.5 + Math.random() * 1,
-            duration: duration,
-            ease: "power2.out",
-            yoyo: true,
-            repeat: 1, 
-            onComplete: () => {
-                gsap.delayedCall(2 + Math.random() * 4, triggerJump);
-            }
-        });
+      const duration = 0.3;
+      gsap.to(data, {
+        jumpY: 1.5 + Math.random() * 1,
+        duration: duration,
+        ease: "power2.out",
+        yoyo: true,
+        repeat: 1,
+        onComplete: () => {
+          gsap.delayedCall(2 + Math.random() * 4, triggerJump);
+        },
+      });
     };
     // lancer le premier cycle de saut après un délai initial aléatoire
     gsap.delayedCall(Math.random() * 5, triggerJump);
@@ -222,7 +224,7 @@ export default class PublicManager {
 
   endCreationLoop() {
     for (const key in this.publicList) {
-        gsap.killTweensOf(this.publicList[key].data);
+      gsap.killTweensOf(this.publicList[key].data);
     }
     // arreter la creation du public
     this.publicList = {};

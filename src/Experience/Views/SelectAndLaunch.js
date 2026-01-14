@@ -43,7 +43,7 @@ export default class SelectAndLaunch extends EventEmitter {
 
     this.setupAvailableObjects();
 
-    console.log("SelectAndLaunch items", this.items);
+    // console.log("SelectAndLaunch items", this.items);
 
     // initialize SelectObject and ThrowObject
     this.slingshot = new Slingshot();

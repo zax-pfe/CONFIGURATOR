@@ -65,7 +65,7 @@ export default class SelectObject extends EventEmitter {
     this.mobileData.on("mobileSelect", (payload) => {
       if (!this.selectPhase) return;
 
-        this.destroyElements();
+      this.destroyElements();
 
       this.objectToLaunch = this.selectedObject;
       if (this.currentSelectedModel) {
@@ -350,14 +350,14 @@ export default class SelectObject extends EventEmitter {
   cleanPreviousSelection() {
     // supprimer le modèle 3D de la scène
     if (this.currentSelectedModel) {
-        this.experience.scene.remove(this.currentSelectedModel);
-        this.currentSelectedModel = null;
+      this.experience.scene.remove(this.currentSelectedModel);
+      this.currentSelectedModel = null;
     }
 
     // supprimer le dossier de debug s'il existe
     if (this.currentInstanceData && this.currentInstanceData.debugFolder) {
-        this.currentInstanceData.debugFolder.destroy();
-        this.currentInstanceData = null;
+      this.currentInstanceData.debugFolder.destroy();
+      this.currentInstanceData = null;
     }
   }
 
@@ -382,7 +382,7 @@ export default class SelectObject extends EventEmitter {
           this.objectToLaunch = this.selectedObject;
           if (this.currentSelectedModel) {
             // this.experience.scene.remove(this.currentSelectedModel);
-            this.cleanPreviousSelection()
+            this.cleanPreviousSelection();
           }
           this.destroyDebug();
 
@@ -393,10 +393,6 @@ export default class SelectObject extends EventEmitter {
           }
           this.currentSelectedMusic?.pause();
           this.currentSelectedMusic = null;
-          console.log(
-            "this.soundManager.soundLibrary.fx.buttonValid",
-            this.soundManager.soundLibrary.fx.buttonValid
-          );
           this.soundManager.soundLibrary.fx.buttonValid.play();
           this.trigger("objectSelected");
         },
