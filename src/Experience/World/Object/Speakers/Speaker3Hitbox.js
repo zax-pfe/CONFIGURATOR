@@ -18,7 +18,7 @@ export default class Speaker3Hitbox {
     this.positions = { x: -4, y: 10, z: 0.9 };
     this.scale = { x: 1, y: 1, z: 1 };
     this.rotation = { x: 0, y: -2, z: 0 };
-    this.mass = 0.5;
+    this.mass = 1;
     this.name = "Speaker3";
     this.hitBoxType = "box";
     // set this paramreter to false to be able

@@ -18,7 +18,7 @@ export default class Speaker2Textured {
     this.positions = { x: 3, y: 10, z: 1.3 };
     this.scale = { x: 1, y: 1, z: 1 };
     this.rotation = { x: 0, y: -1.6, z: 0 };
-    this.mass = 0.5;
+    this.mass = 1;
     this.name = "Speaker2Textured";
     this.hitBoxType = "cylinder";
     this.activatePhysics = true;

@@ -17,9 +17,9 @@ export default class Speaker3Textured {
     this.positions = { x: -4, y: 10, z: 0.9 };
     this.scale = { x: 3, y: 3, z: 3 };
     this.rotation = { x: 0, y: -2, z: 0 };
-    this.mass = 0.5;
+    this.mass = 1;
     this.name = "Speaker3Textured";
-    this.hitBoxType = "cylinder";
+    this.hitBoxType = "box";
     // set this paramreter to false to be able
     // to have the debug activate and change
     // the parameters of the object
