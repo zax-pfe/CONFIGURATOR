@@ -24,12 +24,16 @@ import Slingshot from "../World/Object/Slingshot/Slingshot.js";
 import ThrowObject from "../World/throwObject.js";
 import SelectObject from "../World/selectObject.js";
 
+import gsap from "gsap";
+
 // creer tout les elements necessaires
 
 export default class SelectAndLaunch extends EventEmitter {
   constructor() {
     super();
     this.experience = new Experience();
+    this.camera = this.experience.camera; // movement de la caméra
+
     this.debug = this.experience.debug;
     this.connection = this.experience.connection;
     this.gameTimer = this.experience.gameTimer;
@@ -201,9 +205,35 @@ export default class SelectAndLaunch extends EventEmitter {
     // this.selectAndLaunch();
     this.timeIsUp = false;
     this.isStarPhase = false;
-    this.gameTimer.start(this.gameDuration);
     this.createDebug(false);
-    this.selectAndLaunch(false);
+    // on recuperer l'overlay noir qui va permettre le fade in et out
+    this.overlay = document.querySelector(".black-overlay");
+    this.overlay.style.opacity = 1;
+
+    const experienceStartTimeline = gsap.timeline();
+
+    experienceStartTimeline.from(this.camera.instance.position, {
+      x: this.camera.instance.position.x,
+      y: this.camera.instance.position.y + 10,
+      z: this.camera.instance.position.z + 100,
+      duration: 2,
+      ease: "power1.out",
+    });
+
+    experienceStartTimeline.to(
+      this.overlay,
+      {
+        opacity: 0,
+        duration: 2,
+        ease: "power1.in",
+        onComplete: () => {
+          console.log("Starting normal object phase");
+          this.selectAndLaunch(false);
+          this.gameTimer.start(this.gameDuration);
+        },
+      },
+      "-=2"
+    );
   }
 
   end() {

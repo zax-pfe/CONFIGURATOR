@@ -29,9 +29,9 @@ export default class TitleScreen extends EventEmitter {
 
   end() {
     gsap.to(this.titleDiv, {
-      duration: 2,
+      duration: 1.5,
       opacity: 0,
-      ease: "power2.out",
+      ease: "power3.out",
       onComplete: () => {
         this.titleDiv.style.display = "none";
         this.titleDiv = null;

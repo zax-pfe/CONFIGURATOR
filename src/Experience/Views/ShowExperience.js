@@ -23,8 +23,11 @@ export default class ShowExperience extends EventEmitter {
     this.createDebug();
 
     // on crée l'overlay noir qui va permettre le fade in et out
-    this.createOverlay();
+    // this.createOverlay();
+    this.overlay = document.querySelector(".black-overlay");
+    this.overlay.style.opacity = 0;
 
+    // timeline pour gérer l'enchainement des animations
     const timeline = gsap.timeline();
 
     timeline
