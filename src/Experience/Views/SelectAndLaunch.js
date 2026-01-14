@@ -19,7 +19,8 @@ import SpeakerTextured from "../World/Object/Speakers/SpeakerTextured.js";
 import Speaker2Textured from "../World/Object/Speakers/Speaker2Textured.js";
 import Speaker3Textured from "../World/Object/Speakers/Speaker3Textured.js";
 import Speaker4Textured from "../World/Object/Speakers/Speaker4Textured.js";
-import Slingshot from "../World/Object/Slingshot/Slingshot.js";
+import Slingshot from "../World/Object/Slingshot/Slingshot.js"
+import Intern from "../World/Object/Intern/Intern.js";
 
 import ThrowObject from "../World/throwObject.js";
 import SelectObject from "../World/selectObject.js";
@@ -82,10 +83,13 @@ export default class SelectAndLaunch extends EventEmitter {
     this.rockStar = new RockStar();
     this.girlStar = new GirlStar();
     this.daftStar = new DaftStar();
+
     // on ajoute l'instance de la calsse au tableau d'update dans world
     this.experience.world.registerStarInstance(this.rockStar);
     this.experience.world.registerStarInstance(this.girlStar);
     this.experience.world.registerStarInstance(this.daftStar);
+    
+    this.intern = new Intern();
 
     objectsTypes.push(
       this.speaker1,
@@ -226,6 +230,10 @@ export default class SelectAndLaunch extends EventEmitter {
         opacity: 0,
         duration: 2,
         ease: "power1.in",
+        onStart: () => {
+          // crée le stagiare
+          this.intern.create();
+        },
         onComplete: () => {
           console.log("Starting normal object phase");
           this.selectAndLaunch(false);
@@ -254,6 +262,9 @@ export default class SelectAndLaunch extends EventEmitter {
     this.throwObject.destroyDebug();
     this.destroyDebug();
     this.trigger("selectAndLaunchEnd");
+
+    // détruit le stagiare
+    this.intern.destroy();
   }
 
   createDebug(isStarPhase) {
