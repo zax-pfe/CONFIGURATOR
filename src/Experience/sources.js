@@ -173,4 +173,9 @@ export default [
     type: "gltfModel",
     path: "models/Slingshot/slingshot.glb",
   },
+  {
+    name: "Intern",
+    type: "gltfModel",
+    path: "models/Star/intern.glb",
+  },
 ];
