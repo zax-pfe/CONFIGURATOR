@@ -184,6 +184,8 @@ export default class SelectObject extends EventEmitter {
 
     this.cleanPreviousSelection();
 
+    this.cleanPreviousSelection();
+
     const result = this.selectedObject.create();
 
     this.currentInstanceData = result;
@@ -272,6 +274,8 @@ export default class SelectObject extends EventEmitter {
 
     // animation inclinaison de l'objet sélectionné dans la roue
     this.tiltSelectedObject(this.selectedId - 1);
+
+    this.cleanPreviousSelection();
 
     this.cleanPreviousSelection();
 
