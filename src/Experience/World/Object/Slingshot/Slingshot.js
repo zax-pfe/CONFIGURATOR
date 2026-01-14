@@ -6,7 +6,7 @@ export default class Slingshot {
     // setupt the experience
     this.experience = new Experience();
     this.scene = this.experience.scene;
-    this.resource = this.experience.resources.items.Speaker3TexturedModel;
+    this.resource = this.experience.resources.items.Slingshot;
 
     this.setup();
   }

@@ -38,6 +38,9 @@ export default class SelectObject extends EventEmitter {
     this.selectedId = 1;
     // Model of the selected Object
     this.currentSelectedModel = null;
+
+    this.currentInstanceData = null;
+
     // liste des modeles affichés autour de la roue
     this.displayedModels = [];
     // objet selectionné pour le lancé
@@ -48,6 +51,8 @@ export default class SelectObject extends EventEmitter {
     // boolean pour controler la reception de la data du mobile pour le lancer
     // si on est en phase de selection, alors on ecoute les messages de sélection du mobile
     this.selectPhase = false;
+
+    this.isStarPhase = false;
 
     // quand l'utilisateur survole un objet sur le mobile
     this.mobileData.on("mobileHover", (payload) => {
@@ -60,7 +65,7 @@ export default class SelectObject extends EventEmitter {
     this.mobileData.on("mobileSelect", (payload) => {
       if (!this.selectPhase) return;
 
-      this.deleteElements();
+        this.destroyElements();
 
       this.objectToLaunch = this.selectedObject;
       if (this.currentSelectedModel) {
@@ -89,6 +94,7 @@ export default class SelectObject extends EventEmitter {
   // }
 
   selectObjectsOrStars(isStarPhase = false) {
+    this.isStarPhase = isStarPhase;
     this.randomSelectedObjects = [];
 
     if (isStarPhase) {
@@ -176,7 +182,14 @@ export default class SelectObject extends EventEmitter {
 
     this.tiltSelectedObject(index);
 
+    this.cleanPreviousSelection();
+
+    this.cleanPreviousSelection();
+
     const result = this.selectedObject.create();
+
+    this.currentInstanceData = result;
+
     result.model.position.set(
       this.wheelPosition.x,
       this.wheelPosition.y,
@@ -262,7 +275,14 @@ export default class SelectObject extends EventEmitter {
     // animation inclinaison de l'objet sélectionné dans la roue
     this.tiltSelectedObject(this.selectedId - 1);
 
+    this.cleanPreviousSelection();
+
+    this.cleanPreviousSelection();
+
     const result = this.selectedObject.create();
+
+    this.currentInstanceData = result;
+
     result.model.position.set(
       this.wheelPosition.x,
       this.wheelPosition.y,
@@ -327,24 +347,25 @@ export default class SelectObject extends EventEmitter {
     this.currentSelectedModel = result.model;
   }
 
-  deleteElements() {
-    for (let object of this.displayedModels) {
-      gsap.to(object.position, {
-        x: this.wheelPosition.x,
-        y: this.wheelPosition.y,
-        z: this.wheelPosition.z * 10,
-        duration: 1,
-        ease: "power2.inOut",
-        onComplete: () => {
-          this.experience.scene.remove(object);
-        },
-      });
-      // this.experience.scene.remove(object);
+  cleanPreviousSelection() {
+    // supprimer le modèle 3D de la scène
+    if (this.currentSelectedModel) {
+        this.experience.scene.remove(this.currentSelectedModel);
+        this.currentSelectedModel = null;
+    }
+
+    // supprimer le dossier de debug s'il existe
+    if (this.currentInstanceData && this.currentInstanceData.debugFolder) {
+        this.currentInstanceData.debugFolder.destroy();
+        this.currentInstanceData = null;
     }
   }
 
   createDebug() {
     if (this.experience.debug.active) {
+      // suppr l'ancien debug pour rafraichir les params (numObjs)
+      this.destroyDebug();
+
       this.debugFolder = this.debug.ui.addFolder("Select");
       // choix de l'id de l'objet a lancer
       this.debugFolder
@@ -357,10 +378,11 @@ export default class SelectObject extends EventEmitter {
       // add function to delete the object
       const debugObject = {
         validateChoice: () => {
-          this.deleteElements();
+          this.destroyElements();
           this.objectToLaunch = this.selectedObject;
           if (this.currentSelectedModel) {
-            this.experience.scene.remove(this.currentSelectedModel);
+            // this.experience.scene.remove(this.currentSelectedModel);
+            this.cleanPreviousSelection()
           }
           this.destroyDebug();
 

@@ -8,7 +8,6 @@ export default class ThrowObject extends EventEmitter {
   constructor(slingshot) {
     super();
     this.experience = new Experience();
-    this.soundManager = this.experience.soundManager;
     this.time = this.experience.time;
     this.mobileData = this.experience.mobileData;
     this.debug = this.experience.debug;
@@ -28,6 +27,7 @@ export default class ThrowObject extends EventEmitter {
     this.angleX = 0;
     this.angleY = 0;
     this.objectToThrow = null;
+    this.isObjectThrown = false;
 
     // boolean pour controler la reception de la data du mobile pour le lancer
     // si on est en phase de lancer, alors on ecoute les messages de lancer du mobile
@@ -38,7 +38,7 @@ export default class ThrowObject extends EventEmitter {
       if (!this.throwPhase) return;
 
       this.throwObject(payload);
-      this.soundManager.soundLibrary.fx.throw.play();
+      this.isObjectThrown = true;
 
       this.trigger("objectThrown");
     });
@@ -76,6 +76,8 @@ export default class ThrowObject extends EventEmitter {
   }
 
   createSelectedObject() {
+    this.isObjectThrown = false;
+
     // object to throw
     this.result = this.objectToThrow.create();
     this.result.model.position.set(0, 15, 35);
@@ -87,7 +89,7 @@ export default class ThrowObject extends EventEmitter {
     this.slingshotResult = this.slingshot.create();
     this.slingshotResult.model.position.set(0, -10, 75);
     this.experience.scene.add(this.slingshotResult.model);
-    this.followCamera(this.slingshotResult, 16, -4);
+    this.followCamera(this.slingshotResult, 20, -6);
     this.objectsToAnimate.push(this.slingshotResult);
     // console.log(this.slingshotResult)
   }
@@ -134,14 +136,13 @@ export default class ThrowObject extends EventEmitter {
       this.debugFolder.add(this, "angleX", -10, 10, 1).name("angleX");
       this.debugFolder.add(this, "angleY", -10, 10, 1).name("angleY");
       // choix de la puissance du lancé
-      this.debugFolder.add(this, "power", 0.1, 5, 0.1).name("power");
+      this.debugFolder.add(this, "power", 0.1, 10, 0.1).name("power");
       // add function to launch the object
       const debugObject = {
         throw: () => {
           this.addToWorld(this.angleX, this.angleY, this.power);
+          this.isObjectThrown = true;
           this.destroyDebug();
-
-          this.soundManager.soundLibrary.fx.throw.play();
           this.trigger("objectThrown");
         },
       };
@@ -157,8 +158,9 @@ export default class ThrowObject extends EventEmitter {
   }
 
   destroyObject() {
+    console.log("DESTROY OBJECT : " + this.isObjectThrown);
     if ((this.result == undefined) | null) return;
-    if (this.result.model) {
+    if (!this.isObjectThrown && this.result.model) {
       gsap.to(this.result.model.position, {
         y: -5,
         duration: 1,
