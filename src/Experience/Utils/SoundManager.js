@@ -50,7 +50,14 @@ export default class SoundManager extends EventEmitter {
   setupGuitar() {
     const guitar1 = new Audio("/sounds/instruments/guitar/guitar1.wav");
     const guitar2 = new Audio("/sounds/instruments/guitar/guitar2.wav");
-    this.soundLibrary.guitar = { guitar1: guitar1, guitar2: guitar2 };
+    const guitar3 = new Audio("/sounds/instruments/guitar/guitar3.wav");
+    const guitar4 = new Audio("/sounds/instruments/guitar/guitar4.wav");
+    this.soundLibrary.guitar = {
+      guitar1: guitar1,
+      guitar2: guitar2,
+      guitar3: guitar3,
+      guitar4: guitar4,
+    };
   }
 
   setUpFx() {

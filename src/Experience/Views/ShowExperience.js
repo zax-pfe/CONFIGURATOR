@@ -7,7 +7,8 @@ export default class ShowExperience extends EventEmitter {
   constructor() {
     super();
     this.experience = new Experience();
-    this.camera = this.experience.camera;
+    this.camera = this.experience.camera; // movement de la caméra
+    this.renderer = this.experience.renderer; // pour faire les screenshots
     this.environement = this.experience.world.environement;
     this.debug = this.experience.debug;
     this.soundManager = this.experience.soundManager;
@@ -17,6 +18,7 @@ export default class ShowExperience extends EventEmitter {
   start() {
     console.log("Show Experience start from ShowExperience");
     this.createDebug();
+    this.renderer.instance.domElement.toDataURL("image/png");
 
     // on crée l'overlay noir qui va permettre le fade in et out
     this.createOverlay();

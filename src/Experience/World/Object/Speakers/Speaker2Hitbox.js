@@ -25,6 +25,7 @@ export default class Speaker2Hitbox {
     this.material = this.physics.slipperyMaterial;
     this.sound = this.experience.soundManager.soundLibrary.hit.bamboo;
     this.music = this.experience.soundManager.soundLibrary.drums.alternate;
+    this.music = this.experience.soundManager.soundLibrary.guitar.guitar4;
   }
 
   create() {

@@ -15,26 +15,28 @@ export default class Introduction extends EventEmitter {
 
   start() {
     console.log("Introduction start");
-    this.titleDiv = document.createElement("div");
-    this.titleDiv.innerHTML = "Introduction";
-    this.titleDiv.style.cssText = `
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 5rem;
-      color: white;
-      text-align: center;
-      z-index: 1000;
-    `;
-    document.body.appendChild(this.titleDiv);
+
+    this.introDiv = document.querySelector(".intro-screen");
+
+    this.introDiv.style.display = "block";
+    this.introDiv.style.opacity = 1;
+
+    // this.titleDiv = document.createElement("div");
+    // this.titleDiv.innerHTML = "Introduction";
+    // this.titleDiv.style.cssText = `
+    //   position: fixed;
+    //   pointer-events: none;
+    //   opacity: 0;
+    //   z-index: 1000;
+    // `;
+    // document.body.appendChild(this.titleDiv);
     this.createDebug();
   }
 
   end() {
-    if (this.titleDiv) {
-      document.body.removeChild(this.titleDiv);
-      this.titleDiv = null;
+    if (this.introDiv) {
+      document.body.removeChild(this.introDiv);
+      this.introDiv = null;
     }
     this.destroyDebug();
     this.trigger("introductionEnd");

@@ -1,5 +1,6 @@
 import EventEmitter from "../Utils/EventEmitter";
 import Experience from "../Experience";
+import gsap from "gsap";
 // cette vue, affiche l'ecran titre de l'experience
 // avec le logo et le bouton pour commencer l'experience
 // ecoute le telephone -> si start, lance la prochaine scene (introduction)
@@ -20,32 +21,24 @@ export default class TitleScreen extends EventEmitter {
   }
 
   start() {
-    // Create the title screen div
-    this.titleDiv = document.createElement("div");
-    this.titleDiv.innerHTML = "Title screen";
-    this.titleDiv.style.cssText = `
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 5rem;
-      color: white;
-      text-align: center;
-      z-index: 1000;
-    `;
-    document.body.appendChild(this.titleDiv);
+    // Recupere la div de l'ecran titre et l'affiche
+    this.titleDiv = document.querySelector(".title-screen");
 
     this.createDebug();
   }
 
   end() {
-    // Remove the title screen div when ending
-    if (this.titleDiv) {
-      document.body.removeChild(this.titleDiv);
-      this.titleDiv = null;
-    }
-    this.destroyDebug();
-    this.trigger("titleScreenEnd");
+    gsap.to(this.titleDiv, {
+      duration: 2,
+      opacity: 0,
+      ease: "power2.out",
+      onComplete: () => {
+        this.titleDiv.style.display = "none";
+        this.titleDiv = null;
+        this.destroyDebug();
+        this.trigger("titleScreenEnd");
+      },
+    });
   }
 
   createDebug() {
