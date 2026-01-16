@@ -24,7 +24,7 @@ export default class Speaker4Textured {
     // to have the debug activate and change
     // the parameters of the object
     this.activatePhysics = true;
-    this.material = this.physics.slipperyMaterial;
+    this.material = this.physics.defaultContactMaterial;
     this.sound = this.experience.soundManager.soundLibrary.hit.bamboo;
     this.music = this.experience.soundManager.soundLibrary.guitar.guitar2;
   }

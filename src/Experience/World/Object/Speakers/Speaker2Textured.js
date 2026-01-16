@@ -22,7 +22,7 @@ export default class Speaker2Textured {
     this.name = "Speaker2Textured";
     this.hitBoxType = "cylinder";
     this.activatePhysics = true;
-    this.material = this.physics.slipperyMaterial;
+    this.material = this.physics.defaultContactMaterial;
     this.sound = this.experience.soundManager.soundLibrary.hit.bamboo;
     this.music = this.experience.soundManager.soundLibrary.guitar.guitar2;
   }

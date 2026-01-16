@@ -25,7 +25,7 @@ export default class BottleHitbox {
     // to have the debug activate and change
     // the parameters of the object
     this.activatePhysics = true;
-    this.material = this.physics.plasticMaterial;
+    this.material = this.physics.defaultContactMaterial;
     this.sound = this.experience.soundManager.soundLibrary.hit.hit;
     // console.log("Bottle hit sound", this.sound);
     this.music = null;

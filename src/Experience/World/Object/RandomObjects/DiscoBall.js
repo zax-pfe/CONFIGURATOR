@@ -27,7 +27,7 @@ export default class DiscoBallHitbox {
     // to have the debug activate and change
     // the parameters of the object
     this.activatePhysics = true;
-    this.material = this.physics.stickyMaterial;
+    this.material = this.physics.defaultContactMaterial;
     this.sound = this.experience.soundManager.soundLibrary.hit.bamboo;
     // console.log("DiscoBall hit sound", this.sound);
     this.music = this.experience.soundManager.soundLibrary.drums.alternate;

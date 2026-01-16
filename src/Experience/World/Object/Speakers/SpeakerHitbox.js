@@ -22,7 +22,7 @@ export default class SpeakerHitbox {
     this.name = "Speaker2Hitbox";
     this.hitBoxType = "box";
     this.activatePhysics = true;
-    this.material = this.physics.plasticMaterial;
+    this.material = this.physics.defaultContactMaterial;
     this.sound = this.experience.soundManager.soundLibrary.hit.bamboo;
     this.music = this.experience.soundManager.soundLibrary.drums.alternate;
   }
