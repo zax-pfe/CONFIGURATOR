@@ -176,7 +176,7 @@ export default [
   {
     name: "ConeLumiere",
     type: "gltfModel",
-    path: "models/Effects/ConeLumiere.glb",
+    path: "models/Effects/ConeLumiere4.glb",
   },
   {
     name: "GuitarAs1",

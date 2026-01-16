@@ -41,7 +41,7 @@ export default class World {
 
       this.sceneHitBox = new SceneHitBox();
       this.listNonPhysicObjects.push(new Scene());
-      this.coneLumiere = new ConeLumiere({ x: -4.5, y: -2.8, z: 0 });
+      // this.coneLumiere = new ConeLumiere({ x: -4.5, y: -2.8, z: 20 });
       // this.listNonPhysicObjects.push(new Light({ x: 45, y: -2.8, z: 0 }));
       // this.listNonPhysicObjects.push(new Light({ x: 20, y: -5.6, z: -40 }));
 
