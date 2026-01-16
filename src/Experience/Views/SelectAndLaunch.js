@@ -140,6 +140,7 @@ export default class SelectAndLaunch extends EventEmitter {
 
     // creer les mesh des objets selectionnés et les disposer en cercle
     this.selectObject.createSelectedObjectsMeshes();
+    this.intern.throwAnimation();
     // informe que l'on est en phase de selection
     this.selectObject.selectPhase = true;
 
@@ -205,11 +206,14 @@ export default class SelectAndLaunch extends EventEmitter {
     // this.selectAndLaunch();
     this.timeIsUp = false;
     this.isStarPhase = false;
-    this.gameTimer.start(this.gameDuration);
-    this.createDebug(false);
-    this.selectAndLaunch(false);
+    
     // crée le stagiare
     this.intern.create();
+      
+    this.gameTimer.start(this.gameDuration);
+    this.createDebug(false);
+
+    this.selectAndLaunch(false);
   }
 
   end() {

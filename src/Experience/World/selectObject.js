@@ -200,6 +200,13 @@ export default class SelectObject extends EventEmitter {
         ease: "back.out(1.7)"
       }, index * 0.1);
     }
+    
+    this.creationTimeline.to(tempGroup.position, {
+      x: startCenter.x + 1.5,
+      y: startCenter.y - 2,
+      z: startCenter.z - 5,
+      duration: 0.5,
+    })
 
     this.creationTimeline.add(() => {
 
