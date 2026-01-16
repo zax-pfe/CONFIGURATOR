@@ -22,53 +22,51 @@ export default class PictureManager extends EventEmitter {
     // link.download = "screenshot.png";
     // link.click();
   }
-  displayPicture() {
-    // prendre l'image overlay
-    // créer une div pour afficher l'image
-    // creer un canvas pour combiner les deux images
-    // const overlayImage = new Image();
-    // overlayImage.src = this.overlayImages[0]; // Utiliser la première image d'overlay pour l'instant
-    // overlayImage.onload = () => {
-    //   const canvas = document.createElement("canvas");
-    //   const context = canvas.getContext("2d");
 
-    this.imageDiv = document.createElement("div");
-    this.imageDiv.style.cssText = `
-      position: fixed;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 30;
-    `;
-    document.body.appendChild(this.imageDiv);
-  }
+  // displayPicture() {}
 
-  displayPictureCanvas() {
-    console.log("Displaying picture with overlay");
-    const canvas = document.createElement("canvas");
-    canvas.style.cssText = `
-      z-index: 1000;
-    `;
-    const context = canvas.getContext("2d");
+  // displayPictureCanvas() {}
 
-    const cadre = new Image();
-    const screenShot = new Image();
+  displayPicture(
+    divClass,
+    screenshotSrc = "images/testScreenImage.png",
+    cadreSrc = "images/cadre-photo.png",
+    screenshotAlt = "screenshot",
+    cadreAlt = "cadre",
+    position = { x: 40, y: 40 },
+    angle = 0
+  ) {
+    // wrapper principal
+    const showPicture = document.createElement("div");
+    showPicture.className = `show-picture ${divClass}`;
 
-    cadre.src = this.overlayImages[0];
-    screenShot.src = this.testImage;
+    // container relatif
+    const imageContainer = document.createElement("div");
+    imageContainer.className = "image-container";
 
-    cadre.onload = () => {
-      // canvas.width = cadre.width;
-      canvas.width = 500;
+    // image cadre
+    const cadre = document.createElement("img");
+    cadre.className = "cadre";
+    cadre.src = cadreSrc;
+    cadre.alt = cadreAlt;
 
-      canvas.height = cadre.height;
+    // image screenshot
+    const screenshot = document.createElement("img");
+    screenshot.className = "screenshot";
+    screenshot.src = screenshotSrc;
+    screenshot.alt = screenshotAlt;
 
-      context.drawImage(cadre, 0, 0);
+    // assemblage
+    imageContainer.appendChild(cadre);
+    imageContainer.appendChild(screenshot);
+    showPicture.appendChild(imageContainer);
 
-      screenShot.onload = () => {
-        context.drawImage(screenShot, 0, 0);
-        document.body.appendChild(canvas);
-      };
-    };
+    // showPicture.style.position = "absolute";
+    showPicture.style.left = `${position.x}px`;
+    showPicture.style.top = `${position.y}px`;
+    showPicture.style.transform = `rotate(${angle}deg)`;
+
+    document.body.appendChild(showPicture);
+    // return showPicture;
   }
 }

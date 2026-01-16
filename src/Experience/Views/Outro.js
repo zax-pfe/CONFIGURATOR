@@ -13,38 +13,22 @@ export default class Outro extends EventEmitter {
 
   start() {
     this.titleDiv = document.createElement("div");
-    this.titleDiv.innerHTML = "Outro";
-    this.titleDiv.style.cssText = `
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 5rem;
-      color: white;
-      text-align: center;
-      z-index: 30;
-    `;
-    document.body.appendChild(this.titleDiv);
 
-    this.pictureManager.pictures.forEach((dataURL) => {
-      const img = document.createElement("img");
-      img.src = dataURL;
-      img.style.width = "500px";
-      img.style.margin = "8px";
-      img.style.position = "absolute";
-      img.style.zIndex = "30";
-
-      // Générer un angle aléatoire entre -30 et +30 degrés
-      const angle = Math.random() * 60 - 30; // Math.random() * (max - min) + min
-      img.style.transform = `rotate(${angle}deg)`;
-
-      const top = Math.random() * this.size.height - 250;
-      const left = Math.random() * this.size.width - 250;
-      img.style.top = `${top}px`;
-      img.style.left = `${left}px`;
-
-      document.body.appendChild(img);
-    });
+    this.pictureManager.displayPicture();
+    
+    this.pictureManager.displayPicture(
+      "outro-picture", // class CSS pour le div principal
+      this.pictureManager.pictures[0], // source de l'image du screenshot
+      "images/cadre-photo.png", // source de l'image du cadre
+      "screenshot", // class CSS pour l'image du screenshot
+      "cadre", // alt du cadre
+      { x: 100, y: 500 }, // position de l'image
+      0 // angle de rotation de l'image
+    );
+    // this.pictureManager.displayPicture(
+    //   (position = { x: 40, y: 40 }),
+    //   (angle = 0)
+    // );
 
     this.createDebug();
   }

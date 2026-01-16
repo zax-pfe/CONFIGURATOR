@@ -36,14 +36,14 @@ export default class Calibrate extends EventEmitter {
       .to(this.calibrate2Div, {
         duration: 1,
         opacity: 1,
-        ease: "power1.out",
+        ease: "power3.out",
       })
       .to(
         this.calibrateDiv,
         {
           duration: 1,
           opacity: 0,
-          ease: "power1.out",
+          ease: "power3.in",
           onComplete: () => {
             this.calibrateDiv.style.display = "none";
             this.calibrateDiv.remove();
@@ -62,14 +62,14 @@ export default class Calibrate extends EventEmitter {
       .to(this.introDiv, {
         duration: 1,
         opacity: 1,
-        ease: "power1.out",
+        ease: "power3.out",
       })
       .to(
         this.calibrate2Div,
         {
           duration: 1,
           opacity: 0,
-          ease: "power1.out",
+          ease: "power3.in",
           onComplete: () => {
             this.calibrate2Div.style.display = "none";
             this.calibrate2Div.remove();

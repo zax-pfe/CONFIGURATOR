@@ -12,6 +12,7 @@ export default class TitleScreen extends EventEmitter {
     this.experience = new Experience();
     this.debug = this.experience.debug;
     this.connection = this.experience.connection;
+    this.pictureManager = this.experience.pictureManager;
 
     // this.connection.on("message", (data) => {
     //   if (data === "start") {
@@ -24,6 +25,8 @@ export default class TitleScreen extends EventEmitter {
     // Recupere la div de l'ecran titre et l'affiche
     this.titleDiv = document.querySelector(".video-container.title-screen");
     // recupere la div de l'ecran calibrage
+
+    // this.pictureManager.displayPictureCanvas();
     this.calibrateDiv = document.querySelector(
       ".video-container.calibrate-screen"
     );
@@ -44,14 +47,14 @@ export default class TitleScreen extends EventEmitter {
       .to(this.calibrateDiv, {
         duration: 1,
         opacity: 1,
-        ease: "power1.out",
+        ease: "power3.out",
       })
       .to(
         this.titleDiv,
         {
           duration: 1,
           opacity: 0,
-          ease: "power1.out",
+          ease: "power3.in",
           onComplete: () => {
             this.titleDiv.style.display = "none";
             this.titleDiv.remove();
