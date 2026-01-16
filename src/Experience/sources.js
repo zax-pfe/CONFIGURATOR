@@ -183,4 +183,9 @@ export default [
     type: "gltfModel",
     path: "models/Speaker/Guitar/Guitar1/1-lead-guitar2.glb",
   },
+  {
+    name: "Intern",
+    type: "gltfModel",
+    path: "models/Star/intern.glb",
+  },
 ];
