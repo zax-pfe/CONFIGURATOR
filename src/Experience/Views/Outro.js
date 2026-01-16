@@ -14,21 +14,17 @@ export default class Outro extends EventEmitter {
   start() {
     this.titleDiv = document.createElement("div");
 
-    this.pictureManager.displayPicture();
-    
-    this.pictureManager.displayPicture(
-      "outro-picture", // class CSS pour le div principal
-      this.pictureManager.pictures[0], // source de l'image du screenshot
-      "images/cadre-photo.png", // source de l'image du cadre
-      "screenshot", // class CSS pour l'image du screenshot
-      "cadre", // alt du cadre
-      { x: 100, y: 500 }, // position de l'image
-      0 // angle de rotation de l'image
-    );
-    // this.pictureManager.displayPicture(
-    //   (position = { x: 40, y: 40 }),
-    //   (angle = 0)
-    // );
+    this.pictureManager.pictures.forEach((pictureSrc, index) => {
+      this.pictureManager.displayPicture(
+        "outro-picture", // class CSS pour le div principal
+        pictureSrc, // source de l'image du screenshot
+        "images/cadre-photo.png", // source de l'image du cadre
+        "screenshot", // class CSS pour l'image du screenshot
+        "cadre", // alt du cadre
+        { x: 100 * Math.random(), y: index * 180 }, // position de l'image
+        (Math.random() - 0.5) * 60 // angle de rotation de l'image
+      );
+    });
 
     this.createDebug();
   }
