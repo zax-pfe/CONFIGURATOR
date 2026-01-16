@@ -144,6 +144,7 @@ export default class SelectAndLaunch extends EventEmitter {
 
     // creer les mesh des objets selectionnés et les disposer en cercle
     this.selectObject.createSelectedObjectsMeshes();
+    this.intern.throwAnimation();
     // informe que l'on est en phase de selection
     this.selectObject.selectPhase = true;
 
