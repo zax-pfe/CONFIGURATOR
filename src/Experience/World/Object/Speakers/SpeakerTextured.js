@@ -23,7 +23,7 @@ export default class SpeakerTextured {
     this.activatePhysics = true;
     this.material = this.physics.defaultContactMaterial;
     this.sound = this.experience.soundManager.soundLibrary.hit.bamboo;
-    this.music = this.experience.soundManager.soundLibrary.guitar.guitar3;
+    this.music = this.experience.soundManager.soundLibrary.violet.violet2;
   }
 
   create() {

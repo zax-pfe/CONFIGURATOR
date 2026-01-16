@@ -29,7 +29,7 @@ export default class ChoppeHitbox {
     this.activatePhysics = true;
     this.material = this.physics.defaultContactMaterial;
     this.sound = this.experience.soundManager.soundLibrary.hit.bamboo;
-    this.music = this.experience.soundManager.soundLibrary.drums.alternate;
+    this.music = this.experience.soundManager.soundLibrary.rose.rose3;
   }
 
   create() {

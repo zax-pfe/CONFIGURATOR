@@ -30,7 +30,7 @@ export default class DiscoBallHitbox {
     this.material = this.physics.defaultContactMaterial;
     this.sound = this.experience.soundManager.soundLibrary.hit.bamboo;
     // console.log("DiscoBall hit sound", this.sound);
-    this.music = this.experience.soundManager.soundLibrary.drums.alternate;
+    this.music = this.experience.soundManager.soundLibrary.rose.rose4;
     // console.log("DiscoBall music", this.music);
   }
 

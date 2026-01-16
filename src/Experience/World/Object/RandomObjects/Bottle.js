@@ -29,7 +29,8 @@ export default class BottleHitbox {
     this.sound = this.experience.soundManager.soundLibrary.hit.hit;
     // console.log("Bottle hit sound", this.sound);
     this.music = null;
-    this.music = this.experience.soundManager.soundLibrary.drums.alternate;
+    // this.music = this.experience.soundManager.soundLibrary.drums.alternate;
+    this.music = this.experience.soundManager.soundLibrary.rose.rose2;
   }
 
   create() {
