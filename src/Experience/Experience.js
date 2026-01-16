@@ -94,13 +94,13 @@ export default class Experience {
   }
 
   update() {
-    this.stats.stats.begin();
     // console.log("Experience update");
     this.animate.update();
     this.camera.update();
     this.world.update();
-    this.renderer.update();
     this.physics.update(this.time.delta);
+    this.renderer.update();
+    this.stats.stats.begin();
     this.stats.stats.end();
     this.gameTimer.update(this.time.delta);
   }

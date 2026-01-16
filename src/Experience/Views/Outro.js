@@ -12,8 +12,6 @@ export default class Outro extends EventEmitter {
   }
 
   start() {
-    this.titleDiv = document.createElement("div");
-
     this.pictureManager.pictures.forEach((pictureSrc, index) => {
       this.pictureManager.displayPicture(
         "outro-picture", // class CSS pour le div principal
@@ -31,10 +29,7 @@ export default class Outro extends EventEmitter {
 
   end() {
     this.destroyDebug();
-    if (this.titleDiv) {
-      document.body.removeChild(this.titleDiv);
-      this.titleDiv = null;
-    }
+
     this.trigger("outroEnd");
   }
 
