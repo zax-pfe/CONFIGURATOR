@@ -5,6 +5,7 @@ import SelectAndLaunch from "../Views/SelectAndLaunch";
 import ShowExperience from "../Views/ShowExperience";
 import Outro from "../Views/Outro";
 import Experience from "../Experience";
+import Calibrate from "../Views/Calibrate";
 // cette classe prend les differentes scene de l'experience
 // ecoute cette scene,
 // et passe d'une scene a l'autre selon les event renvoyés par les scenes
@@ -18,46 +19,75 @@ export default class ControlManager extends EventEmitter {
     this._selectAndLaunch = new SelectAndLaunch();
     this._showExperience = new ShowExperience();
     this._outro = new Outro();
+    this._calibrate = new Calibrate();
 
-    this.experience = new Experience()
-    this.connection = this.experience.connection
+    this.experience = new Experience();
+    this.connection = this.experience.connection;
+
+    //// ++++++++++++++++++++ CREATIONS DU HTML +++++++++++++++++++++++++////
+
+    this.titleScreen = this.screenCreation(
+      "title-screen",
+      "videos/Video_Intro_Oyo_Rendu.mp4"
+    );
+
+    this.calibrateScreen = this.screenCreation(
+      "calibrate-screen",
+      "videos/Calibrage_1.mp4"
+    );
+
+    this.calibrate2Screen = this.screenCreation(
+      "calibrate2-screen",
+      "videos/Calibrage_2.mp4"
+    );
+
+    this.introScreen = this.screenCreation(
+      "introduction-screen",
+      "videos/Video_Intro_Oyo_Rendu.mp4"
+    );
+
+    //// ++++++++++++++++++++ AJOUT DU HTML AU DOM +++++++++++++++++++++++++////
+    document.body.appendChild(this.titleScreen);
+    document.body.appendChild(this.calibrateScreen);
+    document.body.appendChild(this.calibrate2Screen);
+    document.body.appendChild(this.introScreen);
+
+    //// ++++++++++++++++++++ ROUTING DES SCENES +++++++++++++++++++++++++////
 
     this.currentScene = "title";
-    this.connection.sendMessage("title")
+    this.connection.sendMessage("title");
     this.goToScene("titleScreen");
-    
-    this._titleScreen.on("titleScreenEnd", () => {
-      console.log("received end of introduction");
-      this.currentScene = "intro";
-      this.connection.sendMessage("intro")
 
-      this.goToScene("introduction");
-      // this._introduction.start();
+    this._titleScreen.on("titleScreenEnd", () => {
+      this.currentScene = "calibrate";
+      this.connection.sendMessage("calibrate");
+      this.goToScene("calibrate");
     });
+    this._calibrate.on("calibrateEnd", () => {
+      this.currentScene = "introduction";
+      this.connection.sendMessage("introduction");
+      this.goToScene("introduction");
+    });
+
     this._introduction.on("introductionEnd", () => {
-      // this.connection.sendMessage("select")
-      
+      this.currentScene = "selectAndLaunch";
+      this.connection.sendMessage("selectAndLaunch");
       this.goToScene("selectAndLaunch");
-      // this._selectAndLaunch.start();
     });
     this._selectAndLaunch.on("selectAndLaunchEnd", () => {
       this.currentScene = "show";
-      this.connection.sendMessage("show")
-      
+      this.connection.sendMessage("show");
       this.goToScene("showExperience");
-      // this._showExperience.start();
     });
     this._showExperience.on("showExperienceEnd", () => {
       this.currentScene = "outro";
-      this.connection.sendMessage("outro")
+      this.connection.sendMessage("outro");
       this.goToScene("outro");
-      // this._outro.start();
     });
     this._outro.on("outroEnd", () => {
       this.currentScene = "title";
-      this.connection.sendMessage("title")
+      this.connection.sendMessage("title");
       this.goToScene("titleScreen");
-      // this._titleScreen.start();
     });
   }
 
@@ -65,9 +95,35 @@ export default class ControlManager extends EventEmitter {
     this.currentScene = scene;
 
     if (scene === "titleScreen") this._titleScreen.start();
+    if (scene === "calibrate") this._calibrate.start();
     if (scene === "introduction") this._introduction.start();
     if (scene === "selectAndLaunch") this._selectAndLaunch.start();
     if (scene === "showExperience") this._showExperience.start();
     if (scene === "outro") this._outro.start();
+  }
+
+  screenCreation(
+    divClass,
+    videoSrc,
+    autoplay = true,
+    loop = true,
+    muted = true,
+    playsInline = true
+  ) {
+    const container = document.createElement("div");
+    container.className = `video-container ${divClass}`;
+
+    const video = document.createElement("video");
+    video.className = "video";
+    video.src = videoSrc;
+
+    video.autoplay = autoplay;
+    video.loop = loop;
+    video.muted = muted;
+    video.playsInline = playsInline;
+
+    container.appendChild(video);
+    // document.body.appendChild(container);
+    return container;
   }
 }

@@ -16,7 +16,7 @@ export default class Introduction extends EventEmitter {
   start() {
     console.log("Introduction start");
 
-    this.introDiv = document.querySelector(".intro-screen");
+    this.introDiv = this.experience.world.controlManager.introScreen;
 
     this.createDebug();
   }

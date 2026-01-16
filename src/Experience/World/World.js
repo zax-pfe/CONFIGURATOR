@@ -16,6 +16,8 @@ export default class World {
     // Lorsqu'on crée une experience, en fait on recupere l'instance de Experience deja crée
     // Ce qui nous permet d'acceder a la scene, au ressources, a la camera, au renderer etc...
     this.experience = new Experience();
+    // this.controlManager = this.experience.controlManager;
+
     // console.log("World initialized");
     this.scene = this.experience.scene;
 

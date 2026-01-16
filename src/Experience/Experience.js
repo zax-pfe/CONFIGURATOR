@@ -15,6 +15,7 @@ import MobileData from "./Utils/MobileData.js";
 import Animate from "./Utils/Animate.js";
 import Timer from "./Utils/Timer.js";
 import PictureManager from "./Utils/PictureManager.js";
+import ControlManager from "./Utils/ControlManager.js";
 
 console.log(sources);
 let instance = null;
@@ -59,10 +60,12 @@ export default class Experience {
     this.pictureManager = new PictureManager();
     // Animation manager
     this.animate = new Animate();
-
+    // connection WebSocket
     this.connection = new Connection();
-
+    // Game Timer
     this.gameTimer = new Timer();
+    // Control Manager
+    // this.controlManager = new ControlManager();
 
     // Resize event
     this.sizes.on("resize", () => {

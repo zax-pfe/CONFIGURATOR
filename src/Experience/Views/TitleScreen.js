@@ -22,23 +22,45 @@ export default class TitleScreen extends EventEmitter {
 
   start() {
     // Recupere la div de l'ecran titre et l'affiche
-    this.titleDiv = document.querySelector(".title-screen");
+    this.titleDiv = document.querySelector(".video-container.title-screen");
+    // recupere la div de l'ecran calibrage
+    this.calibrateDiv = document.querySelector(
+      ".video-container.calibrate-screen"
+    );
+
+    // Affiche l'écran en définissant display et opacity
+    if (this.titleDiv) {
+      this.titleDiv.style.opacity = "1";
+    }
 
     this.createDebug();
   }
 
   end() {
-    gsap.to(this.titleDiv, {
-      duration: 1.5,
-      opacity: 0,
-      ease: "power3.out",
-      onComplete: () => {
-        this.titleDiv.style.display = "none";
-        this.titleDiv = null;
-        this.destroyDebug();
-        this.trigger("titleScreenEnd");
-      },
-    });
+    // on fait fade out l'ecran titre et fade in l'ecran calibrage
+    const titleFadeTimeline = gsap.timeline();
+
+    titleFadeTimeline
+      .to(this.calibrateDiv, {
+        duration: 1,
+        opacity: 1,
+        ease: "power1.out",
+      })
+      .to(
+        this.titleDiv,
+        {
+          duration: 1,
+          opacity: 0,
+          ease: "power1.out",
+          onComplete: () => {
+            this.titleDiv.style.display = "none";
+            this.titleDiv.remove();
+            this.destroyDebug();
+            this.trigger("titleScreenEnd");
+          },
+        },
+        "-=1"
+      );
   }
 
   createDebug() {
