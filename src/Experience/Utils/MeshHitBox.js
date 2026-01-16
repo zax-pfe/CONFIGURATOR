@@ -80,6 +80,7 @@ export default class MeshHitBox {
       // this.model = this.resources.scene;
     } else {
       this.model = this.resources.scene.clone();
+      // this.model = this.resources.scene;
     }
     this.model.scale.set(this.scale.x, this.scale.y, this.scale.z);
     this.model.rotation.set(this.rotation.x, this.rotation.y, this.rotation.z);
@@ -124,6 +125,10 @@ export default class MeshHitBox {
     }
 
     this.body = new CANNON.Body({ mass: this.mass, material: this.material });
+
+    this.body.sleepSpeedLimit = 0.1; // Vitesse sous laquelle il est considéré immobile
+    this.body.sleepTimeLimit = 1.0; // Temps (en s) avant de s'endormir
+
     this.body.addShape(result.shape);
     this.body.position.copy(this.model.position);
     this.body.quaternion.copy(this.model.quaternion);
@@ -147,20 +152,20 @@ export default class MeshHitBox {
   update() {
     // Update c'est uniquement pour mettre a jour les elements dans le debug UI
     // update the model position and rotation to match the physics body
-    if (this.activetePhysics) {
-      this.model.position.copy(this.body.position);
-      this.model.quaternion.copy(this.body.quaternion);
-    } else {
-      this.model.position.set(
-        this.positions.x,
-        this.positions.y,
-        this.positions.z
-      );
-      this.model.rotation.set(
-        this.rotation.x,
-        this.rotation.y,
-        this.rotation.z
-      );
-    }
+    // if (this.activetePhysics) {
+    //   this.model.position.copy(this.body.position);
+    //   this.model.quaternion.copy(this.body.quaternion);
+    // } else {
+    //   this.model.position.set(
+    //     this.positions.x,
+    //     this.positions.y,
+    //     this.positions.z
+    //   );
+    //   this.model.rotation.set(
+    //     this.rotation.x,
+    //     this.rotation.y,
+    //     this.rotation.z
+    //   );
+    // }
   }
 }

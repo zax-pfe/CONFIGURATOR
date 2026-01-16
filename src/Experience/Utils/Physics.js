@@ -18,6 +18,7 @@ export default class Physics extends EventEmitter {
     this.world = new CANNON.World();
     this.world.broadphase = new CANNON.SAPBroadphase(this.world);
     this.world.allowSleep = true;
+
     this.world.gravity.set(0, -9.82, 0);
     this.setUpMaterial();
     this.setUpContactMaterial();
@@ -72,49 +73,56 @@ export default class Physics extends EventEmitter {
     this.world.addContactMaterial(this.defaultContactMaterial);
     this.world.defaultContactMaterial = this.defaultContactMaterial;
 
-    // slippery contact material
-    this.slipperyContactMaterial = new CANNON.ContactMaterial(
-      this.slipperyMaterial,
-      this.defaultMaterial,
-      {
-        friction: 0.1,
-        restitution: 0.3,
-      }
-    );
+    // // slippery contact material
+    // this.slipperyContactMaterial = new CANNON.ContactMaterial(
+    //   this.slipperyMaterial,
+    //   this.defaultMaterial,
+    //   {
+    //     friction: 0.1,
+    //     restitution: 0.3,
+    //   }
+    // );
 
-    this.world.addContactMaterial(this.slipperyContactMaterial);
-    this.world.slipperyContactMaterial = this.slipperyContactMaterial;
+    // this.world.addContactMaterial(this.slipperyContactMaterial);
+    // this.world.slipperyContactMaterial = this.slipperyContactMaterial;
 
-    // plastic contact material
-    this.plasticContactMaterial = new CANNON.ContactMaterial(
-      this.plasticMaterial,
-      this.defaultMaterial,
-      {
-        friction: 0.6,
-        restitution: 0.9,
-      }
-    );
+    // // plastic contact material
+    // this.plasticContactMaterial = new CANNON.ContactMaterial(
+    //   this.plasticMaterial,
+    //   this.defaultMaterial,
+    //   {
+    //     friction: 0.6,
+    //     restitution: 0.9,
+    //   }
+    // );
 
-    this.world.addContactMaterial(this.plasticContactMaterial);
-    this.world.plasticContactMaterial = this.plasticContactMaterial;
+    // this.world.addContactMaterial(this.plasticContactMaterial);
+    // this.world.plasticContactMaterial = this.plasticContactMaterial;
 
-    // sticky contact material
-    this.stickyContactMaterial = new CANNON.ContactMaterial(
-      this.stickyMaterial,
-      this.defaultMaterial,
-      {
-        friction: 0.1,
-        restitution: 0.1,
-      }
-    );
+    // // sticky contact material
+    // this.stickyContactMaterial = new CANNON.ContactMaterial(
+    //   this.stickyMaterial,
+    //   this.defaultMaterial,
+    //   {
+    //     friction: 0.1,
+    //     restitution: 0.1,
+    //   }
+    // );
 
-    this.world.addContactMaterial(this.stickyContactMaterial);
-    this.world.stickyContactMaterial = this.stickyContactMaterial;
+    // this.world.addContactMaterial(this.stickyContactMaterial);
+    // this.world.stickyContactMaterial = this.stickyContactMaterial;
   }
 
   update(deltaTime) {
     this.world.step(1 / 60, deltaTime, 3);
     for (const object of this.objectsToUpdate) {
+      // console.log(
+      //   "Updating object:",
+      //   object,
+      //   object.mesh.position,
+      //   object.body.position
+      // );
+
       object.mesh.position.copy(object.body.position);
       object.mesh.quaternion.copy(object.body.quaternion);
     }

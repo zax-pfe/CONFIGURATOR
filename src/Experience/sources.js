@@ -173,4 +173,9 @@ export default [
     type: "gltfModel",
     path: "models/Slingshot/slingshot.glb",
   },
+  {
+    name: "ConeLumiere",
+    type: "gltfModel",
+    path: "models/Effects/ConeLumiere1.glb",
+  },
 ];

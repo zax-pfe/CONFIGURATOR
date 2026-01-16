@@ -27,7 +27,7 @@ export default class DaftStar {
     this.name = "DaftStar";
     this.hitBoxType = "cylinder";
     this.activatePhysics = true;
-    this.material = this.physics.stickyMaterial;
+    this.material = this.physics.defaultMaterial;
     this.sound = this.experience.soundManager.soundLibrary.hit.bamboo;
     this.animated = true;
   }
@@ -120,27 +120,27 @@ export default class DaftStar {
 
   _createDebug(folderName, animationState) {
     const folder = this.debug.ui.addFolder(folderName);
-    
+
     if (animationState) {
-        const debugObject = {
-            playDance: () => animationState.play("dance"),
-            playWalking: () => animationState.play("walk"),
-            playJumping: () => animationState.play("jump"),
-            playStand: () => animationState.play("stand"),
-        };
-        folder.add(debugObject, "playDance");
-        folder.add(debugObject, "playWalking");
-        folder.add(debugObject, "playJumping");
-        folder.add(debugObject, "playStand");
+      const debugObject = {
+        playDance: () => animationState.play("dance"),
+        playWalking: () => animationState.play("walk"),
+        playJumping: () => animationState.play("jump"),
+        playStand: () => animationState.play("stand"),
+      };
+      folder.add(debugObject, "playDance");
+      folder.add(debugObject, "playWalking");
+      folder.add(debugObject, "playJumping");
+      folder.add(debugObject, "playStand");
     }
     folder.close();
     return folder;
   }
 
-  destroyDebug(starInstance){
+  destroyDebug(starInstance) {
     if (starInstance.debugFolder) {
-        starInstance.debugFolder.destroy();
+      starInstance.debugFolder.destroy();
     }
-    this.instances = this.instances.filter(s => s.id !== starInstance.id);
+    this.instances = this.instances.filter((s) => s.id !== starInstance.id);
   }
 }
