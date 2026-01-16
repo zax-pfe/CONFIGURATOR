@@ -1,32 +1,30 @@
-import MeshHitBox from "../../../Utils/MeshHitBox.js";
-import Experience from "../../../Experience.js";
-import Physics from "../../../Utils/Physics.js";
-export default class Speaker4Hitbox {
-  constructor() {
-    // setupt the experience
-    this.experience = new Experience();
-    this.resource = this.experience.resources.items.Speaker4CenteredModel;
+import MeshHitBox from "../../../../Utils/MeshHitBox.js";
+import Experience from "../../../../Experience.js";
+import Physics from "../../../../Utils/Physics.js";
 
-    // setupt the physicWorld
+export default class GuitarAs1 {
+  constructor() {
+    // setupt the experience - get the sounds and resources
+    this.experience = new Experience();
+    this.resource = this.experience.resources.items.GuitarAs1;
+
+    // setupt the physicWorld - get the materials
     this.physics = new Physics();
 
     this.setup();
   }
 
   setup() {
-    this.positions = { x: -1, y: 10, z: -10 };
-    this.scale = { x: 1, y: 1, z: 1 };
-    this.rotation = { x: 0, y: -2, z: 0 };
+    this.positions = { x: 3, y: 10, z: 1.3 };
+    this.scale = { x: 1.3, y: 1.3, z: 1.3 };
+    this.rotation = { x: Math.PI * 0.5, y: -Math.PI * 0.5, z: 0 };
     this.mass = 1;
-    this.name = "Speaker4Hitbox";
-    this.hitBoxType = "box";
-    // set this paramreter to false to be able
-    // to have the debug activate and change
-    // the parameters of the object
+    this.name = "GuitarAs1Hitbox";
+    this.hitBoxType = "cylinder";
     this.activatePhysics = true;
     this.material = this.physics.defaultContactMaterial;
     this.sound = this.experience.soundManager.soundLibrary.hit.bamboo;
-    this.music = this.experience.soundManager.soundLibrary.vert.vert2;
+    this.music = this.experience.soundManager.soundLibrary.guitar.guitar4;
   }
 
   create() {
@@ -42,6 +40,7 @@ export default class Speaker4Hitbox {
       this.activatePhysics,
       this.sound
     );
+
     return {
       name: this.name,
       model: this.MeshHitBox.model,

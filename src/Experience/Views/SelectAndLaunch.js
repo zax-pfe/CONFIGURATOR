@@ -20,6 +20,7 @@ import Speaker2Textured from "../World/Object/Speakers/Speaker2Textured.js";
 import Speaker3Textured from "../World/Object/Speakers/Speaker3Textured.js";
 import Speaker4Textured from "../World/Object/Speakers/Speaker4Textured.js";
 import Slingshot from "../World/Object/Slingshot/Slingshot.js";
+import GuitarAs1 from "../World/Object/Speakers/Guitar/GuitarAs1.js";
 
 import ThrowObject from "../World/throwObject.js";
 import SelectObject from "../World/selectObject.js";
@@ -78,6 +79,7 @@ export default class SelectAndLaunch extends EventEmitter {
     this.speaker2textured = new Speaker2Textured();
     this.speaker3textured = new Speaker3Textured();
     this.Speaker4Textured = new Speaker4Textured();
+    this.guitarAs1 = new GuitarAs1();
     // this.star = new Star();
     this.rockStar = new RockStar();
     this.girlStar = new GirlStar();
@@ -101,7 +103,8 @@ export default class SelectAndLaunch extends EventEmitter {
       this.speaker1textured,
       this.speaker2textured,
       this.speaker3textured,
-      this.Speaker4Textured
+      this.Speaker4Textured,
+      this.guitarAs1
     );
 
     for (const object of objectsTypes) {

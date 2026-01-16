@@ -24,39 +24,9 @@ export default class ControlManager extends EventEmitter {
     this.experience = new Experience();
     this.connection = this.experience.connection;
 
-    //// ++++++++++++++++++++ CREATIONS DU HTML +++++++++++++++++++++++++////
-
-    this.titleScreen = this.screenCreation(
-      "title-screen",
-      "videos/Video_Intro_Oyo_Rendu.mp4"
-    );
-
-    this.calibrateScreen = this.screenCreation(
-      "calibrate-screen",
-      "videos/Calibrage_1.mp4"
-    );
-
-    this.calibrate2Screen = this.screenCreation(
-      "calibrate2-screen",
-      "videos/Calibrage_2.mp4"
-    );
-
-    this.introScreen = this.screenCreation(
-      "introduction-screen",
-      "videos/Video_Intro_Oyo_Rendu.mp4"
-    );
-
-    //// ++++++++++++++++++++ AJOUT DU HTML AU DOM +++++++++++++++++++++++++////
-    document.body.appendChild(this.titleScreen);
-    document.body.appendChild(this.calibrateScreen);
-    document.body.appendChild(this.calibrate2Screen);
-    document.body.appendChild(this.introScreen);
+    this.restart();
 
     //// ++++++++++++++++++++ ROUTING DES SCENES +++++++++++++++++++++++++////
-
-    this.currentScene = "title";
-    this.connection.sendMessage("title");
-    this.goToScene("titleScreen");
 
     this._titleScreen.on("titleScreenEnd", () => {
       this.currentScene = "calibrate";
@@ -85,9 +55,10 @@ export default class ControlManager extends EventEmitter {
       this.goToScene("outro");
     });
     this._outro.on("outroEnd", () => {
-      this.currentScene = "title";
-      this.connection.sendMessage("title");
-      this.goToScene("titleScreen");
+      this.experience.restart();
+      // this.currentScene = "title";
+      // this.connection.sendMessage("title");
+      // this.goToScene("titleScreen");
     });
   }
 
@@ -100,6 +71,40 @@ export default class ControlManager extends EventEmitter {
     if (scene === "selectAndLaunch") this._selectAndLaunch.start();
     if (scene === "showExperience") this._showExperience.start();
     if (scene === "outro") this._outro.start();
+  }
+
+  restart() {
+    //// ++++++++++++++++++++ CREATIONS DU HTML +++++++++++++++++++++++++////
+
+    this.titleScreen = this.screenCreation(
+      "title-screen",
+      "videos/Video_Intro_Oyo_Rendu.mp4"
+    );
+
+    this.calibrateScreen = this.screenCreation(
+      "calibrate-screen",
+      "videos/Calibrage_1.mp4"
+    );
+
+    this.calibrate2Screen = this.screenCreation(
+      "calibrate2-screen",
+      "videos/Calibrage_2.mp4"
+    );
+
+    this.introScreen = this.screenCreation(
+      "introduction-screen",
+      "videos/Video_Intro_Oyo_Rendu.mp4"
+    );
+
+    //// ++++++++++++++++++++ AJOUT DU HTML AU DOM +++++++++++++++++++++++++////
+    document.body.appendChild(this.titleScreen);
+    document.body.appendChild(this.calibrateScreen);
+    document.body.appendChild(this.calibrate2Screen);
+    document.body.appendChild(this.introScreen);
+
+    this.currentScene = "title";
+    this.connection.sendMessage("title");
+    this.goToScene("titleScreen");
   }
 
   screenCreation(

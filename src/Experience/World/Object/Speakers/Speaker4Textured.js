@@ -26,7 +26,7 @@ export default class Speaker4Textured {
     this.activatePhysics = true;
     this.material = this.physics.defaultContactMaterial;
     this.sound = this.experience.soundManager.soundLibrary.hit.bamboo;
-    this.music = this.experience.soundManager.soundLibrary.guitar.guitar2;
+    this.music = this.experience.soundManager.soundLibrary.vert.vert1;
   }
 
   create(position = { x: 0, y: 10, z: 0 }) {

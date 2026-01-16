@@ -41,9 +41,7 @@ export default class World {
 
       this.sceneHitBox = new SceneHitBox();
       this.listNonPhysicObjects.push(new Scene());
-      this.listNonPhysicObjects.push(
-        new ConeLumiere({ x: -4.5, y: -2.8, z: 0 })
-      );
+      this.coneLumiere = new ConeLumiere({ x: -4.5, y: -2.8, z: 0 });
       // this.listNonPhysicObjects.push(new Light({ x: 45, y: -2.8, z: 0 }));
       // this.listNonPhysicObjects.push(new Light({ x: 20, y: -5.6, z: -40 }));
 
@@ -58,19 +56,20 @@ export default class World {
   }
 
   update() {
+    if (this.coneLumiere) {
+      this.coneLumiere.update();
+    }
+
     if (this.screen) {
       this.screen.update();
     }
+
     if (this.sceneHitBox) {
       this.sceneHitBox.update();
     }
 
     if (this.publicManager) {
       this.publicManager.update();
-    }
-
-    for (const object of this.listNonPhysicObjects) {
-      object.Mesh.update();
     }
 
     // update chaque instance de la classe star

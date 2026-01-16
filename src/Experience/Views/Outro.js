@@ -29,7 +29,6 @@ export default class Outro extends EventEmitter {
 
   end() {
     this.destroyDebug();
-
     this.trigger("outroEnd");
   }
 

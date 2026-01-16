@@ -88,13 +88,12 @@ export default class Experience {
   }
 
   resize() {
-    // console.log("Experience resized");
     this.camera.resize();
     this.renderer.resize();
   }
 
   update() {
-    // console.log("Experience update");
+    // console.log("xperience update");
     this.animate.update();
     this.camera.update();
     this.world.update();
@@ -105,18 +104,24 @@ export default class Experience {
     this.gameTimer.update(this.time.delta);
   }
 
+  restart() {
+    // resart the control manager
+    this.world.controlManager.restart();
+    // restart world and physics
+    // restart the debugUI
+    // resart the camera position
+    // restart the html screen elements
+    // restart the sound manager
+  }
+
   destroy() {
     this.sizes.off("resize");
     this.time.off("tick");
-    // this.connection.off("connected");
-    // this.connection.off("message");
 
     // traverse the whole scene
     this.scene.traverse((child) => {
       // dispose geometry
       if (child instanceof THREE.Mesh) {
-        // console.log(child);
-        e;
         child.geometry.dispose();
 
         for (const key in child.material) {

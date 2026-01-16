@@ -14,7 +14,7 @@ export default class ConeLumiere {
 
   setup(position) {
     this.positions = position;
-    this.scale = { x: 1, y: 2, z: 1 };
+    this.scale = { x: 2, y: 2, z: 2 };
     this.rotation = { x: 0, y: 3.14 / 2, z: 0 };
     this.name = "ConeLumiere";
   }
@@ -27,5 +27,9 @@ export default class ConeLumiere {
       this.resource,
       this.name
     );
+  }
+
+  update() {
+    this.Mesh.model.rotation.y += 0.01;
   }
 }

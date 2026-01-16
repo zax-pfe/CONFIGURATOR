@@ -23,7 +23,7 @@ export default class DaftStar {
     this.positions = { x: 0, y: 0, z: 0 };
     this.scale = { x: 1, y: 1, z: 1 };
     this.rotation = { x: 0, y: 3.14, z: 0 };
-    this.mass = 1;
+    this.mass = 10;
     this.name = "DaftStar";
     this.hitBoxType = "cylinder";
     this.activatePhysics = true;

@@ -214,7 +214,7 @@ export default class ShowExperience extends EventEmitter {
   }
 
   fadeLights(duration = 3, fromValue = 1, toValue = 0) {
-    console.log("sunlight intensity", this.environement.sunLight.intensity);
+    // console.log("sunlight intensity", this.environement.sunLight.intensity);
     // const initialSunLightIntensity = this.environement.sunLight.intensity;
     // const initialEnvMapIntensity = this.environement.environmentMap.intensity;
 
