@@ -11,6 +11,13 @@ export default class Introduction extends EventEmitter {
     this.debug = this.experience.debug;
 
     this.connection = this.experience.connection;
+    this.mobileData = this.experience.mobileData;
+
+    // on ecoute le skip du mobile
+    this.mobileData.on("skipIntro", () => {
+      this.end();
+    });
+
   }
 
   start() {

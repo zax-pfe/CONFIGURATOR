@@ -242,14 +242,15 @@ export default class SelectObject extends EventEmitter {
 
         // faire re agrandir les objets
         gsap.to(child.scale, {
-          x: child.userData.originalScale.x,
-          y: child.userData.originalScale.y,
-          z: child.userData.originalScale.z,
-          duration: 1.0,
-          ease: "power2.out",
-          onComplete: () => {
-            this.objectsCanBeSelected = true;
-          },
+            x: child.userData.originalScale.x,
+            y: child.userData.originalScale.y,
+            z: child.userData.originalScale.z,
+            duration: 1.0,
+            ease: "power2.out",
+            onComplete: () => {
+              this.objectsCanBeSelected = true;
+              this.selectPhase = true; 
+            }
         });
       });
     });

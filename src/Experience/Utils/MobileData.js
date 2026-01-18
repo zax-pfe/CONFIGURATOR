@@ -5,6 +5,15 @@ export default class MobileData extends EventEmitter{
   constructor() {
     super()
 
+    this.intro = {
+      state: null,
+    };
+
+    this.calibrate = {
+      state: null,
+    };
+
+
     this.selection = {
       state: null,
       index: null,
@@ -16,12 +25,32 @@ export default class MobileData extends EventEmitter{
       angleH: 0,
       angleV: 0,
     };
+    
+    this.outro = {
+      state: null,
+    };
   }
 
   processMobileMessage(msg) {
     if (!msg.device || msg.device !== "mobile") return;
 
     switch (msg.phase) {
+
+      case "intro": {
+        this.intro.state = msg.state;
+        if (msg.state === "skip") {
+          this.trigger("skipIntro");
+        }
+        break;
+      }
+
+      case "calibrate": {
+        this.calibrate.state = msg.state;
+        if (msg.state === "calibrated") {
+          this.trigger("skipCalibrate");
+        }
+        break;
+      }
 
       case "selection": {
         const prevState = this.selection.state;
@@ -62,6 +91,14 @@ export default class MobileData extends EventEmitter{
           }]);
         }
 
+        break;
+      }
+
+      case "outro": {
+        this.outro.state = msg.state;
+        if (msg.state === "skip") {
+          this.trigger("skipOutro");
+        }
         break;
       }
 

@@ -172,6 +172,7 @@ export default class SelectAndLaunch extends EventEmitter {
 
     // selectionne 5 objets au hasard parmis tout les objets disponibles
     // this.selectObject.selectRandomObject();
+
     this.selectObject.selectObjectsOrStars(this.isStarPhase);
 
     // creer le debug de selection de l'objet
@@ -181,7 +182,7 @@ export default class SelectAndLaunch extends EventEmitter {
     this.selectObject.createSelectedObjectsMeshes();
     this.intern.throwAnimation();
     // informe que l'on est en phase de selection
-    this.selectObject.selectPhase = true;
+    // this.selectObject.selectPhase = true;
 
     // si on clique sur valide la selection.
     this.selectObject.on("objectSelected", () => {
