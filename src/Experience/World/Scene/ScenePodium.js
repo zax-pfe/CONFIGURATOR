@@ -23,8 +23,8 @@ export default class ScenePodium {
     this.scale = { x: 1, y: 1, z: 1 };
     this.rotation = { x: 0, y: 0, z: 0 };
     this.mass = 0;
-    this.dimmensions = { radiusTop: 13.6, radiusBot: 14.5, height: 2.3 };
-    this.positions = { x: 0.7, y: -0.4, z: -7.4 };
+    this.dimmensions = { radiusTop: 13.8, radiusBot: 15.5, height: 4.4 };
+    this.positions = { x: 0, y: -1.5, z: -51.7 };
     this.name = "ScenePodium";
 
     // create the ground
@@ -135,9 +135,9 @@ export default class ScenePodium {
         .add(this.dimmensions, "height", 1, 20, 0.1)
         .name("height");
 
-      this.debugFolder.add(this.positions, "x", -40, 40, 0.1).name("posX");
-      this.debugFolder.add(this.positions, "y", -40, 40, 0.1).name("posY");
-      this.debugFolder.add(this.positions, "z", -40, 40, 0.1).name("posZ");
+      this.debugFolder.add(this.positions, "x", -80, 90, 0.1).name("posX");
+      this.debugFolder.add(this.positions, "y", -80, 90, 0.1).name("posY");
+      this.debugFolder.add(this.positions, "z", -80, 90, 0.1).name("posZ");
     }
   }
 

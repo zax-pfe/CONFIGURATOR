@@ -134,19 +134,26 @@ export default class SoundManager extends EventEmitter {
     const buttonValid = new Audio("/sounds/fx/valide.mp3");
     const throwSound = new Audio("/sounds/fx/throw.mp3");
     const hoverSound = new Audio("/sounds/fx/hover.mp3");
+    const internThrow1 = new Audio("/sounds/fx/internThrow.mp3");
+    const internThrow2 = new Audio("/sounds/fx/internThrow2.mp3");
 
     this.soundLibrary.fx = {
       buttonValid: buttonValid,
       throw: throwSound,
       hover: hoverSound,
+      internThrow1: internThrow1,
+      internThrow2: internThrow2,
     };
   }
 
   playHitSound = (collision) => {
     const impactStrenght = collision.contact.getImpactVelocityAlongNormal();
-
     if (impactStrenght > 2.5) {
-      this.impactSound.volume = Math.random();
+      if (impactStrenght > 20) {
+        this.impactSound.volume = 1;
+      } else {
+        this.impactSound.volume = 0.05 * impactStrenght;
+      }
       this.impactSound.currentTime = 0;
       this.impactSound.play();
     }

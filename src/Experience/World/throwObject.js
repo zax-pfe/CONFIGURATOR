@@ -136,7 +136,7 @@ export default class ThrowObject extends EventEmitter {
       this.debugFolder.add(this, "angleX", -10, 10, 1).name("angleX");
       this.debugFolder.add(this, "angleY", -10, 10, 1).name("angleY");
       // choix de la puissance du lancé
-      this.debugFolder.add(this, "power", 0.1, 10, 0.1).name("power");
+      this.debugFolder.add(this, "power", 0.1, 30, 0.1).name("power");
       // add function to launch the object
       const debugObject = {
         throw: () => {

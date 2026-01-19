@@ -6,14 +6,14 @@ import * as THREE from "three";
 export default class SceneTorus {
   constructor(
     name = "torus",
-    positions = { x: 0, y: 15.5, z: 0 },
+    positions = { x: 0, y: 11.5, z: -51 },
     rotation = { x: 0, y: 0, z: 0 },
     segmentDimmensions = { width: 1, height: 1, depth: 3 },
-    radius = 11,
+    radius = 9.7,
     segments = 30,
     mass = 0,
     stretchX = 1.5,
-    debug = true,
+    debug = false,
   ) {
     // setupt the experience
     this.experience = new Experience();

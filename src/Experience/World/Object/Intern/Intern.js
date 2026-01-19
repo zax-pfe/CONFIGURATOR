@@ -1,6 +1,6 @@
 import Experience from "../../../Experience.js";
 import Mesh from "../../../Utils/Mesh.js";
-import { gsap } from 'gsap'
+import { gsap } from "gsap";
 
 export default class Intern {
   constructor() {
@@ -8,6 +8,7 @@ export default class Intern {
     this.experience = new Experience();
     this.scene = this.experience.scene;
     // this.resource = this.experience.resources.items.SceneFinalModel;
+    this.soundManager = this.experience.soundManager;
     this.resource = this.experience.resources.items.Intern;
     this.setup();
   }
@@ -25,14 +26,14 @@ export default class Intern {
       this.scale,
       this.rotation,
       this.resource,
-      this.name
+      this.name,
     );
     this.intern = this.Mesh.model.children[0];
     this.slingshot = this.Mesh.model.children[1];
-    console.log(this.intern, this.slingshot)
+    console.log(this.intern, this.slingshot);
   }
 
-  throwAnimation(){
+  throwAnimation() {
     // stagiaire
     gsap.to(this.intern.position, {
       y: "+=" + 1,
@@ -41,7 +42,7 @@ export default class Intern {
       yoyo: true,
       delay: 1.2,
       ease: "power1.inOut",
-    })
+    });
     gsap.to(this.intern.rotation, {
       x: 0.25,
       duration: 0.25,
@@ -49,7 +50,7 @@ export default class Intern {
       yoyo: true,
       delay: 1.2,
       ease: "power1.inOut",
-    })
+    });
     // lance-pierre
     const tl = gsap.timeline();
     tl.to(this.slingshot.rotation, {
@@ -57,15 +58,23 @@ export default class Intern {
       duration: 1,
       delay: 0.5,
       ease: "power1.inOut",
-    })
-    tl.to(this.slingshot.rotation, {
-      x: 0,
-      duration: 0.5,
-      ease: "bounce.out",
-    }, "-=0.2")
+    });
+    tl.to(
+      this.slingshot.rotation,
+      {
+        x: 0,
+        duration: 0.5,
+        ease: "bounce.out",
+        onStart: () => {
+          this.soundManager.soundLibrary.fx.internThrow2.volume = 0.2;
+          this.soundManager.soundLibrary.fx.internThrow2.play();
+        },
+      },
+      "-=0.2",
+    );
   }
 
-  destroy(){
-    this.scene.remove(this.Mesh.model)
+  destroy() {
+    this.scene.remove(this.Mesh.model);
   }
 }

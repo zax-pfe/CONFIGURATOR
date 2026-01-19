@@ -16,7 +16,7 @@ export default class Speaker2Hitbox {
 
   setup() {
     this.positions = { x: 3, y: 10, z: 1.3 };
-    this.scale = { x: 1, y: 1, z: 1 };
+    this.scale = { x: 2, y: 2, z: 2 };
     this.rotation = { x: 0, y: -1.6, z: 0 };
     this.mass = 1;
     this.name = "Speaker1Hitbox";
@@ -40,7 +40,7 @@ export default class Speaker2Hitbox {
       this.hitBoxType,
       this.name,
       this.activatePhysics,
-      this.sound
+      this.sound,
     );
 
     return {

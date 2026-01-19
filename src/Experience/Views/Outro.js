@@ -9,9 +9,13 @@ export default class Outro extends EventEmitter {
     this.pictureManager = this.experience.pictureManager;
     this.debug = this.experience.debug;
     this.connection = this.experience.connection;
+    this.selectedStar = null;
   }
 
   start() {
+    // affichage des images de l'outro
+    this.createAndDisplayStar();
+
     this.pictureManager.pictures.forEach((pictureSrc, index) => {
       this.pictureManager.displayPicture(
         "outro-picture", // class CSS pour le div principal
@@ -31,6 +35,17 @@ export default class Outro extends EventEmitter {
     this.pictureManager.destroyPictures();
     this.destroyDebug();
     this.trigger("outroEnd");
+  }
+
+  createAndDisplayStar() {
+    console.log("outro - createAndDisplayStar");
+    // creation de la star selectionné
+    this.result = this.selectedStar.create();
+    console.log(" result outro", this.result);
+
+    this.result.model.position.set(0, 15, 35);
+
+    this.experience.scene.add(this.result.model);
   }
 
   createDebug() {

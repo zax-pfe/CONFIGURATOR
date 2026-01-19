@@ -25,6 +25,7 @@ import Intern from "../World/Object/Intern/Intern.js";
 import Synth1 from "../World/Object/Speakers/Synth/Synth1.js";
 import Synth2 from "../World/Object/Speakers/Synth/Synth2.js";
 import Synth3 from "../World/Object/Speakers/Synth/Synth3.js";
+import SynthCool from "../World/Object/Speakers/Synth/SynthCool.js";
 
 import ThrowObject from "../World/throwObject.js";
 import SelectObject from "../World/selectObject.js";
@@ -87,6 +88,7 @@ export default class SelectAndLaunch extends EventEmitter {
     this.synth1 = new Synth1();
     this.synth2 = new Synth2();
     this.synth3 = new Synth3();
+    this.synthCool = new SynthCool();
     // this.star = new Star();
     this.rockStar = new RockStar();
     this.girlStar = new GirlStar();
@@ -114,10 +116,11 @@ export default class SelectAndLaunch extends EventEmitter {
       this.speaker2textured,
       this.speaker3textured,
       this.Speaker4Textured,
-      this.guitarAs1,
-      this.synth1,
-      this.synth2,
-      this.synth3,
+      // this.guitarAs1,
+      // this.synth1,
+      // this.synth2,
+      // this.synth3,
+      this.synthCool,
     );
 
     for (const object of objectsTypes) {
@@ -172,6 +175,10 @@ export default class SelectAndLaunch extends EventEmitter {
       // on detruit le debug de selection dans selectObject
       // on set l'objet a lancer dans throwObject
       this.throwObject.objectToThrow = this.selectObject.objectToLaunch;
+      if (this.isStarPhase) {
+        this.experience.world.controlManager._outro.selectedStar =
+          this.selectObject.objectToLaunch;
+      }
 
       this.throwObject.createSelectedObject();
 

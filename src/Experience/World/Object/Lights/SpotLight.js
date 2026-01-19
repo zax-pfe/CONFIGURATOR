@@ -31,7 +31,7 @@ export default class SpotLightHitbox {
     this.activatePhysics = true;
     this.material = this.physics.plasticMaterial;
     this.sound = this.experience.soundManager.soundLibrary.hit.bamboo;
-    this.music = this.experience.soundManager.soundLibrary.drums.alternate;
+    this.music = this.experience.soundManager.soundLibrary.rose.rose5;
   }
 
   create() {
@@ -45,7 +45,7 @@ export default class SpotLightHitbox {
       this.hitBoxType,
       this.name,
       this.activatePhysics,
-      this.sound
+      this.sound,
     );
     this.lightMesh = new lightBeam(this.MeshHitBox.model, {
       color: "green",

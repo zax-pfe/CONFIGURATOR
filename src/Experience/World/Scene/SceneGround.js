@@ -20,7 +20,7 @@ export default class SceneGround {
 
     //setUp local parameters
     this.scale = { x: 1, y: 1, z: 1 };
-    this.positions = { x: 0, y: -3.7, z: 0 };
+    this.positions = { x: 0, y: -2.5, z: 0 };
     this.rotation = { x: -Math.PI * 0.5, y: 0, z: 0 };
     this.mass = 0;
     this.dimmensions = { width: 10, height: 10 };
@@ -113,9 +113,9 @@ export default class SceneGround {
       this.debugFolder
         .add(this.dimmensions, "height", 1, 100, 0.1)
         .name("planeHeight");
-      this.debugFolder.add(this.positions, "x", -40, 40, 0.1).name("posX");
-      this.debugFolder.add(this.positions, "y", -40, 40, 0.1).name("posY");
-      this.debugFolder.add(this.positions, "z", -40, 40, 0.1).name("posZ");
+      this.debugFolder.add(this.positions, "x", -80, 80, 0.1).name("posX");
+      this.debugFolder.add(this.positions, "y", -80, 80, 0.1).name("posY");
+      this.debugFolder.add(this.positions, "z", -80, 80, 0.1).name("posZ");
     }
   }
 

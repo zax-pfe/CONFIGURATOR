@@ -203,4 +203,14 @@ export default [
     type: "gltfModel",
     path: "models/Speaker/Synth/2-lead-synth3.glb",
   },
+  {
+    name: "SynthCool",
+    type: "gltfModel",
+    path: "models/Speaker/Synth/synthCool.glb",
+  },
+  {
+    name: "SceneFinalV5",
+    type: "gltfModel",
+    path: "models/Scene/sceneFinalV5.glb",
+  },
 ];

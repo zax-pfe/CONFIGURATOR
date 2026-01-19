@@ -20,69 +20,69 @@ export default class SceneHitBox {
     //create the wall in the back
     this.backWallName = "backWall";
     this.backWallScale = { x: 1, y: 1, z: 1 };
-    this.backWallPositions = { x: 0, y: 18, z: -30 };
+    this.backWallPositions = { x: 0, y: 18, z: -95.7 };
     this.backWallRotation = { x: 0, y: 0, z: 0 };
     this.backWallMass = 0;
     this.backWallDimmensions = { width: 6, height: 6 };
 
     // debug, si active, on voit le mesh en wireframe
     // + un debug UI qui permet de modifier les parametres
-    this.backWallDebug = true;
+    this.backWallDebug = false;
 
     //create the left Wall
     this.leftWallName = "leftWall";
     this.leftWallScale = { x: 1, y: 1, z: 1 };
-    this.leftWallPositions = { x: -30, y: 18, z: 12 };
+    this.leftWallPositions = { x: -67, y: 18, z: 12 };
     this.leftWallRotation = { x: 0, y: Math.PI * 0.5, z: 0 };
     this.leftWallMass = 0;
     this.leftWallDimmensions = { width: 6, height: 6 };
-    this.leftWallDebug = true;
+    this.leftWallDebug = false;
 
     //create the right
     this.rightWallName = "rightWall";
     this.rightWallScale = { x: 1, y: 1, z: 1 };
-    this.rightWallPositions = { x: 30, y: 18, z: 12 };
-    this.rightWallRotation = { x: 0, y: -Math.PI * 0.5, z: 0 };
+    this.rightWallPositions = { x: 69, y: 18, z: 12 };
+    this.rightWallRotation = { x: 0, y: -1.38, z: 0 };
     this.rightWallMass = 0;
     this.rightWallDimmensions = { width: 6, height: 6 };
-    this.rightWallDebug = true;
+    this.rightWallDebug = false;
 
     this.leftBacktWallName = "leftBacktWall";
     this.leftBacktWallScale = { x: 1, y: 1, z: 1 };
-    this.leftBacktWallPositions = { x: -20, y: 18, z: -30 };
+    this.leftBacktWallPositions = { x: -48, y: 18, z: -85 };
     this.leftBacktWallRotation = { x: 0, y: Math.PI * 0.25, z: 0 };
     this.leftBacktWallMass = 0;
     this.leftBacktWallDimmensions = { width: 6, height: 6 };
-    this.leftBacktWallDebug = true;
+    this.leftBacktWallDebug = false;
 
     this.rightBacktWallName = "rightBacktWall";
     this.rightBacktWallScale = { x: 1, y: 1, z: 1 };
-    this.rightBacktWallPositions = { x: 20, y: 18, z: -30 };
+    this.rightBacktWallPositions = { x: 41, y: 18, z: -81.7 };
     this.rightBacktWallRotation = { x: 0, y: -Math.PI * 0.25, z: 0 };
     this.rightBacktWallMass = 0;
     this.rightBacktWallDimmensions = { width: 6, height: 6 };
-    this.rightBacktWallDebug = true;
+    this.rightBacktWallDebug = false;
 
     this.sceneColumnLeftName = "column left";
-    this.sceneColumnLeftPositions = { x: -9.2, y: 9, z: 5.5 };
+    this.sceneColumnLeftPositions = { x: -10.7, y: 7.5, z: -45.2 };
     this.sceneColumnLeftRotation = { x: 0, y: -Math.PI * 0.25, z: 0 };
 
     this.sceneColumnRightName = "column right";
-    this.sceneColumnRightPositions = { x: 9.2, y: 9, z: 5.5 };
+    this.sceneColumnRightPositions = { x: 10.7, y: 7.5, z: -44.3 };
     this.sceneColumnRightRotation = { x: 0, y: -Math.PI * 0.25, z: 0 };
 
     this.sceneColumnBackRightName = "column back right";
-    this.sceneColumnBackRightPositions = { x: 4.6, y: 9, z: -9.5 };
+    this.sceneColumnBackRightPositions = { x: 4.6, y: 7.5, z: -60 };
     this.sceneColumnBackRightRotation = { x: 0, y: -Math.PI * 0.25, z: 0 };
 
     this.sceneColumnBackLeftName = "column back left";
-    this.sceneColumnBackLeftPositions = { x: -5.2, y: 9, z: -9.5 };
+    this.sceneColumnBackLeftPositions = { x: -4.6, y: 7.5, z: -60 };
     this.sceneColumnBackLeftRotation = { x: 0, y: -Math.PI * 0.25, z: 0 };
   }
 
   create() {
-    this.sceneGround = new SceneGround(true);
-    this.scenePodium = new ScenePodium(true);
+    this.sceneGround = new SceneGround(false);
+    this.scenePodium = new ScenePodium(false);
     this.backWall = new SceneWall(
       this.backWallName,
       this.backWallScale,

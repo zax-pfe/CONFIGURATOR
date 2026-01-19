@@ -112,9 +112,9 @@ export default class SceneWall {
       this.debugFolder
         .add(this.dimmensions, "height", 1, 100, 0.1)
         .name("planeHeight");
-      this.debugFolder.add(this.positions, "x", -80, 80, 0.1).name("posX");
-      this.debugFolder.add(this.positions, "y", -80, 80, 0.1).name("posY");
-      this.debugFolder.add(this.positions, "z", -80, 80, 0.1).name("posZ");
+      this.debugFolder.add(this.positions, "x", -110, 110, 0.1).name("posX");
+      this.debugFolder.add(this.positions, "y", -110, 110, 0.1).name("posY");
+      this.debugFolder.add(this.positions, "z", -110, 110, 0.1).name("posZ");
     }
   }
 

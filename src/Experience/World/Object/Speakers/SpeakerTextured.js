@@ -15,7 +15,7 @@ export default class SpeakerTextured {
 
   setup() {
     this.positions = { x: 0, y: 10, z: -5 };
-    this.scale = { x: 1, y: 1, z: 1 };
+    this.scale = { x: 2, y: 2, z: 2 };
     this.rotation = { x: 0, y: -1.6, z: 0 };
     this.mass = 1;
     this.name = "Speaker1Textured";
@@ -37,7 +37,7 @@ export default class SpeakerTextured {
       this.hitBoxType,
       this.name,
       this.activatePhysics,
-      this.sound
+      this.sound,
     );
     return {
       name: this.name,

@@ -39,7 +39,7 @@ export default class TitleScreen extends EventEmitter {
 
     this.createDebug();
 
-    this.soundManager.soundLibrary.ambiance.funk.play();
+    // this.soundManager.soundLibrary.ambiance.funk.play();
   }
 
   end() {
@@ -63,7 +63,7 @@ export default class TitleScreen extends EventEmitter {
             this.titleDiv.remove();
             this.destroyDebug();
             this.trigger("titleScreenEnd");
-            this.soundManager.soundLibrary.ambiance.funk.pause();
+            // this.soundManager.soundLibrary.ambiance.funk.pause();
           },
         },
         "-=1",

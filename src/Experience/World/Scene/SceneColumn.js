@@ -12,7 +12,7 @@ export default class SceneColumn {
     dimmensions = { width: 1.8, height: 13 },
     scale = { x: 1, y: 1, z: 1 },
 
-    debug = true,
+    debug = false,
   ) {
     // setupt the experience
     this.experience = new Experience();
@@ -107,9 +107,9 @@ export default class SceneColumn {
       this.debugFolder
         .add(this.dimmensions, "height", 0.1, 50, 0.1)
         .name("tubeHeight");
-      this.debugFolder.add(this.positions, "x", -40, 40, 0.1).name("posX");
-      this.debugFolder.add(this.positions, "y", -40, 40, 0.1).name("posY");
-      this.debugFolder.add(this.positions, "z", -40, 40, 0.1).name("posZ");
+      this.debugFolder.add(this.positions, "x", -80, 80, 0.1).name("posX");
+      this.debugFolder.add(this.positions, "y", -80, 80, 0.1).name("posY");
+      this.debugFolder.add(this.positions, "z", -80, 80, 0.1).name("posZ");
     }
   }
 
