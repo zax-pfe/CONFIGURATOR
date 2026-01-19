@@ -13,6 +13,7 @@ export default class ThrowObject extends EventEmitter {
     this.debug = this.experience.debug;
     this.physics = new Physics();
     this.objectsToAnimate = this.experience.animate.objectsToAnimate;
+    this.soundManager = this.experience.soundManager;
 
     this.slingshot = slingshot;
 
@@ -85,13 +86,13 @@ export default class ThrowObject extends EventEmitter {
     this.followCamera(this.result, 12, -4);
     this.objectsToAnimate.push(this.result);
 
-      // slingshot
-      this.slingshotResult = this.slingshot.create()
-      this.slingshotResult.model.position.set(0,-10,75)
-      this.experience.scene.add(this.slingshotResult.model)
-      this.followCamera(this.slingshotResult, 20, -6)
-      this.objectsToAnimate.push(this.slingshotResult)
-    }
+    // slingshot
+    this.slingshotResult = this.slingshot.create();
+    this.slingshotResult.model.position.set(0, -10, 75);
+    this.experience.scene.add(this.slingshotResult.model);
+    this.followCamera(this.slingshotResult, 20, -6);
+    this.objectsToAnimate.push(this.slingshotResult);
+  }
 
   throwObject(payload) {
     const strength = payload.strength;
@@ -140,6 +141,8 @@ export default class ThrowObject extends EventEmitter {
       const debugObject = {
         throw: () => {
           this.addToWorld(this.angleX, this.angleY, this.power);
+          // this.soundManager.soundLibrary.fx.throw.volume = 0.5;
+          this.soundManager.soundLibrary.fx.throw.play();
           this.isObjectThrown = true;
           this.destroyDebug();
           this.trigger("objectThrown");

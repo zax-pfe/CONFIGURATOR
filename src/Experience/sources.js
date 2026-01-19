@@ -176,7 +176,7 @@ export default [
   {
     name: "ConeLumiere",
     type: "gltfModel",
-    path: "models/Effects/ConeLumiere4.glb",
+    path: "models/Effects/ConeLumiere5.glb",
   },
   {
     name: "GuitarAs1",
@@ -187,5 +187,20 @@ export default [
     name: "Intern",
     type: "gltfModel",
     path: "models/Star/intern.glb",
+  },
+  {
+    name: "Synth1",
+    type: "gltfModel",
+    path: "models/Speaker/Synth/2-lead-synth-red-1.glb",
+  },
+  {
+    name: "Synth2",
+    type: "gltfModel",
+    path: "models/Speaker/Synth/2-lead-synth1.glb",
+  },
+  {
+    name: "Synth3",
+    type: "gltfModel",
+    path: "models/Speaker/Synth/2-lead-synth3.glb",
   },
 ];

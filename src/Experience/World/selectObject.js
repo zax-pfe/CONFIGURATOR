@@ -1,7 +1,7 @@
 import Experience from "../Experience";
 import EventEmitter from "../Utils/EventEmitter";
 import { gsap } from "gsap";
-import * as THREE from 'three'
+import * as THREE from "three";
 // les objets sont crées en amont et donnés a cette classe
 
 export default class SelectObject extends EventEmitter {
@@ -146,27 +146,27 @@ export default class SelectObject extends EventEmitter {
     tempGroup.position.set(startCenter.x, startCenter.y, startCenter.z);
     this.experience.scene.add(tempGroup);
 
-    const miniRadius = 0.5; 
+    const miniRadius = 0.5;
 
     // timeline gsap
     this.creationTimeline = gsap.timeline({
       onComplete: () => {
         this.experience.scene.remove(tempGroup);
-      }
+      },
     });
 
     // creation et apparition
     for (let [index, object] of this.randomSelectedObjects.entries()) {
       const result = object.create();
-      
+
       const angle = -index * this.angleStep;
-      
+
       result.model.position.set(
         Math.cos(angle) * miniRadius,
         Math.sin(angle) * miniRadius,
-        0
+        0,
       );
-      
+
       // saubegarder l'échelle et la rota originales
       const originalRotation = result.model.rotation.clone();
       result.model.userData.originalScale = result.model.scale.clone();
@@ -175,7 +175,7 @@ export default class SelectObject extends EventEmitter {
 
       tempGroup.add(result.model);
       this.displayedModels.push(result.model);
-      
+
       this.wheelObjects.push({
         model: result.model,
         rotation: originalRotation,
@@ -183,33 +183,40 @@ export default class SelectObject extends EventEmitter {
 
       // objets plus petits
       // on crée une variable globale pour la timeline pour pouvoir la stopper (kill) quand les éléments sont supprimés
-      this.creationTimeline.to(result.model.scale, {
-        x: result.model.userData.originalScale.x * 0.5,
-        y: result.model.userData.originalScale.y * 0.5,
-        z: result.model.userData.originalScale.z * 0.5,
-        duration: 0.5,
-        ease: "back.out(1.7)"
-      }, index * 0.1);
+      this.creationTimeline.to(
+        result.model.scale,
+        {
+          x: result.model.userData.originalScale.x * 0.5,
+          y: result.model.userData.originalScale.y * 0.5,
+          z: result.model.userData.originalScale.z * 0.5,
+          duration: 0.5,
+          ease: "back.out(1.7)",
+        },
+        index * 0.1,
+      );
 
       // rotation random aux objets au départ
-      this.creationTimeline.to(result.model.rotation, {
-        x: Math.random() * 10,
-        y: Math.random() * 0.5,
-        z: Math.random() * 5,
-        duration: 0.5,
-        ease: "back.out(1.7)"
-      }, index * 0.1);
+      this.creationTimeline.to(
+        result.model.rotation,
+        {
+          x: Math.random() * 10,
+          y: Math.random() * 0.5,
+          z: Math.random() * 5,
+          duration: 0.5,
+          ease: "back.out(1.7)",
+        },
+        index * 0.1,
+      );
     }
-    
+
     this.creationTimeline.to(tempGroup.position, {
       x: startCenter.x + 1.5,
       y: startCenter.y - 2,
       z: startCenter.z - 5,
       duration: 0.5,
-    })
+    });
 
     this.creationTimeline.add(() => {
-
       [...tempGroup.children].forEach((child, i) => {
         this.experience.scene.attach(child);
 
@@ -219,36 +226,36 @@ export default class SelectObject extends EventEmitter {
           y: this.circlePositions[i].y,
           z: this.circlePositions[i].z,
           duration: 1.2,
-          ease: "power2.out"
+          ease: "power2.out",
         });
 
         // ROTATION
         const originalRot = this.wheelObjects[i].rotation;
         gsap.to(child.rotation, {
-           x: originalRot.x,
-           y: originalRot.y,
-           z: originalRot.z,
-           duration: 1.2,
-           ease: "power2.out"
+          x: originalRot.x,
+          y: originalRot.y,
+          z: originalRot.z,
+          duration: 1.2,
+          ease: "power2.out",
         });
 
         // faire re agrandir les objets
         gsap.to(child.scale, {
-            x: child.userData.originalScale.x,
-            y: child.userData.originalScale.y,
-            z: child.userData.originalScale.z,
-            duration: 1.0,
-            ease: "power2.out",
-            onComplete: () => {
-              this.objectsCanBeSelected = true;
-            }
+          x: child.userData.originalScale.x,
+          y: child.userData.originalScale.y,
+          z: child.userData.originalScale.z,
+          duration: 1.0,
+          ease: "power2.out",
+          onComplete: () => {
+            this.objectsCanBeSelected = true;
+          },
         });
       });
     });
   }
 
   setSelectedObjectMobile(payload) {
-    if (!this.objectsCanBeSelected) return
+    if (!this.objectsCanBeSelected) return;
     const index = payload.index;
     this.selectedObject = this.randomSelectedObjects[index];
 
@@ -265,7 +272,7 @@ export default class SelectObject extends EventEmitter {
     result.model.position.set(
       this.wheelPosition.x,
       this.wheelPosition.y,
-      this.wheelPosition.z
+      this.wheelPosition.z,
     );
 
     // animations d'apparition puis rotation de l'objet sélectionné au centre
@@ -283,7 +290,7 @@ export default class SelectObject extends EventEmitter {
         z: this.selectedObject.scale.z * 2.5,
         duration: 0.25,
         ease: "power2.inOut",
-      }
+      },
     );
     tl.to(result.model.scale, {
       x: this.selectedObject.scale.x * 2,
@@ -342,8 +349,10 @@ export default class SelectObject extends EventEmitter {
 
   // creer l'objet au centre
   setSelectedObject() {
-    if (!this.objectsCanBeSelected) return
+    if (!this.objectsCanBeSelected) return;
     this.selectedObject = this.randomSelectedObjects[this.selectedId - 1];
+    this.soundManager.soundLibrary.fx.hover.volume = 0.5;
+    this.soundManager.soundLibrary.fx.hover.play();
 
     // animation inclinaison de l'objet sélectionné dans la roue
     this.tiltSelectedObject(this.selectedId - 1);
@@ -359,7 +368,7 @@ export default class SelectObject extends EventEmitter {
     result.model.position.set(
       this.wheelPosition.x,
       this.wheelPosition.y,
-      this.wheelPosition.z
+      this.wheelPosition.z,
     );
     this.currentSelectedMusic?.pause();
     this.currentSelectedMusic = null;
@@ -367,7 +376,7 @@ export default class SelectObject extends EventEmitter {
     // on joue la musique et reset le temps
     if (result.music) {
       this.currentSelectedMusic = result.music;
-      this.currentSelectedMusic.volume = 0.1;
+      this.currentSelectedMusic.volume = 0.3;
       this.currentSelectedMusic.currentTime = 0;
       this.currentSelectedMusic.loop = true;
       this.currentSelectedMusic.play();
@@ -392,7 +401,7 @@ export default class SelectObject extends EventEmitter {
         z: this.selectedObject.scale.z * 2.5,
         duration: 0.25,
         ease: "power2.inOut",
-      }
+      },
     );
     tl.to(result.model.scale, {
       x: this.selectedObject.scale.x * 2,
@@ -466,6 +475,7 @@ export default class SelectObject extends EventEmitter {
           }
           this.currentSelectedMusic?.pause();
           this.currentSelectedMusic = null;
+          this.soundManager.soundLibrary.fx.buttonValid.volume = 0.5;
           this.soundManager.soundLibrary.fx.buttonValid.play();
           this.trigger("objectSelected");
         },
@@ -484,13 +494,13 @@ export default class SelectObject extends EventEmitter {
   destroyElements() {
     this.creationTimeline.kill();
     if (this.currentSelectedModel) {
-      gsap.to( this.currentSelectedModel.rotation, {
+      gsap.to(this.currentSelectedModel.rotation, {
         x: Math.random() * 10,
         y: Math.random() * 0.5,
         z: Math.random() * 5,
         duration: 1,
-        ease: "power2.inOut"
-      })
+        ease: "power2.inOut",
+      });
       gsap.to(this.currentSelectedModel.position, {
         x: this.wheelPosition.x,
         y: this.wheelPosition.y,
@@ -503,13 +513,13 @@ export default class SelectObject extends EventEmitter {
       });
     }
     for (let object of this.displayedModels) {
-      gsap.to( object.rotation, {
+      gsap.to(object.rotation, {
         x: Math.random() * 10,
         y: Math.random() * 0.5,
         z: Math.random() * 5,
         duration: 1,
-        ease: "power2.inOut"
-      })
+        ease: "power2.inOut",
+      });
       gsap.to(object.position, {
         x: this.wheelPosition.x - 100,
         y: this.wheelPosition.y * 5,

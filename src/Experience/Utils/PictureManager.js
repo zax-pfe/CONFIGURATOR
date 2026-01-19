@@ -7,9 +7,11 @@ export default class PictureManager extends EventEmitter {
     super();
     this.experience = new Experience();
     this.renderer = this.experience.renderer.instance;
-    this.pictures = [];
-    this.overlayImages = ["images/cadre-photo.png"]; // Ajouter les chemins des images d'overlay ici
-    this.testImage = "images/testScreenImage.png"; // Image de test
+    this.pictures = []; // Tableau pour stocker les images capturées
+    this.picturesContainerHTML = []; // Tableau pour stocker les éléments HTML des images affichées
+    // permet surtout de pouvoir supprimer ces images html
+    this.overlayImages = ["images/cadre-photo.png"]; // chemins des images d'overlay
+    this.testImage = "images/testScreenImage.png";
   }
 
   takePicture() {
@@ -17,15 +19,20 @@ export default class PictureManager extends EventEmitter {
     this.pictures.push(dataURL);
     console.log("Picture taken, total pictures:", this.pictures.length);
 
+    // permet de télécharger l'image directement
     // const link = document.createElement("a");
     // link.href = dataURL;
     // link.download = "screenshot.png";
     // link.click();
   }
 
-  // displayPicture() {}
-
-  // displayPictureCanvas() {}
+  destroyPictures() {
+    // liquide tout les images affichées
+    for (const picHTML of this.picturesContainerHTML) {
+      document.body.removeChild(picHTML);
+    }
+    this.pictures = [];
+  }
 
   displayPicture(
     divClass,
@@ -34,13 +41,13 @@ export default class PictureManager extends EventEmitter {
     screenshotAlt = "screenshot",
     cadreAlt = "cadre",
     position = { x: 40, y: 40 },
-    angle = 0
+    angle = 0,
   ) {
     // wrapper principal
     const showPicture = document.createElement("div");
     showPicture.className = `show-picture ${divClass}`;
 
-    // container relatif
+    // container
     const imageContainer = document.createElement("div");
     imageContainer.className = "image-container";
 
@@ -61,12 +68,11 @@ export default class PictureManager extends EventEmitter {
     imageContainer.appendChild(screenshot);
     showPicture.appendChild(imageContainer);
 
-    // showPicture.style.position = "absolute";
     showPicture.style.left = `${position.x}px`;
     showPicture.style.top = `${position.y}px`;
     showPicture.style.transform = `rotate(${angle}deg)`;
 
     document.body.appendChild(showPicture);
-    // return showPicture;
+    this.picturesContainerHTML.push(showPicture);
   }
 }

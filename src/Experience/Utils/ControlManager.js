@@ -78,22 +78,27 @@ export default class ControlManager extends EventEmitter {
 
     this.titleScreen = this.screenCreation(
       "title-screen",
-      "videos/Video_Intro_Oyo_Rendu.mp4"
+      "videos/Video_Intro_Oyo_Rendu.mp4",
     );
 
     this.calibrateScreen = this.screenCreation(
       "calibrate-screen",
-      "videos/Calibrage_1.mp4"
+      "videos/Calibrage_1.mp4",
     );
 
     this.calibrate2Screen = this.screenCreation(
       "calibrate2-screen",
-      "videos/Calibrage_2.mp4"
+      "videos/Calibrage_2.mp4",
     );
 
     this.introScreen = this.screenCreation(
       "introduction-screen",
-      "videos/Video_Intro_Oyo_Rendu.mp4"
+      "videos/oyo_teaser.mp4",
+      false, //autoplay
+      false, //loop
+      false, //muted
+      false, //playsInline
+      true, //paused
     );
 
     //// ++++++++++++++++++++ AJOUT DU HTML AU DOM +++++++++++++++++++++++++////
@@ -102,9 +107,13 @@ export default class ControlManager extends EventEmitter {
     document.body.appendChild(this.calibrate2Screen);
     document.body.appendChild(this.introScreen);
 
-    this.currentScene = "title";
-    this.connection.sendMessage("title");
-    this.goToScene("titleScreen");
+    // this.currentScene = "title";
+    // this.connection.sendMessage("title");
+    // this.goToScene("titleScreen");
+
+    this.currentScene = "selectAndLaunch";
+    this.connection.sendMessage("selectAndLaunch");
+    this.goToScene("selectAndLaunch");
   }
 
   screenCreation(
@@ -113,7 +122,8 @@ export default class ControlManager extends EventEmitter {
     autoplay = true,
     loop = true,
     muted = true,
-    playsInline = true
+    playsInline = true,
+    paused = false,
   ) {
     const container = document.createElement("div");
     container.className = `video-container ${divClass}`;
@@ -121,11 +131,11 @@ export default class ControlManager extends EventEmitter {
     const video = document.createElement("video");
     video.className = "video";
     video.src = videoSrc;
-
     video.autoplay = autoplay;
     video.loop = loop;
     video.muted = muted;
     video.playsInline = playsInline;
+    if (paused) video.pause();
 
     container.appendChild(video);
     // document.body.appendChild(container);

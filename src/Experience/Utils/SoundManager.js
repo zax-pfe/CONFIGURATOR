@@ -17,6 +17,7 @@ export default class SoundManager extends EventEmitter {
     this.setupViolet();
     this.setUpFx();
     this.setupHitSound();
+    this.setUpAmbianceSounds();
 
     this.impactSound = null;
 
@@ -43,6 +44,11 @@ export default class SoundManager extends EventEmitter {
       bamboo: bambooHitSound,
       punch: punchSound,
     };
+  }
+
+  setUpAmbianceSounds() {
+    const ambianceFunk = new Audio("/sounds/ambiance/foreverFunk.mp3");
+    this.soundLibrary.ambiance = { funk: ambianceFunk };
   }
 
   setupDrum() {
@@ -127,8 +133,13 @@ export default class SoundManager extends EventEmitter {
   setUpFx() {
     const buttonValid = new Audio("/sounds/fx/valide.mp3");
     const throwSound = new Audio("/sounds/fx/throw.mp3");
+    const hoverSound = new Audio("/sounds/fx/hover.mp3");
 
-    this.soundLibrary.fx = { buttonValid: buttonValid, throw: throwSound };
+    this.soundLibrary.fx = {
+      buttonValid: buttonValid,
+      throw: throwSound,
+      hover: hoverSound,
+    };
   }
 
   playHitSound = (collision) => {
@@ -183,7 +194,7 @@ export default class SoundManager extends EventEmitter {
             music.pause();
           }
         },
-      }
+      },
     );
   }
 

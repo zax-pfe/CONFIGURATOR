@@ -13,6 +13,7 @@ export default class TitleScreen extends EventEmitter {
     this.debug = this.experience.debug;
     this.connection = this.experience.connection;
     this.pictureManager = this.experience.pictureManager;
+    this.soundManager = this.experience.soundManager;
 
     // this.connection.on("message", (data) => {
     //   if (data === "start") {
@@ -28,7 +29,7 @@ export default class TitleScreen extends EventEmitter {
 
     // this.pictureManager.displayPictureCanvas();
     this.calibrateDiv = document.querySelector(
-      ".video-container.calibrate-screen"
+      ".video-container.calibrate-screen",
     );
 
     // Affiche l'écran en définissant display et opacity
@@ -37,6 +38,8 @@ export default class TitleScreen extends EventEmitter {
     }
 
     this.createDebug();
+
+    this.soundManager.soundLibrary.ambiance.funk.play();
   }
 
   end() {
@@ -60,9 +63,10 @@ export default class TitleScreen extends EventEmitter {
             this.titleDiv.remove();
             this.destroyDebug();
             this.trigger("titleScreenEnd");
+            this.soundManager.soundLibrary.ambiance.funk.pause();
           },
         },
-        "-=1"
+        "-=1",
       );
   }
 

@@ -38,7 +38,7 @@ export default class SceneWall {
   setGeometry() {
     this.geometry = new THREE.PlaneGeometry(
       this.dimmensions.width,
-      this.dimmensions.height
+      this.dimmensions.height,
     );
   }
   setMaterial() {
@@ -58,7 +58,7 @@ export default class SceneWall {
     this.mesh.position.set(
       this.positions.x,
       this.positions.y,
-      this.positions.z
+      this.positions.z,
     );
     this.mesh.receiveShadow = true;
     this.scene.add(this.mesh);
@@ -88,7 +88,7 @@ export default class SceneWall {
       this.rotation.x,
       this.rotation.y,
       this.rotation.z,
-      "XYZ"
+      "XYZ",
     );
 
     this.world.addBody(this.floorBody);
@@ -112,9 +112,9 @@ export default class SceneWall {
       this.debugFolder
         .add(this.dimmensions, "height", 1, 100, 0.1)
         .name("planeHeight");
-      this.debugFolder.add(this.positions, "x", -40, 40, 0.1).name("posX");
-      this.debugFolder.add(this.positions, "y", -40, 40, 0.1).name("posY");
-      this.debugFolder.add(this.positions, "z", -40, 40, 0.1).name("posZ");
+      this.debugFolder.add(this.positions, "x", -80, 80, 0.1).name("posX");
+      this.debugFolder.add(this.positions, "y", -80, 80, 0.1).name("posY");
+      this.debugFolder.add(this.positions, "z", -80, 80, 0.1).name("posZ");
     }
   }
 
@@ -126,7 +126,7 @@ export default class SceneWall {
       this.mesh.position.set(
         this.positions.x,
         this.positions.y,
-        this.positions.z
+        this.positions.z,
       );
     }
 

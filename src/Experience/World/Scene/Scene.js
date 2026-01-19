@@ -16,7 +16,7 @@ export default class Scene {
 
   setup() {
     this.positions = { x: 0, y: -4, z: 0 };
-    this.scale = { x: 1.2, y: 1.2, z: 1.2 };
+    this.scale = { x: 2.5, y: 2.5, z: 2.5 };
     this.rotation = { x: 0, y: 3.14 / 2, z: 0 };
     this.name = "Scene";
   }
@@ -27,7 +27,7 @@ export default class Scene {
       this.scale,
       this.rotation,
       this.resource,
-      this.name
+      this.name,
     );
   }
 }

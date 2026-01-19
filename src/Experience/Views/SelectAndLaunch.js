@@ -22,6 +22,9 @@ import Speaker4Textured from "../World/Object/Speakers/Speaker4Textured.js";
 import GuitarAs1 from "../World/Object/Speakers/Guitar/GuitarAs1.js";
 import Slingshot from "../World/Object/Slingshot/Slingshot.js";
 import Intern from "../World/Object/Intern/Intern.js";
+import Synth1 from "../World/Object/Speakers/Synth/Synth1.js";
+import Synth2 from "../World/Object/Speakers/Synth/Synth2.js";
+import Synth3 from "../World/Object/Speakers/Synth/Synth3.js";
 
 import ThrowObject from "../World/throwObject.js";
 import SelectObject from "../World/selectObject.js";
@@ -81,6 +84,9 @@ export default class SelectAndLaunch extends EventEmitter {
     this.speaker3textured = new Speaker3Textured();
     this.Speaker4Textured = new Speaker4Textured();
     this.guitarAs1 = new GuitarAs1();
+    this.synth1 = new Synth1();
+    this.synth2 = new Synth2();
+    this.synth3 = new Synth3();
     // this.star = new Star();
     this.rockStar = new RockStar();
     this.girlStar = new GirlStar();
@@ -108,7 +114,10 @@ export default class SelectAndLaunch extends EventEmitter {
       this.speaker2textured,
       this.speaker3textured,
       this.Speaker4Textured,
-      this.guitarAs1
+      this.guitarAs1,
+      this.synth1,
+      this.synth2,
+      this.synth3,
     );
 
     for (const object of objectsTypes) {
@@ -119,7 +128,7 @@ export default class SelectAndLaunch extends EventEmitter {
       // this.star,
       this.rockStar,
       this.girlStar,
-      this.daftStar
+      this.daftStar,
     );
 
     for (const star of starTypes) {
@@ -244,7 +253,7 @@ export default class SelectAndLaunch extends EventEmitter {
           this.gameTimer.start(this.gameDuration);
         },
       },
-      "-=2"
+      "-=2",
     );
   }
 

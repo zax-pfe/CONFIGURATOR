@@ -17,14 +17,20 @@ export default class Introduction extends EventEmitter {
     console.log("Introduction start");
 
     this.introDiv = this.experience.world.controlManager.introScreen;
-
+    this.videoElement = this.introDiv.querySelector("video");
+    this.videoElement.play();
     this.createDebug();
+    this.videoElement.addEventListener("ended", () => {
+      this.end();
+    });
   }
 
   end() {
     if (this.introDiv) {
       document.body.removeChild(this.introDiv);
-
+      this.videoElement.pause();
+      this.videoElement.currentTime = 0;
+      this.videoElement = null;
       this.introDiv = null;
     }
     this.destroyDebug();

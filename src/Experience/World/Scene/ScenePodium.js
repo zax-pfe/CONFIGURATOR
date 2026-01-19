@@ -23,8 +23,8 @@ export default class ScenePodium {
     this.scale = { x: 1, y: 1, z: 1 };
     this.rotation = { x: 0, y: 0, z: 0 };
     this.mass = 0;
-    this.dimmensions = { radiusTop: 12, radiusBot: 15, height: 2.3 };
-    this.positions = { x: 0, y: this.dimmensions.height / 2, z: 0 };
+    this.dimmensions = { radiusTop: 13.6, radiusBot: 14.5, height: 2.3 };
+    this.positions = { x: 0.7, y: -0.4, z: -7.4 };
     this.name = "ScenePodium";
 
     // create the ground
@@ -50,7 +50,7 @@ export default class ScenePodium {
       this.dimmensions.radiusTop,
       this.dimmensions.radiusBot,
       this.dimmensions.height,
-      8
+      8,
     );
   }
   threeToCannonTrimesh(geometry) {
@@ -80,7 +80,7 @@ export default class ScenePodium {
     this.mesh.position.set(
       this.positions.x,
       this.positions.y,
-      this.positions.z
+      this.positions.z,
     );
     this.mesh.receiveShadow = true;
     this.scene.add(this.mesh);
@@ -91,7 +91,7 @@ export default class ScenePodium {
       this.dimmensions.radiusTop,
       this.dimmensions.radiusBot,
       this.dimmensions.height,
-      8
+      8,
     );
 
     // const shape = this.threeToCannonTrimesh(this.geometry);
@@ -107,7 +107,7 @@ export default class ScenePodium {
       this.rotation.x,
       this.rotation.y,
       this.rotation.z,
-      "XYZ"
+      "XYZ",
     );
 
     this.world.addBody(this.body);
@@ -149,7 +149,7 @@ export default class ScenePodium {
       this.mesh.position.set(
         this.positions.x,
         this.positions.y,
-        this.positions.z
+        this.positions.z,
       );
 
       this.mesh.geometry.dispose();
@@ -159,7 +159,7 @@ export default class ScenePodium {
         this.dimmensions.radiusTop,
         this.dimmensions.radiusBot,
         this.dimmensions.height,
-        32
+        32,
       );
     }
 

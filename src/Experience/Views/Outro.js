@@ -20,7 +20,7 @@ export default class Outro extends EventEmitter {
         "screenshot", // class CSS pour l'image du screenshot
         "cadre", // alt du cadre
         { x: 100 * Math.random(), y: index * 180 }, // position de l'image
-        (Math.random() - 0.5) * 60 // angle de rotation de l'image
+        (Math.random() - 0.5) * 60, // angle de rotation de l'image
       );
     });
 
@@ -28,6 +28,7 @@ export default class Outro extends EventEmitter {
   }
 
   end() {
+    this.pictureManager.destroyPictures();
     this.destroyDebug();
     this.trigger("outroEnd");
   }

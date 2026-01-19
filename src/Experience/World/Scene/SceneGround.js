@@ -20,7 +20,7 @@ export default class SceneGround {
 
     //setUp local parameters
     this.scale = { x: 1, y: 1, z: 1 };
-    this.positions = { x: 0, y: 0, z: 0 };
+    this.positions = { x: 0, y: -3.7, z: 0 };
     this.rotation = { x: -Math.PI * 0.5, y: 0, z: 0 };
     this.mass = 0;
     this.dimmensions = { width: 10, height: 10 };
@@ -39,7 +39,7 @@ export default class SceneGround {
   setGeometry() {
     this.geometry = new THREE.PlaneGeometry(
       this.dimmensions.width,
-      this.dimmensions.height
+      this.dimmensions.height,
     );
   }
   setMaterial() {
@@ -59,7 +59,7 @@ export default class SceneGround {
     this.mesh.position.set(
       this.positions.x,
       this.positions.y,
-      this.positions.z
+      this.positions.z,
     );
     this.mesh.receiveShadow = true;
     this.scene.add(this.mesh);
@@ -89,7 +89,7 @@ export default class SceneGround {
       this.rotation.x,
       this.rotation.y,
       this.rotation.z,
-      "XYZ"
+      "XYZ",
     );
 
     this.world.addBody(this.floorBody);
@@ -127,7 +127,7 @@ export default class SceneGround {
       this.mesh.position.set(
         this.positions.x,
         this.positions.y,
-        this.positions.z
+        this.positions.z,
       );
     }
 
