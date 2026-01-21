@@ -2,11 +2,11 @@ import MeshHitBox from "../../../../Utils/MeshHitBox.js";
 import Experience from "../../../../Experience.js";
 import Physics from "../../../../Utils/Physics.js";
 
-export default class SpeakerMic2 {
+export default class TalkieWalkieEnceinte {
   constructor() {
     // setupt the experience - get the sounds and resources
     this.experience = new Experience();
-    this.resource = this.experience.resources.items.SpeakerMic2;
+    this.resource = this.experience.resources.items.TalkieWalkieEnceinte;
     // setupt the physicWorld - get the materials
     this.physics = new Physics();
 
@@ -15,15 +15,15 @@ export default class SpeakerMic2 {
 
   setup() {
     this.positions = { x: 3, y: 10, z: 1.3 };
-    this.scale = { x: 1.5, y: 1.5, z: 1.5 };
-    this.rotation = { x: 0, y: Math.PI, z: 0 };
+    this.scale = { x: 1, y: 1, z: 1 };
+    this.rotation = { x: 0, y: 0, z: 0 };
     this.mass = 1;
-    this.name = "SpeakerMic2";
+    this.name = "TalkieWalkieEnceinte";
     this.hitBoxType = "box";
     this.activatePhysics = true;
-    this.material = this.physics.defaultContactMaterial;
-    this.sound = this.experience.soundManager.soundLibrary.hit.spring2;
-    this.music = this.experience.soundManager.soundLibrary.violet.violet2;
+    this.material = this.physics.stickyContactMaterial;
+    this.sound = this.experience.soundManager.soundLibrary.hit.spring1;
+    this.music = this.experience.soundManager.soundLibrary.violet.violet1;
   }
 
   create() {

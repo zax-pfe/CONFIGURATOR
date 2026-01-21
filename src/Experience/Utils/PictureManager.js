@@ -12,17 +12,19 @@ export default class PictureManager extends EventEmitter {
     // permet surtout de pouvoir supprimer ces images html
     this.overlayImages = ["images/cadre-photo.png"]; // chemins des images d'overlay
     this.testImage = "images/testScreenImage.png";
+    this.numberOfPictures = 0;
   }
 
   takePicture() {
     const dataURL = this.renderer.domElement.toDataURL("image/png");
     this.pictures.push(dataURL);
-    console.log("Picture taken, total pictures:", this.pictures.length);
+    this.numberOfPictures++;
+    console.log(`Picture taken! Total pictures: ${this.numberOfPictures}`);
 
     // permet de télécharger l'image directement
     // const link = document.createElement("a");
     // link.href = dataURL;
-    // link.download = "screenshot.png";
+    // link.download = "screenshot.png";²
     // link.click();
   }
 
@@ -68,9 +70,9 @@ export default class PictureManager extends EventEmitter {
     imageContainer.appendChild(screenshot);
     showPicture.appendChild(imageContainer);
 
-    showPicture.style.left = `${position.x}px`;
-    showPicture.style.top = `${position.y}px`;
-    showPicture.style.transform = `rotate(${angle}deg)`;
+    showPicture.style.left = position.x;
+    showPicture.style.top = position.y;
+    // showPicture.style.transform = `rotate(${angle}deg)`;
 
     document.body.appendChild(showPicture);
     this.picturesContainerHTML.push(showPicture);

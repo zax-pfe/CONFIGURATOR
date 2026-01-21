@@ -7,16 +7,38 @@ export default class Outro extends EventEmitter {
     this.experience = new Experience();
     this.size = this.experience.sizes;
     this.pictureManager = this.experience.pictureManager;
+    this.soundManager = this.experience.soundManager;
     this.debug = this.experience.debug;
     this.connection = this.experience.connection;
     this.selectedStar = null;
+    this.frameList = [
+      "imaes/frame1.png",
+      "images/frame2.png",
+      "images/frame3.png",
+    ];
+    this.positionList = [
+      { x: "30vw", y: "35vh" },
+      { x: "60vw", y: "35vh" },
+      { x: "45vw", y: "55vh" },
+    ];
+    this.outroBackgrounds = [
+      "images/outroScreen/outroDaft.png",
+      "images/outroScreen/outroGirl.png",
+      "images/outroScreen/outroRock.png",
+    ];
   }
 
   start() {
-    // affichage des images de l'outro
-    // this.createAndDisplayStar();
-
-    this.endScreenCreation("images/outroScreen.png");
+    this.soundManager.soundLibrary.ambiance.introOutro.volume(0.5);
+    this.soundManager.soundLibrary.ambiance.introOutro.play();
+    console.log("selected star outro", this.selectedStar);
+    if (this.selectedStar === "DaftStar") {
+      this.endScreenCreation(this.outroBackgrounds[0]);
+    } else if (this.selectedStar === "GirlStar") {
+      this.endScreenCreation(this.outroBackgrounds[1]);
+    } else if (this.selectedStar === "RockStar") {
+      this.endScreenCreation(this.outroBackgrounds[2]);
+    }
 
     this.pictureManager.pictures.forEach((pictureSrc, index) => {
       this.pictureManager.displayPicture(
@@ -25,7 +47,7 @@ export default class Outro extends EventEmitter {
         "images/cadre-photo.png", // source de l'image du cadre
         "screenshot", // class CSS pour l'image du screenshot
         "cadre", // alt du cadre
-        { x: 100 * Math.random(), y: index * 180 }, // position de l'image
+        this.positionList[index], // position de l'image
         (Math.random() - 0.5) * 60, // angle de rotation de l'image
       );
     });

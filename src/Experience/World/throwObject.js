@@ -141,7 +141,7 @@ export default class ThrowObject extends EventEmitter {
       const debugObject = {
         throw: () => {
           this.addToWorld(this.angleX, this.angleY, this.power);
-          // this.soundManager.soundLibrary.fx.throw.volume = 0.5;
+          this.soundManager.soundLibrary.fx.throw.volume(0.5);
           this.soundManager.soundLibrary.fx.throw.play();
           this.isObjectThrown = true;
           this.destroyDebug();

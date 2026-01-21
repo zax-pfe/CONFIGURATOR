@@ -7,22 +7,24 @@ export default class Calibrate extends EventEmitter {
     super();
     this.experience = new Experience();
     this.pictureManager = this.experience.pictureManager;
+    this.soundManager = this.experience.soundManager;
     this.debug = this.experience.debug;
     this.connection = this.experience.connection;
     this.currentCalibrateStep = 1;
   }
 
   start() {
+    // this.soundManager.soundLibrary.ambiance.introOutro.volume(0.5);
     this.calibrateDiv = document.querySelector(
-      ".video-container.calibrate-screen"
+      ".video-container.calibrate-screen",
     );
 
     this.calibrate2Div = document.querySelector(
-      ".video-container.calibrate2-screen"
+      ".video-container.calibrate2-screen",
     );
 
     this.introDiv = document.querySelector(
-      ".video-container.introduction-screen"
+      ".video-container.introduction-screen",
     );
 
     this.createDebug();
@@ -51,11 +53,12 @@ export default class Calibrate extends EventEmitter {
             this.currentCalibrateStep = 2;
           },
         },
-        "-=1"
+        "-=1",
       );
   }
 
   end() {
+    this.soundManager.soundLibrary.ambiance.introOutro.stop();
     const calibrateFadeTimeline = gsap.timeline();
 
     calibrateFadeTimeline
@@ -77,7 +80,7 @@ export default class Calibrate extends EventEmitter {
             this.trigger("calibrateEnd");
           },
         },
-        "-=1"
+        "-=1",
       );
   }
 

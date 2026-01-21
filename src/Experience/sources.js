@@ -204,6 +204,16 @@ export default [
     path: "models/Speaker/voices/EnceinteMicro1.glb",
   },
   {
+    name: "JBLEnceinte",
+    type: "gltfModel",
+    path: "models/Speaker/voices/JBLEnceinte.glb",
+  },
+  {
+    name: "TalkieWalkieEnceinte",
+    type: "gltfModel",
+    path: "models/Speaker/voices/Talkie.glb",
+  },
+  {
     name: "SynthCool",
     type: "gltfModel",
     path: "models/Speaker/Synth/synthCool.glb",
@@ -217,5 +227,15 @@ export default [
     name: "Drums1",
     type: "gltfModel",
     path: "models/Speaker/Drums/Drums.glb",
+  },
+  {
+    name: "Bloc",
+    type: "gltfModel",
+    path: "models/Speaker/Drums/EnceinteBloc.glb",
+  },
+  {
+    name: "MachineALaver",
+    type: "gltfModel",
+    path: "models/Speaker/Drums/MachineaLaverEnceinte.glb",
   },
 ];

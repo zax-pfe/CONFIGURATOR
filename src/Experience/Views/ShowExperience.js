@@ -144,14 +144,12 @@ export default class ShowExperience extends EventEmitter {
           this.camera.instance.lookAt(center);
           this.camera.controls.update();
         },
-        onStart: () => {
-          // console.log("First loop started");
-          // this.pictureManager.takePicture();
-        },
         onComplete: () => {
           // this.end();
           console.log("First loop finished");
-          this.pictureManager.takePicture();
+          if (this.pictureManager.numberOfPictures <= 3) {
+            this.pictureManager.takePicture();
+          }
         },
       })
       .fromTo(
@@ -167,16 +165,14 @@ export default class ShowExperience extends EventEmitter {
           z: 21,
           duration: 4,
           ease: "power2.inOut",
-          onStart: () => {
-            // console.log("start camera animations");
-            // this.pictureManager.takePicture();
-          },
           onUpdate: () => {
             this.camera.controls.update();
           },
           onComplete: () => {
             console.log("finish camera animations");
-            this.pictureManager.takePicture();
+            if (this.pictureManager.numberOfPictures < 3) {
+              this.pictureManager.takePicture();
+            }
           },
         },
 
@@ -205,14 +201,13 @@ export default class ShowExperience extends EventEmitter {
             this.camera.controls.target.copy(center);
             this.camera.controls.update();
           },
-          onStart: () => {
-            // console.log("First loop started");
-            // this.pictureManager.takePicture();
-          },
+
           onComplete: () => {
             // this.end();
             console.log("third loop finished");
-            this.pictureManager.takePicture();
+            if (this.pictureManager.numberOfPictures <= 3) {
+              this.pictureManager.takePicture();
+            }
           },
         },
       )

@@ -31,6 +31,10 @@ import SpeakerMic1 from "../World/Object/Speakers/Voices/Micro.js";
 import SpeakerMic2 from "../World/Object/Speakers/Voices/Micro2.js";
 import ThrowObject from "../World/throwObject.js";
 import SelectObject from "../World/selectObject.js";
+import JBLEnceinte from "../World/Object/Speakers/Voices/JBLSpeaker.js";
+import TalkieWalkieEnceinte from "../World/Object/Speakers/Voices/TalkieWalkie.js";
+import MachineALaver from "../World/Object/Speakers/Drums/MachineALaver.js";
+import Bloc from "../World/Object/Speakers/Drums/Bloc.js";
 
 import gsap from "gsap";
 
@@ -98,6 +102,10 @@ export default class SelectAndLaunch extends EventEmitter {
     this.drums1 = new Drums1();
     this.speakerMic1 = new SpeakerMic1();
     this.speakerMic2 = new SpeakerMic2();
+    this.jblEnceinte = new JBLEnceinte();
+    this.talkieWalkieEnceinte = new TalkieWalkieEnceinte();
+    this.machineALaver = new MachineALaver();
+    this.bloc = new Bloc();
 
     // on ajoute l'instance de la calsse au tableau d'update dans world
     this.experience.world.registerStarInstance(this.rockStar);
@@ -122,13 +130,17 @@ export default class SelectAndLaunch extends EventEmitter {
       this.speaker3textured,
       this.Speaker4Textured,
       // this.guitarAs1,
-      this.synth1,
+      // this.synth1,
       // this.synth2,
       // this.synth3,
       this.synthCool,
       this.drums1,
       this.speakerMic1,
       this.speakerMic2,
+      this.jblEnceinte,
+      this.talkieWalkieEnceinte,
+      this.machineALaver,
+      this.bloc,
     );
 
     for (const object of objectsTypes) {
@@ -185,7 +197,11 @@ export default class SelectAndLaunch extends EventEmitter {
       this.throwObject.objectToThrow = this.selectObject.objectToLaunch;
       if (this.isStarPhase) {
         this.experience.world.controlManager._outro.selectedStar =
-          this.selectObject.objectToLaunch;
+          this.selectObject.objectToLaunch.name;
+        // console.log(
+        //   "Selected Star for Outro:",
+        //   this.selectObject.objectToLaunch.name,
+        // );
       }
 
       this.throwObject.createSelectedObject();

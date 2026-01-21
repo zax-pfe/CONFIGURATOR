@@ -77,11 +77,11 @@ export default class SoundManager extends EventEmitter {
     const ambianceFunk = new Howl({
       src: ["/sounds/ambiance/foreverFunk.mp3"],
     });
-    const ambianceIntrooutro = new Howl({
+    const ambianceIntroOutro = new Howl({
       src: ["/sounds/ambiance/intro-outro.mp3"],
     });
     this.soundLibrary.ambiance = {
-      introOutro: ambianceIntrooutro,
+      introOutro: ambianceIntroOutro,
       funk: ambianceFunk,
     };
   }

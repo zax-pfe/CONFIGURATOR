@@ -38,11 +38,12 @@ export default class TitleScreen extends EventEmitter {
     }
 
     this.createDebug();
-
-    // this.soundManager.soundLibrary.ambiance.funk.play();
+    this.soundManager.soundLibrary.ambiance.introOutro.volume(1);
+    this.soundManager.soundLibrary.ambiance.introOutro.play();
   }
 
   end() {
+    this.soundManager.soundLibrary.ambiance.introOutro.volume(0.3);
     // on fait fade out l'ecran titre et fade in l'ecran calibrage
     const titleFadeTimeline = gsap.timeline();
 
