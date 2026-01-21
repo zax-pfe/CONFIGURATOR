@@ -82,6 +82,11 @@ export default class SceneHitBox {
 
   create() {
     this.sceneGround = new SceneGround(false);
+    this.sceneGround = new SceneGround(
+      false,
+      { x: 0, y: 2.2, z: -80 }, // positions
+      { x: -1.27, y: 0, z: 0 }, // Rotations
+    );
     this.scenePodium = new ScenePodium(false);
     this.backWall = new SceneWall(
       this.backWallName,
