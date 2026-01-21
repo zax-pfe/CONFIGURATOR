@@ -99,6 +99,7 @@ export default class ThrowObject extends EventEmitter {
     const angleX = payload.angleH;
     const angleY = payload.angleV;
 
+    this.throwPhase = false;
     // const result = this.objectToThrow.create();
 
     // this.experience.scene.add(result.model);

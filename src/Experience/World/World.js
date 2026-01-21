@@ -27,6 +27,7 @@ export default class World {
 
     // tableau qui appelle update de toutes les instances de la classe star (pour update)
     this.starInstances = [];
+    this.thrownStarInstance = null;
 
     this.resources = this.experience.resources;
 

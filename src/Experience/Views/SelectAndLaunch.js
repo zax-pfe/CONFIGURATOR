@@ -215,6 +215,11 @@ export default class SelectAndLaunch extends EventEmitter {
 
     this.throwObject.on("objectThrown", () => {
       this.experience.world.controlManager.currentScene = "objectThrown";
+
+      if (this.isStarPhase) { // on sauvegarde l'instance de la star lancée
+        this.experience.world.thrownStarInstance = this.throwObject.result;
+      }
+
       // une fois l'objet lancé, on detruit le debug de lancé
       this.throwObject.destroyDebug();
       this.throwObject.destroySlingshot();

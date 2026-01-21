@@ -316,6 +316,10 @@ export default class SelectObject extends EventEmitter {
       result.lightBeam.show();
     }
 
+    if (result.animationState) {
+      result.animationState.play("dance");
+    }
+
     this.experience.scene.add(result.model);
     this.currentSelectedModel = result.model;
   }
@@ -364,7 +368,6 @@ export default class SelectObject extends EventEmitter {
     this.cleanPreviousSelection();
 
     const result = this.selectedObject.create();
-
     this.currentInstanceData = result;
 
     result.model.position.set(
@@ -430,6 +433,10 @@ export default class SelectObject extends EventEmitter {
 
     if (result.lightBeam) {
       result.lightBeam.show();
+    }
+
+    if (result.animationState) {
+      result.animationState.play("dance");
     }
 
     this.experience.scene.add(result.model);
