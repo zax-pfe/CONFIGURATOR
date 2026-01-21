@@ -34,9 +34,10 @@ export default class Outro extends EventEmitter {
   }
 
   end() {
-    this.pictureManager.destroyPictures();
-    this.destroyDebug();
-    this.trigger("outroEnd");
+    // this.pictureManager.destroyPictures();
+    // this.destroyDebug();
+    // this.trigger("outroEnd");
+    window.location.reload();
   }
 
   // createAndDisplayStar() {
