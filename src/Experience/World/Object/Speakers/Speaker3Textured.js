@@ -25,7 +25,7 @@ export default class Speaker3Textured {
     // the parameters of the object
     this.activatePhysics = true;
     this.material = this.physics.defaultContactMaterial;
-    this.sound = this.experience.soundManager.soundLibrary.hit.bamboo;
+    this.sound = this.experience.soundManager.soundLibrary.hit.hit;
     // this.music = this.experience.soundManager.soundLibrary.guitar.guitar1;
     this.music = this.experience.soundManager.soundLibrary.vert.vert3;
   }
@@ -41,7 +41,7 @@ export default class Speaker3Textured {
       this.hitBoxType,
       this.name,
       this.activatePhysics,
-      this.sound
+      this.sound,
     );
     return {
       name: this.name,

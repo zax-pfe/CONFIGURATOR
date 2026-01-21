@@ -2,11 +2,11 @@ import MeshHitBox from "../../../../Utils/MeshHitBox.js";
 import Experience from "../../../../Experience.js";
 import Physics from "../../../../Utils/Physics.js";
 
-export default class SynthCool {
+export default class Drums1 {
   constructor() {
     // setupt the experience - get the sounds and resources
     this.experience = new Experience();
-    this.resource = this.experience.resources.items.SynthCool;
+    this.resource = this.experience.resources.items.Drums1;
     // setupt the physicWorld - get the materials
     this.physics = new Physics();
 
@@ -15,15 +15,15 @@ export default class SynthCool {
 
   setup() {
     this.positions = { x: 3, y: 10, z: 1.3 };
-    this.scale = { x: 2, y: 2, z: 2 };
+    this.scale = { x: 1, y: 1, z: 1 };
     this.rotation = { x: 0, y: -1.6, z: 0 };
     this.mass = 1;
-    this.name = "SynthCool";
+    this.name = "Drums1";
     this.hitBoxType = "box";
     this.activatePhysics = true;
     this.material = this.physics.defaultContactMaterial;
     this.sound = this.experience.soundManager.soundLibrary.hit.spring1;
-    this.music = this.experience.soundManager.soundLibrary.vert.vert5;
+    this.music = this.experience.soundManager.soundLibrary.violet.violet1;
   }
 
   create() {

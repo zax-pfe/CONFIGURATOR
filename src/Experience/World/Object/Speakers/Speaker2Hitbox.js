@@ -23,7 +23,7 @@ export default class Speaker2Hitbox {
     this.hitBoxType = "cylinder";
     this.activatePhysics = true;
     this.material = this.physics.defaultContactMaterial;
-    this.sound = this.experience.soundManager.soundLibrary.hit.bamboo;
+    this.sound = this.experience.soundManager.soundLibrary.hit.spring1;
     // this.music = this.experience.soundManager.soundLibrary.drums.alternate;
     // this.music = this.experience.soundManager.soundLibrary.guitar.guitar4;
     this.music = this.experience.soundManager.soundLibrary.orange.orange3;

@@ -213,4 +213,9 @@ export default [
     type: "gltfModel",
     path: "models/Scene/sceneFinalV5.glb",
   },
+  {
+    name: "Drums1",
+    type: "gltfModel",
+    path: "models/Speaker/Drums/Drums.glb",
+  },
 ];

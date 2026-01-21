@@ -25,7 +25,7 @@ export default class Speaker4Hitbox {
     // the parameters of the object
     this.activatePhysics = true;
     this.material = this.physics.defaultContactMaterial;
-    this.sound = this.experience.soundManager.soundLibrary.hit.bamboo;
+    this.sound = this.experience.soundManager.soundLibrary.hit.lightHit;
     this.music = this.experience.soundManager.soundLibrary.vert.vert2;
   }
 
@@ -40,7 +40,7 @@ export default class Speaker4Hitbox {
       this.hitBoxType,
       this.name,
       this.activatePhysics,
-      this.sound
+      this.sound,
     );
     return {
       name: this.name,

@@ -34,13 +34,13 @@ export default class Mesh {
     this.model.scale.set(
       this.scale.x * this.scaleRatio,
       this.scale.y * this.scaleRatio,
-      this.scale.z * this.scaleRatio
+      this.scale.z * this.scaleRatio,
     );
     this.model.rotation.set(this.rotation.x, this.rotation.y, this.rotation.z);
     this.model.position.set(
       this.positions.x,
       this.positions.y,
-      this.positions.z
+      this.positions.z,
     );
     this.scene.add(this.model);
     if (this.addShadow) {
@@ -64,9 +64,9 @@ export default class Mesh {
       this.debugFolder
         .add(this.rotation, "z", -Math.PI, Math.PI, 0.01)
         .name("rotZ");
-      this.debugFolder.add(this.positions, "x", -10, 10, 0.1).name("posX");
-      this.debugFolder.add(this.positions, "y", -10, 10, 0.1).name("posY");
-      this.debugFolder.add(this.positions, "z", -10, 10, 0.1).name("posZ");
+      this.debugFolder.add(this.positions, "x", -80, 80, 0.1).name("posX");
+      this.debugFolder.add(this.positions, "y", -80, 80, 0.1).name("posY");
+      this.debugFolder.add(this.positions, "z", -80, 80, 0.1).name("posZ");
       this.debugFolder.add(this, "scaleRatio", 0.1, 5, 0.1).name("scaleRatio");
     }
   }
@@ -76,12 +76,12 @@ export default class Mesh {
     this.model.position.set(
       this.positions.x,
       this.positions.y,
-      this.positions.z
+      this.positions.z,
     );
     this.model.scale.set(
       this.scale.x * this.scaleRatio,
       this.scale.y * this.scaleRatio,
-      this.scale.z * this.scaleRatio
+      this.scale.z * this.scaleRatio,
     );
     this.model.rotation.set(this.rotation.x, this.rotation.y, this.rotation.z);
   }
