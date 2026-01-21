@@ -39,7 +39,9 @@ export default class ThrowObject extends EventEmitter {
       if (!this.throwPhase) return;
 
       this.throwObject(payload);
+      this.soundManager.soundLibrary.fx.throw.play();
       this.isObjectThrown = true;
+      this.destroyDebug();
 
       this.trigger("objectThrown");
     });

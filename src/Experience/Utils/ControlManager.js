@@ -97,12 +97,12 @@ export default class ControlManager extends EventEmitter {
     this.introScreen = this.screenCreation(
       "introduction-screen",
       "videos/oyo_teaser.mp4",
+      "Passe l'intro",
       false, //autoplay
       false, //loop
       false, //muted
       false, //playsInline
       true, //paused
-      "Passe l'intro"
     );
 
     //// ++++++++++++++++++++ AJOUT DU HTML AU DOM +++++++++++++++++++++++++////

@@ -92,14 +92,10 @@ export default class ShowExperience extends EventEmitter {
           duration: 2,
           opacity: 0,
           ease: "power2.inOut",
-<<<<<<< HEAD
-        },
-=======
           onComplete: () => {
             this.getStarUp(star);
           }
         }
->>>>>>> 32aa29f (feat: get star back up in show + dance on select)
       ) // Fade in des lumières
       .to(
         {},
@@ -336,10 +332,10 @@ export default class ShowExperience extends EventEmitter {
 
       // position y pour pas traverser le sol
       timeline.to(star.model.position, {
-        y: 0, 
+        y: 0.5, 
         duration: 1,
         ease: "power2.out"
-      }, "<"); // Se fait en même temps que la rotation
+      }, "<");
 
       // lancer la danse
       timeline.add(() => {

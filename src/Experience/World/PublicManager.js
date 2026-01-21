@@ -16,10 +16,10 @@ export default class PublicManager {
 
     this.publicZoneMaxRadius = 100;
     this.publicZoneMinRadius = 40;
-    // this.maxAngle = (1 / 8) * Math.PI;
-    // this.minAngle = (7 / 8) * Math.PI;
-    this.maxAngle = 0;
-    this.minAngle = Math.PI * 2;
+    this.maxAngle = (1 / 8) * Math.PI;
+    this.minAngle = (7 / 8) * Math.PI;
+    // this.maxAngle = 0;
+    // this.minAngle = Math.PI * 2;
     this.minDistanceBetweenPublic = 2;
 
     this.publicBaseSpeed = 0.1;

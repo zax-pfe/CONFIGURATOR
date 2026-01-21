@@ -69,33 +69,24 @@ export default class SelectObject extends EventEmitter {
       if (!this.selectPhase) return;
 
       this.destroyElements();
-
       this.objectToLaunch = this.selectedObject;
       if (this.currentSelectedModel) {
-        this.experience.scene.remove(this.currentSelectedModel);
+        this.cleanPreviousSelection();
       }
       this.destroyDebug();
+
       // clean the music playing
-      // this.currentSelectedMusic?.pause();
-      this.currentSelectedMusic?.stop();
-      this.currentSelectedMusic = null;
-      this.selectedObjectsMusic[this.selectedObject.name] =
-        this.currentSelectedMusic;
-      this.trigger("objectSelected");
+          if (this.currentSelectedMusic) {
+            this.selectedObjectsMusic[this.selectedObject.name] =
+              this.currentSelectedMusic;
+          }
+          this.currentSelectedMusic?.pause();
+          this.currentSelectedMusic = null;
+          this.soundManager.soundLibrary.fx.buttonValid.volume = 0.5;
+          this.soundManager.soundLibrary.fx.buttonValid.play();
+          this.trigger("objectSelected");
     });
   }
-
-  // selectionner des objets au hasard
-  // selectRandomObject() {
-  //   this.randomSelectedObjects = [];
-  //   const copyList = [...Object.values(this.objects)];
-
-  //   for (let i = 0; i < this.numberOfObjects && copyList.length > 0; i++) {
-  //     const randomIndex = Math.floor(Math.random() * copyList.length);
-  //     this.randomSelectedObjects.push(copyList[randomIndex]);
-  //     copyList.splice(randomIndex, 1);
-  //   }
-  // }
 
   selectObjectsOrStars(isStarPhase = false) {
     this.isStarPhase = isStarPhase;
@@ -261,14 +252,14 @@ export default class SelectObject extends EventEmitter {
     const index = payload.index;
     this.selectedObject = this.randomSelectedObjects[index];
 
+    this.soundManager.soundLibrary.fx.hover.volume = 0.5;
+    this.soundManager.soundLibrary.fx.hover.play();
+
     this.tiltSelectedObject(index);
 
     this.cleanPreviousSelection();
 
-    this.cleanPreviousSelection();
-
     const result = this.selectedObject.create();
-
     this.currentInstanceData = result;
 
     result.model.position.set(
@@ -276,6 +267,23 @@ export default class SelectObject extends EventEmitter {
       this.wheelPosition.y,
       this.wheelPosition.z,
     );
+
+    this.currentSelectedMusic?.pause();
+    this.currentSelectedMusic = null;
+
+    // Si l'objet a une musique associée, quand l'objet change
+    // on joue la musique et reset le temps
+    if (result.music) {
+      this.currentSelectedMusic = result.music;
+      this.currentSelectedMusic.volume = 0.3;
+      this.currentSelectedMusic.currentTime = 0;
+      this.currentSelectedMusic.loop = true;
+      this.currentSelectedMusic.play();
+    } else {
+      // sinon on stop la musique courante
+      this.currentSelectedMusic?.pause();
+      this.currentSelectedMusic = null;
+    }
 
     // animations d'apparition puis rotation de l'objet sélectionné au centre
     let tl = gsap.timeline();
@@ -362,8 +370,6 @@ export default class SelectObject extends EventEmitter {
 
     // animation inclinaison de l'objet sélectionné dans la roue
     this.tiltSelectedObject(this.selectedId - 1);
-
-    this.cleanPreviousSelection();
 
     this.cleanPreviousSelection();
 
