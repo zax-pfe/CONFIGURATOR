@@ -53,7 +53,7 @@ export default class SelectAndLaunch extends EventEmitter {
     this.items = {};
     this.stars = {};
 
-    this.gameDuration = 100;
+    this.gameDuration = 30;
     this.timeIsUp = false;
     this.isStarPhase = false;
 
@@ -172,6 +172,7 @@ export default class SelectAndLaunch extends EventEmitter {
 
     // selectionne 5 objets au hasard parmis tout les objets disponibles
     // this.selectObject.selectRandomObject();
+
     this.selectObject.selectObjectsOrStars(this.isStarPhase);
 
     // creer le debug de selection de l'objet
@@ -181,7 +182,7 @@ export default class SelectAndLaunch extends EventEmitter {
     this.selectObject.createSelectedObjectsMeshes();
     this.intern.throwAnimation();
     // informe que l'on est en phase de selection
-    this.selectObject.selectPhase = true;
+    // this.selectObject.selectPhase = true;
 
     // si on clique sur valide la selection.
     this.selectObject.on("objectSelected", () => {
@@ -214,6 +215,11 @@ export default class SelectAndLaunch extends EventEmitter {
 
     this.throwObject.on("objectThrown", () => {
       this.experience.world.controlManager.currentScene = "objectThrown";
+
+      if (this.isStarPhase) { // on sauvegarde l'instance de la star lancée
+        this.experience.world.thrownStarInstance = this.throwObject.result;
+      }
+
       // une fois l'objet lancé, on detruit le debug de lancé
       this.throwObject.destroyDebug();
       this.throwObject.destroySlingshot();

@@ -26,25 +26,6 @@ export default class Public {
 
     const result = this.star.create();
     this.starInstance = result;
-
-    // this.starInstance.model.material.visible = false;
-
-    // this.star.setAnimation(result);
-
-    // console.log("result", result);
-    // console.log("result model", result.model);
-
-    // this.model = result.model;
-    // result.animationState = "dance";
-    // // this.star.setAnimation(result);
-    // this.experience.animate.objectsToAnimate.push(result);
-    // this.animation = result.update;
-
-    // this.update = result.update;
-
-    // this.animationState = result.animationState;
-
-    // this.star.animationState.play("dance");
   }
 
   setMaterial() {
@@ -53,11 +34,4 @@ export default class Public {
       wireframe: false,
     });
   }
-
-  // createMesh(position) {
-  //   // creer un mesh de public a la position et rotation donnée
-  //   const mesh = new THREE.Mesh(this.geometry, this.material);
-  //   mesh.position.set(position.x, position.y, position.z);
-  //   return mesh;
-  // }
 }

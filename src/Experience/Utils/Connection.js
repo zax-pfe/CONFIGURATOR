@@ -4,7 +4,7 @@ export default class Connection extends EventEmitter {
   constructor() {
     super();
     // console.log("Connection initialized");
-    this.room = "my-room-2";
+    this.room = "my-room";
     this.host = "wss://partykitproject.zax-pfe.partykit.dev";
     this.setInstance();
     this.setupEventHandlers();
@@ -50,7 +50,7 @@ export default class Connection extends EventEmitter {
       // console.log("Connected to PartyKit server");
       // this.instance.send("hello from vanilla TS client");
       this.trigger("connected");
-      this.sendMessage("waiting");
+      this.sendMessage("title");
     };
 
     this.instance.onmessage = (event) => {

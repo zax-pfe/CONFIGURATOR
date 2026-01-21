@@ -26,6 +26,12 @@ export default class Outro extends EventEmitter {
       "images/outroScreen/outroGirl.png",
       "images/outroScreen/outroRock.png",
     ];
+    this.mobileData = this.experience.mobileData;
+
+    // on ecoute le skip du mobile
+    this.mobileData.on("skipOutro", () => {
+      this.end();
+    });
   }
 
   start() {

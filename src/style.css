@@ -34,6 +34,34 @@ body {
   object-fit: cover;
 }
 
+.use-phone-btn {
+  position: absolute;
+  bottom: 40px; 
+  right: 40px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+    
+  padding: 8px 16px;
+  background-color: #D9F203;
+  border: none;
+  border-radius: 100px;
+  font-family: "nitti-mostro-comic-solid", sans-serif;
+  font-weight: 900;
+  font-style: normal;
+  font-size: 1.25rem;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.btn-icons {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
 .black-overlay {
   position: fixed;
   top: 0;

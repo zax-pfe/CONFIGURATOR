@@ -39,7 +39,9 @@ export default class ThrowObject extends EventEmitter {
       if (!this.throwPhase) return;
 
       this.throwObject(payload);
+      this.soundManager.soundLibrary.fx.throw.play();
       this.isObjectThrown = true;
+      this.destroyDebug();
 
       this.trigger("objectThrown");
     });
@@ -92,6 +94,10 @@ export default class ThrowObject extends EventEmitter {
     this.experience.scene.add(this.slingshotResult.model);
     this.followCamera(this.slingshotResult, 20, -6);
     this.objectsToAnimate.push(this.slingshotResult);
+
+    if (this.result.lightBeam) {
+      this.experience.world.registerSpotLights(this.result)
+    }
   }
 
   throwObject(payload) {
@@ -99,6 +105,7 @@ export default class ThrowObject extends EventEmitter {
     const angleX = payload.angleH;
     const angleY = payload.angleV;
 
+    this.throwPhase = false;
     // const result = this.objectToThrow.create();
 
     // this.experience.scene.add(result.model);
@@ -134,7 +141,7 @@ export default class ThrowObject extends EventEmitter {
 
       // choix de l'angle de lancé
       this.debugFolder.add(this, "angleX", -10, 10, 1).name("angleX");
-      this.debugFolder.add(this, "angleY", -10, 10, 1).name("angleY");
+      this.debugFolder.add(this, "angleY", 0, 10, 1).name("angleY");
       // choix de la puissance du lancé
       this.debugFolder.add(this, "power", 0.1, 30, 0.1).name("power");
       // add function to launch the object

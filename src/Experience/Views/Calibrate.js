@@ -10,11 +10,27 @@ export default class Calibrate extends EventEmitter {
     this.soundManager = this.experience.soundManager;
     this.debug = this.experience.debug;
     this.connection = this.experience.connection;
+    this.mobileData = this.experience.mobileData;
+
     this.currentCalibrateStep = 1;
+
+    this.skip = 0;
+
+    // on ecoute le skip du mobile
+    this.mobileData.on("skipCalibrate", () => {
+      this.skip++
+      if (this.skip < 2) {
+        this.firstCalibrateEnd()
+      } else {
+        this.end();
+      }
+    });
   }
 
   start() {
     // this.soundManager.soundLibrary.ambiance.introOutro.volume(0.5);
+    this.skip = 0;
+
     this.calibrateDiv = document.querySelector(
       ".video-container.calibrate-screen",
     );

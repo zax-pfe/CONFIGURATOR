@@ -1,5 +1,6 @@
 import EventEmitter from "../Utils/EventEmitter";
 import Experience from "../Experience";
+import Physics from "../Utils/Physics";
 import { gsap } from "gsap";
 import * as THREE from "three";
 
@@ -7,6 +8,8 @@ export default class ShowExperience extends EventEmitter {
   constructor() {
     super();
     this.experience = new Experience();
+    this.world = this.experience.world;
+    this.physics = new Physics();
     this.camera = this.experience.camera; // movement de la caméra
     this.pictureManager = this.experience.pictureManager;
     this.environement = this.experience.world.environement;
@@ -18,6 +21,9 @@ export default class ShowExperience extends EventEmitter {
 
   start() {
     console.log("Show Experience start from ShowExperience");
+
+    const star = this.world.thrownStarInstance;
+
     // this.soundManager.playSelectedMusics();
     this.publicManager.publicCount = 0;
     this.createDebug();
@@ -86,7 +92,10 @@ export default class ShowExperience extends EventEmitter {
           duration: 2,
           opacity: 0,
           ease: "power2.inOut",
-        },
+          onComplete: () => {
+            this.getStarUp(star);
+          }
+        }
       ) // Fade in des lumières
       .to(
         {},
@@ -98,6 +107,7 @@ export default class ShowExperience extends EventEmitter {
               0, // fromValue
               5, // toValue
             );
+            this.lightUpSpotlights()
           },
         },
       );
@@ -287,6 +297,82 @@ export default class ShowExperience extends EventEmitter {
       duration: duration,
       // ease: "power2.inOut",
     });
+  }
+
+  lightUpSpotlights(){
+    const spotlights = this.experience.world.spotlights;
+    for(const spot of spotlights){
+      spot.lightBeam.show();
+    }
+  }
+
+  getStarUp(star){
+    if (star) {
+      // retirer la star des objets animés
+      const animateItems = this.experience.animate.objectsToAnimate;
+      const index = animateItems.indexOf(star);
+      if (index !== -1) {
+        animateItems.splice(index, 1);
+      }
+      
+      // désactivation de la physique
+      if (star.body) {
+        star.model.position.copy(star.body.position);
+        star.model.quaternion.copy(star.body.quaternion);
+        
+        this.physics.world.removeBody(star.body);
+        this.physics.objectsToUpdate = this.physics.objectsToUpdate.filter(
+          (obj) => obj.body !== star.body
+        );
+      }
+
+      const targetPos = new THREE.Vector3(0, 3, -53);
+      const currentPos = star.model.position;
+      const distance = currentPos.distanceTo(targetPos);
+      const walkSpeed = 5; 
+      const walkDuration = distance / walkSpeed;
+      const angleToTarget = Math.atan2(
+        targetPos.x - currentPos.x,
+        targetPos.z - currentPos.z
+      ) + Math.PI;
+
+      // redressement de la star
+      const timeline = gsap.timeline();
+
+      // rotation
+      timeline.to(star.model.rotation, {
+        x: 0,
+        y: angleToTarget,
+        z: 0,
+        duration: 1.2,
+        ease: "power2.inOut"
+      });
+
+      // position y pour pas traverser le sol
+      timeline.to(star.model.position, {
+        x: targetPos.x,
+        y: targetPos.y,
+        z: targetPos.z,
+        duration: walkDuration,
+        ease: "none",
+        onStart: () => {
+          star.animationState.play("walk")
+        }
+      });
+
+      timeline.to(star.model.rotation, {
+        y: Math.PI, 
+        duration: 0.8,
+        ease: "power2.inOut"
+      });
+
+      // lancer la danse
+      timeline.add(() => {
+        if (star.animationState) {
+          star.animationState.play("dance");
+        }
+      });
+    }
   }
 
   createDebug() {

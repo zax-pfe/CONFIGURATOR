@@ -6,6 +6,7 @@ import ShowExperience from "../Views/ShowExperience";
 import Outro from "../Views/Outro";
 import Experience from "../Experience";
 import Calibrate from "../Views/Calibrate";
+import UsePhoneBtn from "../Components/UsePhoneBtn"
 // cette classe prend les differentes scene de l'experience
 // ecoute cette scene,
 // et passe d'une scene a l'autre selon les event renvoyés par les scenes
@@ -84,16 +85,19 @@ export default class ControlManager extends EventEmitter {
     this.calibrateScreen = this.screenCreation(
       "calibrate-screen",
       "videos/Calibrage_1.mp4",
+      "Utilisation du téléphone"
     );
 
     this.calibrate2Screen = this.screenCreation(
       "calibrate2-screen",
       "videos/Calibrage_2.mp4",
+      "Utilisation du téléphone"
     );
 
     this.introScreen = this.screenCreation(
       "introduction-screen",
       "videos/oyo_teaser.mp4",
+      "Passe l'intro",
       false, //autoplay
       false, //loop
       false, //muted
@@ -119,6 +123,7 @@ export default class ControlManager extends EventEmitter {
   screenCreation(
     divClass,
     videoSrc,
+    btnText = null,
     autoplay = true,
     loop = true,
     muted = true,
@@ -138,6 +143,11 @@ export default class ControlManager extends EventEmitter {
     if (paused) video.pause();
 
     container.appendChild(video);
+
+    if (btnText) {
+      new UsePhoneBtn(btnText, container);
+    }
+
     // document.body.appendChild(container);
     return container;
   }

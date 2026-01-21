@@ -40,8 +40,8 @@ export default class lightBeam {
         this.setGeometry();
         this.setMaterial();
         this.setModel();
-        // this.hide(); // caché par défaut
-        this.show();
+        this.hide(); // caché par défaut
+        // this.show();
 
     }
 

@@ -20,7 +20,7 @@ export default class SelectObject extends EventEmitter {
 
     // PARAMETER OF THE WHEEL
     this.wheelRadius = 8;
-    this.wheelPosition = { x: 0, y: 15, z: 35 };
+    this.wheelPosition = { x: 0, y: 10, z: 40  };
 
     this.numberOfObjects = 5;
 
@@ -69,33 +69,24 @@ export default class SelectObject extends EventEmitter {
       if (!this.selectPhase) return;
 
       this.destroyElements();
-
       this.objectToLaunch = this.selectedObject;
       if (this.currentSelectedModel) {
-        this.experience.scene.remove(this.currentSelectedModel);
+        this.cleanPreviousSelection();
       }
       this.destroyDebug();
+
       // clean the music playing
-      // this.currentSelectedMusic?.pause();
-      this.currentSelectedMusic?.stop();
-      this.currentSelectedMusic = null;
-      this.selectedObjectsMusic[this.selectedObject.name] =
-        this.currentSelectedMusic;
-      this.trigger("objectSelected");
+          if (this.currentSelectedMusic) {
+            this.selectedObjectsMusic[this.selectedObject.name] =
+              this.currentSelectedMusic;
+          }
+          this.currentSelectedMusic?.pause();
+          this.currentSelectedMusic = null;
+          this.soundManager.soundLibrary.fx.buttonValid.volume = 0.5;
+          this.soundManager.soundLibrary.fx.buttonValid.play();
+          this.trigger("objectSelected");
     });
   }
-
-  // selectionner des objets au hasard
-  // selectRandomObject() {
-  //   this.randomSelectedObjects = [];
-  //   const copyList = [...Object.values(this.objects)];
-
-  //   for (let i = 0; i < this.numberOfObjects && copyList.length > 0; i++) {
-  //     const randomIndex = Math.floor(Math.random() * copyList.length);
-  //     this.randomSelectedObjects.push(copyList[randomIndex]);
-  //     copyList.splice(randomIndex, 1);
-  //   }
-  // }
 
   selectObjectsOrStars(isStarPhase = false) {
     this.isStarPhase = isStarPhase;
@@ -242,14 +233,15 @@ export default class SelectObject extends EventEmitter {
 
         // faire re agrandir les objets
         gsap.to(child.scale, {
-          x: child.userData.originalScale.x,
-          y: child.userData.originalScale.y,
-          z: child.userData.originalScale.z,
-          duration: 1.0,
-          ease: "power2.out",
-          onComplete: () => {
-            this.objectsCanBeSelected = true;
-          },
+            x: child.userData.originalScale.x,
+            y: child.userData.originalScale.y,
+            z: child.userData.originalScale.z,
+            duration: 1.0,
+            ease: "power2.out",
+            onComplete: () => {
+              this.objectsCanBeSelected = true;
+              this.selectPhase = true; 
+            }
         });
       });
     });
@@ -260,21 +252,38 @@ export default class SelectObject extends EventEmitter {
     const index = payload.index;
     this.selectedObject = this.randomSelectedObjects[index];
 
+    this.soundManager.soundLibrary.fx.hover.volume = 0.5;
+    this.soundManager.soundLibrary.fx.hover.play();
+
     this.tiltSelectedObject(index);
 
     this.cleanPreviousSelection();
 
-    this.cleanPreviousSelection();
-
     const result = this.selectedObject.create();
-
     this.currentInstanceData = result;
 
     result.model.position.set(
       this.wheelPosition.x,
       this.wheelPosition.y,
-      this.wheelPosition.z,
+      this.wheelPosition.z + 5,
     );
+
+    this.currentSelectedMusic?.pause();
+    this.currentSelectedMusic = null;
+
+    // Si l'objet a une musique associée, quand l'objet change
+    // on joue la musique et reset le temps
+    if (result.music) {
+      this.currentSelectedMusic = result.music;
+      this.currentSelectedMusic.volume = 0.3;
+      this.currentSelectedMusic.currentTime = 0;
+      this.currentSelectedMusic.loop = true;
+      this.currentSelectedMusic.play();
+    } else {
+      // sinon on stop la musique courante
+      this.currentSelectedMusic?.pause();
+      this.currentSelectedMusic = null;
+    }
 
     // animations d'apparition puis rotation de l'objet sélectionné au centre
     let tl = gsap.timeline();
@@ -286,9 +295,9 @@ export default class SelectObject extends EventEmitter {
         z: this.selectedObject.scale.z * 1,
       },
       {
-        x: this.selectedObject.scale.x * 2.5,
-        y: this.selectedObject.scale.y * 2.5,
-        z: this.selectedObject.scale.z * 2.5,
+        x: this.selectedObject.scale.x * 2,
+        y: this.selectedObject.scale.y * 2,
+        z: this.selectedObject.scale.z * 2,
         duration: 0.25,
         ease: "power2.inOut",
       },
@@ -313,6 +322,10 @@ export default class SelectObject extends EventEmitter {
 
     if (result.lightBeam) {
       result.lightBeam.show();
+    }
+
+    if (result.animationState) {
+      result.animationState.play("dance");
     }
 
     this.experience.scene.add(result.model);
@@ -360,16 +373,13 @@ export default class SelectObject extends EventEmitter {
 
     this.cleanPreviousSelection();
 
-    this.cleanPreviousSelection();
-
     const result = this.selectedObject.create();
-
     this.currentInstanceData = result;
 
     result.model.position.set(
       this.wheelPosition.x,
       this.wheelPosition.y,
-      this.wheelPosition.z,
+      this.wheelPosition.z + 5,
     );
     this.currentSelectedMusic?.stop();
     // this.currentSelectedMusic?.pause();
@@ -402,9 +412,9 @@ export default class SelectObject extends EventEmitter {
         z: this.selectedObject.scale.z * 1,
       },
       {
-        x: this.selectedObject.scale.x * 2.5,
-        y: this.selectedObject.scale.y * 2.5,
-        z: this.selectedObject.scale.z * 2.5,
+        x: this.selectedObject.scale.x * 2,
+        y: this.selectedObject.scale.y * 2,
+        z: this.selectedObject.scale.z * 2,
         duration: 0.25,
         ease: "power2.inOut",
       },
@@ -429,6 +439,10 @@ export default class SelectObject extends EventEmitter {
 
     if (result.lightBeam) {
       result.lightBeam.show();
+    }
+
+    if (result.animationState) {
+      result.animationState.play("dance");
     }
 
     this.experience.scene.add(result.model);
