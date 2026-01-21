@@ -12,12 +12,12 @@ export default class PublicManager {
 
     // coordonées du centre de la scène
     // Nous permet de calculer la distance des membres du public par rapport au centre
-    this.centerPostion = { x: 0, y: 0, z: 0 };
+    this.centerPostion = { x: 0, y: 0, z: -60 };
 
-    this.publicZoneMaxRadius = 60;
-    this.publicZoneMinRadius = 30;
-    this.maxAngle = (1 / 8) * Math.PI;
-    this.minAngle = (7 / 8) * Math.PI;
+    this.publicZoneMaxRadius = 100;
+    this.publicZoneMinRadius = 40;
+    // this.maxAngle = (1 / 8) * Math.PI;
+    // this.minAngle = (7 / 8) * Math.PI;
     this.maxAngle = 0;
     this.minAngle = Math.PI * 2;
     this.minDistanceBetweenPublic = 2;
@@ -61,7 +61,7 @@ export default class PublicManager {
     this.instanceMesh = new THREE.InstancedMesh(
       this.starGeometry,
       this.starMaterial,
-      this.maxInstances
+      this.maxInstances,
     );
     this.instanceMesh.frustumCulled = false;
 
@@ -74,7 +74,7 @@ export default class PublicManager {
 
     this.instanceMesh.instanceColor = new THREE.InstancedBufferAttribute(
       new Float32Array(this.maxInstances * 3),
-      3
+      3,
     );
     this.scene.add(this.instanceMesh);
     this.instanceMesh.instanceMatrix.needsUpdate = true;
@@ -103,7 +103,7 @@ export default class PublicManager {
 
   calculateDistanceFromCenter(x, z) {
     return Math.sqrt(
-      (x - this.centerPostion.x) ** 2 + (z - this.centerPostion.z) ** 2
+      (x - this.centerPostion.x) ** 2 + (z - this.centerPostion.z) ** 2,
     );
   }
 
@@ -113,8 +113,13 @@ export default class PublicManager {
     const randomAngle =
       Math.random() * (this.maxAngle - this.minAngle) + this.minAngle;
     // calcule le x et le y
-    const x = Math.cos(randomAngle) * this.publicZoneMaxRadius;
-    const z = Math.sin(randomAngle) * this.publicZoneMaxRadius;
+    // const x = Math.cos(randomAngle) * this.publicZoneMaxRadius;
+    // const z = Math.sin(randomAngle) * this.publicZoneMaxRadius;
+
+    const x =
+      this.centerPostion.x + Math.cos(randomAngle) * this.publicZoneMaxRadius;
+    const z =
+      this.centerPostion.z + Math.sin(randomAngle) * this.publicZoneMaxRadius;
     const speed = Math.random() * this.publicBaseSpeed;
 
     // on teste si il y a un autre membre du public trop proche ->
@@ -130,7 +135,7 @@ export default class PublicManager {
 
       const distance = Math.sqrt(
         (data.x - publicMember.data.x) ** 2 +
-          (data.z - publicMember.data.z) ** 2
+          (data.z - publicMember.data.z) ** 2,
       );
 
       // console.log("distance entre membres du public", distance);
@@ -146,29 +151,40 @@ export default class PublicManager {
     // if (this.publicCount < this.maxInstances) {
     for (const key in this.publicList) {
       const publicMember = this.publicList[key];
-      const deltaX =
-        publicMember.data.speed * Math.cos(publicMember.data.angle);
-      const deltaZ =
-        publicMember.data.speed * Math.sin(publicMember.data.angle);
+      // const deltaX =
+      //   publicMember.data.speed * Math.cos(publicMember.data.angle);
+      // const deltaZ =
+      //   publicMember.data.speed * Math.sin(publicMember.data.angle);
+
+      const dirX = this.centerPostion.x - publicMember.data.x;
+      const dirZ = this.centerPostion.z - publicMember.data.z;
+
+      const length = Math.sqrt(dirX * dirX + dirZ * dirZ);
+
+      const deltaX = (dirX / length) * publicMember.data.speed;
+      const deltaZ = (dirZ / length) * publicMember.data.speed;
 
       const distanceFromCenter = this.calculateDistanceFromCenter(
         publicMember.data.x,
-        publicMember.data.z
+        publicMember.data.z,
       );
       if (distanceFromCenter > this.publicZoneMinRadius) {
         const noContact = this.checkCoordinates(publicMember.data, key);
 
         // console.log("contact ??", contact);
         if (noContact) {
-          publicMember.data.x -= deltaX;
-          publicMember.data.z -= deltaZ;
+          // publicMember.data.x -= deltaX;
+          // publicMember.data.z -= deltaZ;
+
+          publicMember.data.x += deltaX;
+          publicMember.data.z += deltaZ;
         }
       }
 
       this.dummy.position.set(
         publicMember.data.x,
         publicMember.data.y + publicMember.data.jumpY, // le saut en plus
-        publicMember.data.z
+        publicMember.data.z,
       );
 
       this.dummy.rotation.y = -publicMember.data.angle + Math.PI * 0.5;

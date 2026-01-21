@@ -14,7 +14,9 @@ export default class Outro extends EventEmitter {
 
   start() {
     // affichage des images de l'outro
-    this.createAndDisplayStar();
+    // this.createAndDisplayStar();
+
+    this.endScreenCreation("images/outroScreen.png");
 
     this.pictureManager.pictures.forEach((pictureSrc, index) => {
       this.pictureManager.displayPicture(
@@ -37,15 +39,28 @@ export default class Outro extends EventEmitter {
     this.trigger("outroEnd");
   }
 
-  createAndDisplayStar() {
-    console.log("outro - createAndDisplayStar");
-    // creation de la star selectionné
-    this.result = this.selectedStar.create();
-    console.log(" result outro", this.result);
+  // createAndDisplayStar() {
+  //   console.log("outro - createAndDisplayStar");
+  //   // creation de la star selectionné
+  //   this.result = this.selectedStar.create();
+  //   console.log(" result outro", this.result);
 
-    this.result.model.position.set(0, 15, 35);
+  //   this.result.model.position.set(0, 15, 35);
 
-    this.experience.scene.add(this.result.model);
+  //   this.experience.scene.add(this.result.model);
+  // }
+
+  endScreenCreation(imageSrc) {
+    const container = document.createElement("div");
+    container.className = `outro-container`;
+
+    const image = document.createElement("img");
+    image.className = "outro-image";
+    image.src = imageSrc;
+
+    container.appendChild(image);
+    document.body.appendChild(container);
+    return container;
   }
 
   createDebug() {

@@ -41,10 +41,10 @@ export default class ShowExperience extends EventEmitter {
             this.fadeLights(
               3, // duration
               5, // fromValue
-              0 // toValue
+              0, // toValue
             );
           },
-        }
+        },
       )
       // .to({}, { duration: 3 }) // Pause 3 secondes
       .to(
@@ -55,7 +55,7 @@ export default class ShowExperience extends EventEmitter {
           opacity: 1,
           ease: "power2.inOut",
         },
-        "-=2"
+        "-=2",
       )
       .to(
         // Play music
@@ -67,7 +67,7 @@ export default class ShowExperience extends EventEmitter {
             this.soundManager.playSelectedMusics(true);
             this.publicManager.publicCreationLoop();
           },
-        }
+        },
       )
       .to(
         // Pause sombre avec musique
@@ -77,7 +77,7 @@ export default class ShowExperience extends EventEmitter {
           onComplete: () => {
             this.cameraMovements(); // lancer les mouvements de caméra
           },
-        }
+        },
       )
       .to(
         // Fade out de l'overlay
@@ -86,7 +86,7 @@ export default class ShowExperience extends EventEmitter {
           duration: 2,
           opacity: 0,
           ease: "power2.inOut",
-        }
+        },
       ) // Fade in des lumières
       .to(
         {},
@@ -96,10 +96,10 @@ export default class ShowExperience extends EventEmitter {
             this.fadeLights(
               3, // duration
               0, // fromValue
-              5 // toValue
+              5, // toValue
             );
           },
-        }
+        },
       );
   }
 
@@ -117,14 +117,20 @@ export default class ShowExperience extends EventEmitter {
   cameraMovements() {
     this.cameraTimeline = gsap.timeline();
 
-    const center = new THREE.Vector3(0, 5, 0);
-    const radius = 15;
-    const params = { angle: 0 };
+    const center = new THREE.Vector3(0, 10, -50);
+    const radius = 40;
+    const params = { angle: Math.PI * 2 };
     const params2 = { angle: 0 };
+
+    // Pour la dernière animation
+    const params3 = { angle: -Math.PI * 0.25 };
+    const cirleCenter = new THREE.Vector3(0, 0, 0);
+    const a = 30; // rayon horizontal
+    const b = 10; // hauteur fixe
 
     this.cameraTimeline
       .to(params, {
-        angle: Math.PI * 2, // tour complet
+        angle: 0, // tour complet
         duration: 12,
         ease: "none",
         onUpdate: () => {
@@ -133,7 +139,7 @@ export default class ShowExperience extends EventEmitter {
           this.camera.instance.position.z =
             center.z + Math.sin(params.angle) * radius;
           this.camera.instance.position.y =
-            5 + Math.sin(params.angle * 0.5) * 2; // petit mouvement vertical
+            40 + Math.sin(params.angle * 0.5) * 2; // petit mouvement vertical
 
           this.camera.instance.lookAt(center);
           this.camera.controls.update();
@@ -153,11 +159,11 @@ export default class ShowExperience extends EventEmitter {
         {
           x: 1.3,
           y: 0.25,
-          z: 5.5,
+          z: -20,
         },
         {
           x: 4.5,
-          y: 0.78,
+          y: 10,
           z: 21,
           duration: 4,
           ease: "power2.inOut",
@@ -172,7 +178,7 @@ export default class ShowExperience extends EventEmitter {
             console.log("finish camera animations");
             this.pictureManager.takePicture();
           },
-        }
+        },
 
         // "-=4"
       )
@@ -193,9 +199,10 @@ export default class ShowExperience extends EventEmitter {
 
             // Descente progressive : y de 15 à 5 par exemple
             this.camera.instance.position.y =
-              15 - Math.sin(params2.angle * 0.5) * 10;
+              40 - Math.sin(params2.angle * 0.5) * 10;
 
             this.camera.instance.lookAt(center);
+            this.camera.controls.target.copy(center);
             this.camera.controls.update();
           },
           onStart: () => {
@@ -207,8 +214,23 @@ export default class ShowExperience extends EventEmitter {
             console.log("third loop finished");
             this.pictureManager.takePicture();
           },
-        }
-      );
+        },
+      )
+      .to(params3, {
+        angle: Math.PI * 0.75,
+        duration: 8,
+        ease: "power2.inOut",
+        onUpdate: () => {
+          this.camera.instance.position.set(
+            Math.cos(params3.angle) * a,
+            b,
+            Math.sin(params3.angle) * a,
+          );
+
+          this.camera.controls.target.copy(center);
+          this.camera.controls.update();
+        },
+      });
 
     this.cameraTimeline.repeat(-1);
   }
@@ -232,7 +254,7 @@ export default class ShowExperience extends EventEmitter {
         // onComplete: () => {
         //   this.trigger("fadeLightsComplete");
         // },
-      }
+      },
     );
 
     gsap.fromTo(
@@ -244,7 +266,7 @@ export default class ShowExperience extends EventEmitter {
         onUpdate: () => {
           this.environement.environmentMap.updateMaterials();
         },
-      }
+      },
     );
   }
 
