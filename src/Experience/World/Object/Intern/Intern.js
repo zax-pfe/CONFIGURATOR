@@ -30,7 +30,6 @@ export default class Intern {
     );
     this.intern = this.Mesh.model.children[0];
     this.slingshot = this.Mesh.model.children[1];
-    console.log(this.intern, this.slingshot);
   }
 
   throwAnimation() {

@@ -20,7 +20,7 @@ export default class SelectObject extends EventEmitter {
 
     // PARAMETER OF THE WHEEL
     this.wheelRadius = 8;
-    this.wheelPosition = { x: 0, y: 15, z: 35 };
+    this.wheelPosition = { x: 0, y: 10, z: 40  };
 
     this.numberOfObjects = 5;
 
@@ -265,7 +265,7 @@ export default class SelectObject extends EventEmitter {
     result.model.position.set(
       this.wheelPosition.x,
       this.wheelPosition.y,
-      this.wheelPosition.z,
+      this.wheelPosition.z + 5,
     );
 
     this.currentSelectedMusic?.pause();
@@ -295,9 +295,9 @@ export default class SelectObject extends EventEmitter {
         z: this.selectedObject.scale.z * 1,
       },
       {
-        x: this.selectedObject.scale.x * 2.5,
-        y: this.selectedObject.scale.y * 2.5,
-        z: this.selectedObject.scale.z * 2.5,
+        x: this.selectedObject.scale.x * 2,
+        y: this.selectedObject.scale.y * 2,
+        z: this.selectedObject.scale.z * 2,
         duration: 0.25,
         ease: "power2.inOut",
       },
@@ -379,7 +379,7 @@ export default class SelectObject extends EventEmitter {
     result.model.position.set(
       this.wheelPosition.x,
       this.wheelPosition.y,
-      this.wheelPosition.z,
+      this.wheelPosition.z + 5,
     );
     this.currentSelectedMusic?.stop();
     // this.currentSelectedMusic?.pause();
@@ -412,9 +412,9 @@ export default class SelectObject extends EventEmitter {
         z: this.selectedObject.scale.z * 1,
       },
       {
-        x: this.selectedObject.scale.x * 2.5,
-        y: this.selectedObject.scale.y * 2.5,
-        z: this.selectedObject.scale.z * 2.5,
+        x: this.selectedObject.scale.x * 2,
+        y: this.selectedObject.scale.y * 2,
+        z: this.selectedObject.scale.z * 2,
         duration: 0.25,
         ease: "power2.inOut",
       },

@@ -28,7 +28,9 @@ export default class World {
     // tableau qui appelle update de toutes les instances de la classe star (pour update)
     this.starInstances = [];
     this.thrownStarInstance = null;
-
+    
+    this.spotlights = [];
+    
     this.resources = this.experience.resources;
 
     this.resources.on("ready", () => {
@@ -59,6 +61,9 @@ export default class World {
   // methode publique pour ajouter une instance de Star au tableau starInstances
   registerStarInstance(starManagerInstance) {
     this.starInstances.push(starManagerInstance);
+  }
+  registerSpotLights(SpotLight) {
+    this.spotlights.push(SpotLight);
   }
 
   update() {

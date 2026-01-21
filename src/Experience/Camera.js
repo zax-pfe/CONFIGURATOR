@@ -89,7 +89,6 @@ export default class Camera {
     if (this.debug.active) {
       if (this.debugObject.controlsEnabled) {
         this.controls.update();
-        // console.log(" camera position :", this.instance.position);
 
         // this.instance.position.set(0, 10, 87);
       } else {

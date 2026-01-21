@@ -107,6 +107,7 @@ export default class ShowExperience extends EventEmitter {
               0, // fromValue
               5, // toValue
             );
+            this.lightUpSpotlights()
           },
         },
       );
@@ -298,6 +299,13 @@ export default class ShowExperience extends EventEmitter {
     });
   }
 
+  lightUpSpotlights(){
+    const spotlights = this.experience.world.spotlights;
+    for(const spot of spotlights){
+      spot.lightBeam.show();
+    }
+  }
+
   getStarUp(star){
     if (star) {
       // retirer la star des objets animés
@@ -318,24 +326,45 @@ export default class ShowExperience extends EventEmitter {
         );
       }
 
+      const targetPos = new THREE.Vector3(0, 3, -53);
+      const currentPos = star.model.position;
+      const distance = currentPos.distanceTo(targetPos);
+      const walkSpeed = 5; 
+      const walkDuration = distance / walkSpeed;
+      const angleToTarget = Math.atan2(
+        targetPos.x - currentPos.x,
+        targetPos.z - currentPos.z
+      ) + Math.PI;
+
       // redressement de la star
       const timeline = gsap.timeline();
 
       // rotation
       timeline.to(star.model.rotation, {
         x: 0,
-        y: Math.PI,
+        y: angleToTarget,
         z: 0,
-        duration: 2,
+        duration: 1.2,
         ease: "power2.inOut"
       });
 
       // position y pour pas traverser le sol
       timeline.to(star.model.position, {
-        y: 0.5, 
-        duration: 1,
-        ease: "power2.out"
-      }, "<");
+        x: targetPos.x,
+        y: targetPos.y,
+        z: targetPos.z,
+        duration: walkDuration,
+        ease: "none",
+        onStart: () => {
+          star.animationState.play("walk")
+        }
+      });
+
+      timeline.to(star.model.rotation, {
+        y: Math.PI, 
+        duration: 0.8,
+        ease: "power2.inOut"
+      });
 
       // lancer la danse
       timeline.add(() => {
