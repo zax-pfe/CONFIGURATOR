@@ -255,23 +255,23 @@ export default class SoundManager extends EventEmitter {
   setUpFx() {
     const buttonValid = new Howl({
       src: ["/sounds/fx/valide.mp3"],
-      loop: true,
+      loop: false,
     });
     const throwSound = new Howl({
       src: ["/sounds/fx/throw.mp3"],
-      loop: true,
+      loop: false,
     });
     const hoverSound = new Howl({
       src: ["/sounds/fx/hover.mp3"],
-      loop: true,
+      loop: false,
     });
     const internThrow1 = new Howl({
       src: ["/sounds/fx/internThrow.mp3"],
-      loop: true,
+      loop: false,
     });
     const internThrow2 = new Howl({
       src: ["/sounds/fx/internThrow2.mp3"],
-      loop: true,
+      loop: false,
     });
     this.soundLibrary.fx = {
       buttonValid: buttonValid,
@@ -286,11 +286,14 @@ export default class SoundManager extends EventEmitter {
     const impactStrenght = collision.contact.getImpactVelocityAlongNormal();
     if (impactStrenght > 2.5) {
       if (impactStrenght > 20) {
-        this.impactSound.volume = 1;
+        // this.impactSound.volume = 1;
+        this.impactSound.volume(1);
       } else {
-        this.impactSound.volume = 0.05 * impactStrenght;
+        // this.impactSound.volume = 0.05 * impactStrenght;
+        this.impactSound.volume(0.05 * impactStrenght);
       }
-      this.impactSound.currentTime = 0;
+      // this.impactSound.currentTime = 0;
+      this.impactSound.stop();
       this.impactSound.play();
     }
   };

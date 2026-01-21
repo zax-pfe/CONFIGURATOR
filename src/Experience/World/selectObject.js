@@ -76,7 +76,8 @@ export default class SelectObject extends EventEmitter {
       }
       this.destroyDebug();
       // clean the music playing
-      this.currentSelectedMusic?.pause();
+      // this.currentSelectedMusic?.pause();
+      this.currentSelectedMusic?.stop();
       this.currentSelectedMusic = null;
       this.selectedObjectsMusic[this.selectedObject.name] =
         this.currentSelectedMusic;
@@ -370,19 +371,24 @@ export default class SelectObject extends EventEmitter {
       this.wheelPosition.y,
       this.wheelPosition.z,
     );
-    this.currentSelectedMusic?.pause();
+    this.currentSelectedMusic?.stop();
+    // this.currentSelectedMusic?.pause();
     this.currentSelectedMusic = null;
     // Si l'objet a une musique associée, quand l'objet change
     // on joue la musique et reset le temps
     if (result.music) {
       this.currentSelectedMusic = result.music;
-      this.currentSelectedMusic.volume = 0.3;
+      // this.currentSelectedMusic.volume = 0.3;
+      this.currentSelectedMusic.volume(0.3);
+
       this.currentSelectedMusic.currentTime = 0;
       this.currentSelectedMusic.loop = true;
       this.currentSelectedMusic.play();
     } else {
       // sinon on stop la musique courante
-      this.currentSelectedMusic?.pause();
+      this.currentSelectedMusic?.stop();
+      // this.currentSelectedMusic?.pause();
+
       this.currentSelectedMusic = null;
     }
 
@@ -473,7 +479,8 @@ export default class SelectObject extends EventEmitter {
             this.selectedObjectsMusic[this.selectedObject.name] =
               this.currentSelectedMusic;
           }
-          this.currentSelectedMusic?.pause();
+          // this.currentSelectedMusic?.pause();
+          this.currentSelectedMusic?.stop();
           this.currentSelectedMusic = null;
           this.soundManager.soundLibrary.fx.buttonValid.volume = 0.5;
           this.soundManager.soundLibrary.fx.buttonValid.play();

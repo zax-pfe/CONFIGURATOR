@@ -23,7 +23,7 @@ export default class MeshHitBox {
     activetePhysics,
     selectedSound,
     animated,
-    music = null
+    music = null,
   ) {
     //setupt the experience
     this.experience = new Experience();
@@ -35,10 +35,6 @@ export default class MeshHitBox {
     this.soundManager.impactSound = selectedSound;
     // console.log("Selected sound in MeshHitBox:", this.soundManager.impactSound);
     // console.log("Music in MeshHitBox:", music);
-
-    if (music) {
-      this.soundManager.playSound = music;
-    }
 
     // setupt the physicWorld
     this.physics = new Physics();
@@ -87,7 +83,7 @@ export default class MeshHitBox {
     this.model.position.set(
       this.positions.x,
       this.positions.y,
-      this.positions.z
+      this.positions.z,
     );
     // this.model.updateMatrixWorld(true);
   }
@@ -100,7 +96,7 @@ export default class MeshHitBox {
     console.log("Hitbox size:", size);
 
     const shape = new CANNON.Box(
-      new CANNON.Vec3(size.x / 2, size.y / 2, size.z / 2)
+      new CANNON.Vec3(size.x / 2, size.y / 2, size.z / 2),
     );
 
     this.body = new CANNON.Body({ mass: this.mass });

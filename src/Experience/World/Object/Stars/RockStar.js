@@ -28,7 +28,8 @@ export default class RockStar {
     this.hitBoxType = "cylinder";
     this.activatePhysics = true;
     this.material = this.physics.defaultMaterial;
-    this.sound = this.experience.soundManager.soundLibrary.hit.bamboo;
+    this.sound = this.experience.soundManager.soundLibrary.hit.rock;
+    this.music = this.experience.soundManager.soundLibrary.orange.orange3;
     this.animated = true;
   }
 
@@ -48,7 +49,8 @@ export default class RockStar {
       instanceName, // nom unique
       this.activatePhysics,
       this.sound,
-      this.animated
+      this.animated,
+      this.music,
     );
 
     // configurationd de l'animation
@@ -68,6 +70,7 @@ export default class RockStar {
       body: meshHitBoxInstance.body,
       animationState: animationState,
       debugFolder: debugFolder,
+      music: this.music,
     };
 
     // ajout au tableau de gestion
