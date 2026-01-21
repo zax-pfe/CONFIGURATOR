@@ -57,9 +57,9 @@ export default class Renderer {
 
     // Ajoute un effet de bloom
     const unrealBloomPass = new UnrealBloomPass();
-    unrealBloomPass.strength = 0.3;
-    unrealBloomPass.radius = 1;
-    unrealBloomPass.threshold = 0.6;
+    unrealBloomPass.strength = 0.25;
+    unrealBloomPass.radius = 0.2;
+    unrealBloomPass.threshold = 0.5;
     this.composer.addPass(unrealBloomPass);
 
     // Ajoute un effet de pointillé
@@ -70,7 +70,7 @@ export default class Renderer {
     const fxaaPass = new ShaderPass(FXAAShader);
     fxaaPass.material.uniforms["resolution"].value.set(
       1 / this.sizes.width,
-      1 / this.sizes.height
+      1 / this.sizes.height,
     );
     this.composer.addPass(fxaaPass);
 

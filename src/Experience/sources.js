@@ -191,17 +191,17 @@ export default [
   {
     name: "Synth1",
     type: "gltfModel",
-    path: "models/Speaker/Synth/2-lead-synth-red-1.glb",
+    path: "models/Speaker/Synth/4-purple-synth.glb",
   },
   {
-    name: "Synth2",
+    name: "SpeakerMic",
     type: "gltfModel",
-    path: "models/Speaker/Synth/2-lead-synth1.glb",
+    path: "models/Speaker/voices/EnceinteMicro.glb",
   },
   {
-    name: "Synth3",
+    name: "SpeakerMic2",
     type: "gltfModel",
-    path: "models/Speaker/Synth/2-lead-synth3.glb",
+    path: "models/Speaker/voices/EnceinteMicro1.glb",
   },
   {
     name: "SynthCool",

@@ -27,7 +27,8 @@ import Synth2 from "../World/Object/Speakers/Synth/Synth2.js";
 import Synth3 from "../World/Object/Speakers/Synth/Synth3.js";
 import SynthCool from "../World/Object/Speakers/Synth/SynthCool.js";
 import Drums1 from "../World/Object/Speakers/Drums/Drums1.js";
-
+import SpeakerMic1 from "../World/Object/Speakers/Voices/Micro.js";
+import SpeakerMic2 from "../World/Object/Speakers/Voices/Micro2.js";
 import ThrowObject from "../World/throwObject.js";
 import SelectObject from "../World/selectObject.js";
 
@@ -95,6 +96,8 @@ export default class SelectAndLaunch extends EventEmitter {
     this.girlStar = new GirlStar();
     this.daftStar = new DaftStar();
     this.drums1 = new Drums1();
+    this.speakerMic1 = new SpeakerMic1();
+    this.speakerMic2 = new SpeakerMic2();
 
     // on ajoute l'instance de la calsse au tableau d'update dans world
     this.experience.world.registerStarInstance(this.rockStar);
@@ -119,11 +122,13 @@ export default class SelectAndLaunch extends EventEmitter {
       this.speaker3textured,
       this.Speaker4Textured,
       // this.guitarAs1,
-      // this.synth1,
+      this.synth1,
       // this.synth2,
       // this.synth3,
       this.synthCool,
       this.drums1,
+      this.speakerMic1,
+      this.speakerMic2,
     );
 
     for (const object of objectsTypes) {
