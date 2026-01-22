@@ -36,16 +36,16 @@ body {
 
 .use-phone-btn {
   position: absolute;
-  bottom: 40px; 
+  bottom: 40px;
   right: 40px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   gap: 12px;
-    
+
   padding: 8px 16px;
-  background-color: #D9F203;
+  background-color: #d9f203;
   border: none;
   border-radius: 100px;
   font-family: "nitti-mostro-comic-solid", sans-serif;
@@ -57,9 +57,9 @@ body {
 }
 
 .btn-icons {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .black-overlay {
@@ -96,7 +96,7 @@ body {
   height: 80%;
   object-fit: cover;
   position: absolute;
-  z-index: 10;
+  z-index: 11;
 }
 
 .cadre {
