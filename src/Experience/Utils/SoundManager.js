@@ -319,7 +319,7 @@ export default class SoundManager extends EventEmitter {
 
   startMusic(music) {
     music.loop = true;
-    music.volume(0.5);
+    // music.volume(0.5);
     music.currentTime = this.currentTimeInLoop;
     music.play();
   }
@@ -347,7 +347,7 @@ export default class SoundManager extends EventEmitter {
   }
 
   fadeMusic(music, type = "out", duration = 2, targetVolume = 0) {
-    const initialVolume = music.volume();
+    // const initialVolume = music.volume();
     gsap.fromTo(
       music,
       { volume: type === "out" ? initialVolume : 0 },

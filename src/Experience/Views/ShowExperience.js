@@ -17,12 +17,29 @@ export default class ShowExperience extends EventEmitter {
     this.debug = this.experience.debug;
     this.soundManager = this.experience.soundManager;
     this.connection = this.experience.connection;
+    this.mobileData = this.experience.mobileData;
     this.publicManager = this.experience.world.publicManager;
     this.soundManager = this.experience.soundManager;
+
+    // on ecoute le skip du mobile
+    this.mobileData.on("skipShow", () => {
+      if (this.pictureManager.numberOfPictures >= 3) {
+        this.end();
+      }
+    });
   }
 
   start() {
     console.log("Show Experience start from ShowExperience");
+
+    this.showDiv = document.querySelector(
+      ".show-screen",
+    );
+    gsap.to(this.showDiv, {
+      duration: 1,
+      opacity: 1,
+      ease: "power3.out",
+    })
 
     const star = this.world.thrownStarInstance;
 
@@ -172,6 +189,17 @@ export default class ShowExperience extends EventEmitter {
   }
 
   end() {
+
+    gsap.to(this.showDiv,{
+      duration: 1,
+      opacity: 0,
+      ease: "power3.in",
+      onComplete: () => {
+        this.showDiv.style.display = "none";
+        this.showDiv.remove();
+      },
+    });
+
     this.soundManager.stopSelectedMusics();
     this.soundManager.selectedObjectsMusic = {};
     this.cameraTimeline.kill();
