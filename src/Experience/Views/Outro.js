@@ -37,6 +37,7 @@ export default class Outro extends EventEmitter {
 
   start() {
     console.log("picture taken in outro", this.pictureManager.pictures);
+
     this.soundManager.soundLibrary.ambiance.introOutro.volume(0.5);
     this.soundManager.soundLibrary.ambiance.introOutro.play();
     console.log("selected star outro", this.selectedStar);

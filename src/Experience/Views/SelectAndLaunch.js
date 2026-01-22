@@ -1,17 +1,13 @@
 import EventEmitter from "../Utils/EventEmitter.js";
+import ThrowObject from "../World/throwObject.js";
+import SelectObject from "../World/selectObject.js";
 import Experience from "../Experience.js";
 
+// ======================== LIGHTS =================================
 import SpotLightHitbox from "../World/Object/Lights/SpotLight.js";
 import MovingSpotLightHitbox from "../World/Object/Lights/MovingLight.js";
 import Laser from "../World/Object/Lights/Laser.js";
-import Star from "../World/Object/Stars/Star.js";
-
-import Slingshot from "../World/Object/Slingshot/Slingshot.js";
-import Intern from "../World/Object/Intern/Intern.js";
-import ThrowObject from "../World/throwObject.js";
-import SelectObject from "../World/selectObject.js";
 import MachineALaver from "../World/Object/Speakers/Drums/MachineALaver.js";
-import Bloc from "../World/Object/Speakers/Drums/Bloc.js";
 // ======================== RANDOM OBJECT =========================
 import Phone from "../World/Object/RandomObjects/Phone.js";
 import Plante from "../World/Object/RandomObjects/Plante.js";
@@ -20,10 +16,13 @@ import CadrePhoto from "../World/Object/RandomObjects/CadrePhoto.js";
 import Boisson from "../World/Object/RandomObjects/Boisson.js";
 import Tiroir from "../World/Object/RandomObjects/Tiroir.js";
 // ======================== STARS =================================
+import Slingshot from "../World/Object/Slingshot/Slingshot.js";
+import Intern from "../World/Object/Intern/Intern.js";
 import RockStar from "../World/Object/Stars/RockStar.js";
 import GirlStar from "../World/Object/Stars/GirlStar.js";
 import DaftStar from "../World/Object/Stars/DaftStar.js";
 // ======================== SPEAKER =================================
+import Bloc from "../World/Object/Speakers/Drums/Bloc.js";
 import Synth1 from "../World/Object/Speakers/Synth/Synth1.js";
 import Synth2 from "../World/Object/Speakers/Synth/Synth2.js";
 import Synth3 from "../World/Object/Speakers/Synth/Synth3.js";
@@ -54,6 +53,11 @@ import DrumKickBlue from "../World/Object/Speakers/SpeakerAs/DrumKick/DrumKickBl
 import DrumKickPurple from "../World/Object/Speakers/SpeakerAs/DrumKick/DrumKickPurple.js";
 import DrumKick from "../World/Object/Speakers/SpeakerAs/DrumKick/DrumKick.js";
 import DrumKickGreen from "../World/Object/Speakers/SpeakerAs/DrumKick/DrumKickGreen.js";
+// ======================== SPEAKER CUBE ===================================
+import SpeakerCubeRed from "../World/Object/Speakers/SpeakerAs/SpeakerCube/SpeakerCubeRed.js";
+import SpeakerCubeBlue from "../World/Object/Speakers/SpeakerAs/SpeakerCube/SpeakerCubeBlue.js";
+import SpeakerCubeGreen from "../World/Object/Speakers/SpeakerAs/SpeakerCube/SpeakerCubeGreen.js";
+import SpeakerCubePurple from "../World/Object/Speakers/SpeakerAs/SpeakerCube/SpeakerCubePurple.js";
 
 import gsap from "gsap";
 
@@ -122,6 +126,12 @@ export default class SelectAndLaunch extends EventEmitter {
     this.drumKickPurple = new DrumKickPurple();
     this.drumKick = new DrumKick();
 
+    // ========================= SPEAKER CUBE ========================
+    this.speakerCubeRed = new SpeakerCubeRed();
+    this.speakerCubeBlue = new SpeakerCubeBlue();
+    this.speakerCubeGreen = new SpeakerCubeGreen();
+    this.speakerCubePurple = new SpeakerCubePurple();
+
     // ========================= LIGHTS ================================
     this.spotLight = new SpotLightHitbox();
     this.movingSpotLight = new MovingSpotLightHitbox();
@@ -171,7 +181,13 @@ export default class SelectAndLaunch extends EventEmitter {
       // this.speakerRectBlue,
       // this.speakerRectGreen,
       // this.speakerRectPurple,
-      // // SPEAKER DRUM KICK
+      // SPEAKER CUBE
+      this.speakerCubeRed,
+      this.speakerCubeBlue,
+      this.speakerCubeGreen,
+      this.speakerCubePurple,
+
+      // SPEAKER DRUM KICK
       this.drumKick,
       this.drumKickBlue,
       this.drumKickGreen,
@@ -301,7 +317,7 @@ export default class SelectAndLaunch extends EventEmitter {
     if (this.isStarPhase) {
       console.log("Ending Experience");
       this.end();
-      this.gameTimer.trigger('startShowTime');
+      this.gameTimer.trigger("startShowTime");
       return;
     }
     // phase objets et temps terminé

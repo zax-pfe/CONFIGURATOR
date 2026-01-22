@@ -245,6 +245,27 @@ export default [
     type: "gltfModel",
     path: "models/Speaker/speakerAs/DrumKick/DrumKickPurple.glb",
   },
+  // ========================= SPEAKER CUBE =========================
+  {
+    name: "SpeakerCubeRed",
+    type: "gltfModel",
+    path: "models/Speaker/speakerAs/SpeakerCube/SpeakerCubeRed.glb",
+  },
+  {
+    name: "SpeakerCubeBlue",
+    type: "gltfModel",
+    path: "models/Speaker/speakerAs/SpeakerCube/SpeakerCubeBlue.glb",
+  },
+  {
+    name: "SpeakerCubeGreen",
+    type: "gltfModel",
+    path: "models/Speaker/speakerAs/SpeakerCube/SpeakerCubeGreen.glb",
+  },
+  {
+    name: "SpeakerCubePurple",
+    type: "gltfModel",
+    path: "models/Speaker/speakerAs/SpeakerCube/SpeakerCubePurple.glb",
+  },
 
   // ========================= RANDOM OBJECT =========================
   // {

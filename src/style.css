@@ -96,7 +96,7 @@ body {
   height: 80%;
   object-fit: cover;
   position: absolute;
-  z-index: 11;
+  z-index: 13;
 }
 
 .cadre {
