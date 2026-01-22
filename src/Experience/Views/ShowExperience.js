@@ -384,16 +384,45 @@ export default class ShowExperience extends EventEmitter {
         );
       }
 
+      // vecteurs et distances
       const targetPos = new THREE.Vector3(0, 3, -53);
-      const currentPos = star.model.position;
-      const distance = currentPos.distanceTo(targetPos);
-      const walkSpeed = 5;
-      const walkDuration = distance / walkSpeed;
-      const angleToTarget =
-        Math.atan2(targetPos.x - currentPos.x, targetPos.z - currentPos.z) +
-        Math.PI;
+      const startPos = star.model.position.clone();
+      // direction
+      const direction = new THREE.Vector3()
+        .subVectors(targetPos, startPos)
+        .normalize();
+      const totalDistance = startPos.distanceTo(targetPos);
 
-      // redressement de la star
+      // params saut
+      const jumpZoneRadius = 18;
+      const jumpLength = 5;
+      const jumpHeight = 3;
+      const walkSpeed = 10;
+      const pauseDuration = 0.5;
+
+      // si deja sur le podium on marche juste
+      if (totalDistance < jumpZoneRadius) {
+        this.simpleWalkToTarget(star, targetPos, totalDistance, walkSpeed);
+        return;
+      }
+      // depart du saut
+      const jumpStartPos = targetPos.clone().add(direction.clone().multiplyScalar(-jumpZoneRadius));
+      // 
+      const jumpEndPos = jumpStartPos.clone().add(direction.clone().multiplyScalar(jumpLength));
+
+
+      const distToJump = startPos.distanceTo(jumpStartPos);
+      const durationWalk1 = distToJump / walkSpeed;
+      const durationJump = 0.5;
+      const distAfterJump = jumpEndPos.distanceTo(targetPos);
+      const durationWalk2 = distAfterJump / walkSpeed;
+
+      const angleToTarget = Math.atan2(
+        targetPos.x - startPos.x,
+        targetPos.z - startPos.z
+      ) + Math.PI;
+
+      // timeline
       const timeline = gsap.timeline();
 
       // rotation
@@ -405,18 +434,59 @@ export default class ShowExperience extends EventEmitter {
         ease: "power2.inOut",
       });
 
-      // position y pour pas traverser le sol
+      // marche jusqu'au podium
+      timeline.to(star.model.position, {
+        x: jumpStartPos.x,
+        y: jumpStartPos.y,
+        z: jumpStartPos.z,
+        duration: durationWalk1,
+        ease: "none",
+        onStart: () => star.animationState.play("walk")
+      });
+
+      // pause avant le saut
+      timeline.call(() => star.animationState.play("stand")); // On joue l'animation stand
+      timeline.to({}, { duration: pauseDuration });
+
+      // saut
+      timeline.add("jumpStart");
+      // timeline.call(() => star.animationState.play("jump"), null, "jumpStart");
+      
+      // déplacement horizontal pendant le ssaut
+      timeline.to(star.model.position, {
+        x: jumpEndPos.x,
+        z: jumpEndPos.z,
+        duration: durationJump,
+        ease: "none"
+      }, "jumpStart");
+
+      // déplacement vertical en montée
+      timeline.to(star.model.position, {
+        y: jumpStartPos.y + jumpHeight,
+        duration: durationJump * 0.5,
+        ease: "power1.out"
+      }, "jumpStart");
+
+      // déplacement vertical en descente
+      timeline.to(star.model.position, {
+        y: targetPos.y,
+        duration: durationJump * 0.5,
+        ease: "power1.in"
+      }, `jumpStart+=${durationJump * 0.5}`);
+
+      // reprise de la marche
       timeline.to(star.model.position, {
         x: targetPos.x,
         y: targetPos.y,
         z: targetPos.z,
-        duration: walkDuration,
+        duration: durationWalk2,
         ease: "none",
         onStart: () => {
           star.animationState.play("walk");
         },
       });
 
+      // rotation finale vers le public
       timeline.to(star.model.rotation, {
         y: Math.PI,
         duration: 0.8,
@@ -430,6 +500,21 @@ export default class ShowExperience extends EventEmitter {
         }
       });
     }
+  }
+
+  simpleWalkToTarget(star, targetPos, distance, speed) {
+    const timeline = gsap.timeline();
+    const angle = Math.atan2(targetPos.x - star.model.position.x, targetPos.z - star.model.position.z) + Math.PI;
+      
+    timeline.to(star.model.rotation, { y: angle, x: 0, z: 0, duration: 1 });
+    timeline.to(star.model.position, {
+      x: targetPos.x, y: targetPos.y, z: targetPos.z,
+      duration: distance / speed,
+      ease: "none",
+      onStart: () => star.animationState.play("walk")
+    });
+    timeline.to(star.model.rotation, { y: Math.PI, duration: 0.5 });
+    timeline.add(() => star.animationState.play("dance"));
   }
 
   createDebug() {
