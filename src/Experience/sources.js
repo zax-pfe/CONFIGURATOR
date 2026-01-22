@@ -350,4 +350,9 @@ export default [
       "textures/environmentMap/nz.jpg",
     ],
   },
+  {
+    name: "timerFont",
+    type: "font",
+    path: "fonts/jostblack_regular.json",
+  },
 ];

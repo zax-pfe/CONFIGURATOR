@@ -14,12 +14,11 @@ export default class TitleScreen extends EventEmitter {
     this.connection = this.experience.connection;
     this.pictureManager = this.experience.pictureManager;
     this.soundManager = this.experience.soundManager;
+    this.mobileData = this.experience.mobileData;
 
-    // this.connection.on("message", (data) => {
-    //   if (data === "start") {
-    //     this.end();
-    //   }
-    // });
+    this.mobileData.on("skipTitle", () => {
+      this.end();
+    });
   }
 
   start() {

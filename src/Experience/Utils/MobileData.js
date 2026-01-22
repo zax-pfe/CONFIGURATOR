@@ -5,6 +5,10 @@ export default class MobileData extends EventEmitter{
   constructor() {
     super()
 
+    this.title = {
+      state: null,
+    };
+
     this.intro = {
       state: null,
     };
@@ -35,6 +39,14 @@ export default class MobileData extends EventEmitter{
     if (!msg.device || msg.device !== "mobile") return;
 
     switch (msg.phase) {
+
+      case "title": {
+        this.title.state = msg.state;
+        if (msg.state === "skip") {
+          this.trigger("skipTitle");
+        }
+        break;
+      }
 
       case "intro": {
         this.intro.state = msg.state;

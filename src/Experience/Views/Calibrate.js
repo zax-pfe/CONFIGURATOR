@@ -14,12 +14,9 @@ export default class Calibrate extends EventEmitter {
 
     this.currentCalibrateStep = 1;
 
-    this.skip = 0;
-
     // on ecoute le skip du mobile
     this.mobileData.on("skipCalibrate", () => {
-      this.skip++
-      if (this.skip < 2) {
+      if (this.currentCalibrateStep == 1) {
         this.firstCalibrateEnd()
       } else {
         this.end();
@@ -29,7 +26,6 @@ export default class Calibrate extends EventEmitter {
 
   start() {
     // this.soundManager.soundLibrary.ambiance.introOutro.volume(0.5);
-    this.skip = 0;
 
     this.calibrateDiv = document.querySelector(
       ".video-container.calibrate-screen",
