@@ -215,8 +215,9 @@ export default class ShowExperience extends EventEmitter {
         onComplete: () => {
           // this.end();
           console.log("First loop finished");
-          if (this.pictureManager.numberOfPictures <= 3) {
+          if (this.pictureManager.numberOfPictures < 3) {
             this.pictureManager.takePicture();
+            console.log("picture taken", this.pictureManager.pictures);
           }
         },
       })
@@ -240,6 +241,7 @@ export default class ShowExperience extends EventEmitter {
             console.log("finish camera animations");
             if (this.pictureManager.numberOfPictures < 3) {
               this.pictureManager.takePicture();
+              console.log("picture taken", this.pictureManager.pictures);
             }
           },
         },
@@ -273,8 +275,9 @@ export default class ShowExperience extends EventEmitter {
           onComplete: () => {
             // this.end();
             console.log("third loop finished");
-            if (this.pictureManager.numberOfPictures <= 3) {
+            if (this.pictureManager.numberOfPictures < 3) {
               this.pictureManager.takePicture();
+              console.log("picture taken", this.pictureManager.pictures);
             }
           },
         },
@@ -406,10 +409,13 @@ export default class ShowExperience extends EventEmitter {
         return;
       }
       // depart du saut
-      const jumpStartPos = targetPos.clone().add(direction.clone().multiplyScalar(-jumpZoneRadius));
-      // 
-      const jumpEndPos = jumpStartPos.clone().add(direction.clone().multiplyScalar(jumpLength));
-
+      const jumpStartPos = targetPos
+        .clone()
+        .add(direction.clone().multiplyScalar(-jumpZoneRadius));
+      //
+      const jumpEndPos = jumpStartPos
+        .clone()
+        .add(direction.clone().multiplyScalar(jumpLength));
 
       const distToJump = startPos.distanceTo(jumpStartPos);
       const durationWalk1 = distToJump / walkSpeed;
@@ -417,10 +423,9 @@ export default class ShowExperience extends EventEmitter {
       const distAfterJump = jumpEndPos.distanceTo(targetPos);
       const durationWalk2 = distAfterJump / walkSpeed;
 
-      const angleToTarget = Math.atan2(
-        targetPos.x - startPos.x,
-        targetPos.z - startPos.z
-      ) + Math.PI;
+      const angleToTarget =
+        Math.atan2(targetPos.x - startPos.x, targetPos.z - startPos.z) +
+        Math.PI;
 
       // timeline
       const timeline = gsap.timeline();
@@ -441,7 +446,7 @@ export default class ShowExperience extends EventEmitter {
         z: jumpStartPos.z,
         duration: durationWalk1,
         ease: "none",
-        onStart: () => star.animationState.play("walk")
+        onStart: () => star.animationState.play("walk"),
       });
 
       // pause avant le saut
@@ -451,28 +456,40 @@ export default class ShowExperience extends EventEmitter {
       // saut
       timeline.add("jumpStart");
       // timeline.call(() => star.animationState.play("jump"), null, "jumpStart");
-      
+
       // déplacement horizontal pendant le ssaut
-      timeline.to(star.model.position, {
-        x: jumpEndPos.x,
-        z: jumpEndPos.z,
-        duration: durationJump,
-        ease: "none"
-      }, "jumpStart");
+      timeline.to(
+        star.model.position,
+        {
+          x: jumpEndPos.x,
+          z: jumpEndPos.z,
+          duration: durationJump,
+          ease: "none",
+        },
+        "jumpStart",
+      );
 
       // déplacement vertical en montée
-      timeline.to(star.model.position, {
-        y: jumpStartPos.y + jumpHeight,
-        duration: durationJump * 0.5,
-        ease: "power1.out"
-      }, "jumpStart");
+      timeline.to(
+        star.model.position,
+        {
+          y: jumpStartPos.y + jumpHeight,
+          duration: durationJump * 0.5,
+          ease: "power1.out",
+        },
+        "jumpStart",
+      );
 
       // déplacement vertical en descente
-      timeline.to(star.model.position, {
-        y: targetPos.y,
-        duration: durationJump * 0.5,
-        ease: "power1.in"
-      }, `jumpStart+=${durationJump * 0.5}`);
+      timeline.to(
+        star.model.position,
+        {
+          y: targetPos.y,
+          duration: durationJump * 0.5,
+          ease: "power1.in",
+        },
+        `jumpStart+=${durationJump * 0.5}`,
+      );
 
       // reprise de la marche
       timeline.to(star.model.position, {
@@ -504,14 +521,20 @@ export default class ShowExperience extends EventEmitter {
 
   simpleWalkToTarget(star, targetPos, distance, speed) {
     const timeline = gsap.timeline();
-    const angle = Math.atan2(targetPos.x - star.model.position.x, targetPos.z - star.model.position.z) + Math.PI;
-      
+    const angle =
+      Math.atan2(
+        targetPos.x - star.model.position.x,
+        targetPos.z - star.model.position.z,
+      ) + Math.PI;
+
     timeline.to(star.model.rotation, { y: angle, x: 0, z: 0, duration: 1 });
     timeline.to(star.model.position, {
-      x: targetPos.x, y: targetPos.y, z: targetPos.z,
+      x: targetPos.x,
+      y: targetPos.y,
+      z: targetPos.z,
       duration: distance / speed,
       ease: "none",
-      onStart: () => star.animationState.play("walk")
+      onStart: () => star.animationState.play("walk"),
     });
     timeline.to(star.model.rotation, { y: Math.PI, duration: 0.5 });
     timeline.add(() => star.animationState.play("dance"));

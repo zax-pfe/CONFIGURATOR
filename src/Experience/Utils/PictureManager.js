@@ -19,7 +19,7 @@ export default class PictureManager extends EventEmitter {
     const dataURL = this.renderer.domElement.toDataURL("image/png");
     this.pictures.push(dataURL);
     this.numberOfPictures++;
-    console.log(`Picture taken! Total pictures: ${this.numberOfPictures}`);
+    // console.log(`Picture taken! Total pictures: ${this.numberOfPictures}`);
 
     // permet de télécharger l'image directement
     // const link = document.createElement("a");
