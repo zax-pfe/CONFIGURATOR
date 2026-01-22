@@ -25,7 +25,7 @@ export default class Phone {
     // the parameters of the object
     this.activatePhysics = true;
     this.material = this.physics.defaultContactMaterial;
-    this.sound = this.experience.soundManager.soundLibrary.hit.punchSound;
+    this.sound = this.experience.soundManager.soundLibrary.hit.punch;
     // this.music = this.experience.soundManager.soundLibrary.rose.rose2;
   }
 
