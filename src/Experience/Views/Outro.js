@@ -1,5 +1,6 @@
 import EventEmitter from "../Utils/EventEmitter";
 import Experience from "../Experience";
+import ConeLumiere from "../World/LightBlender/ConeLumiere";
 
 export default class Outro extends EventEmitter {
   constructor() {

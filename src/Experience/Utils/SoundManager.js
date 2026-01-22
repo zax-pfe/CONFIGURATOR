@@ -76,13 +76,22 @@ export default class SoundManager extends EventEmitter {
   setUpAmbianceSounds() {
     const ambianceFunk = new Howl({
       src: ["/sounds/ambiance/foreverFunk.mp3"],
+      loop: true,
     });
     const ambianceIntroOutro = new Howl({
       src: ["/sounds/ambiance/intro-outro.mp3"],
+      loop: true,
     });
+    const musiqueStressante = new Howl({
+      src: ["/sounds/ambiance/musique-stressante.mp3"],
+      loop: true,
+      volume: 0.1,
+    });
+
     this.soundLibrary.ambiance = {
       introOutro: ambianceIntroOutro,
       funk: ambianceFunk,
+      stressante: musiqueStressante,
     };
   }
 
@@ -256,6 +265,7 @@ export default class SoundManager extends EventEmitter {
     const buttonValid = new Howl({
       src: ["/sounds/fx/valide.mp3"],
       loop: false,
+      volume: 0.3,
     });
     const throwSound = new Howl({
       src: ["/sounds/fx/throw.mp3"],
@@ -264,14 +274,22 @@ export default class SoundManager extends EventEmitter {
     const hoverSound = new Howl({
       src: ["/sounds/fx/hover.mp3"],
       loop: false,
+      volume: 0.5,
     });
     const internThrow1 = new Howl({
       src: ["/sounds/fx/internThrow.mp3"],
       loop: false,
+      volume: 0.1,
     });
     const internThrow2 = new Howl({
       src: ["/sounds/fx/internThrow2.mp3"],
       loop: false,
+      volume: 0.1,
+    });
+    const spotlightSound = new Howl({
+      src: ["/sounds/fx/spotlight-sound.mp3"],
+      loop: false,
+      volume: 0.1,
     });
     this.soundLibrary.fx = {
       buttonValid: buttonValid,
@@ -279,6 +297,7 @@ export default class SoundManager extends EventEmitter {
       hover: hoverSound,
       internThrow1: internThrow1,
       internThrow2: internThrow2,
+      spotlightSound: spotlightSound,
     };
   }
 
@@ -300,13 +319,13 @@ export default class SoundManager extends EventEmitter {
 
   startMusic(music) {
     music.loop = true;
-    music.volume = 0.5;
+    music.volume(0.5);
     music.currentTime = this.currentTimeInLoop;
     music.play();
   }
 
   fadeInMusic(music, duration = 2, targetVolume = 1) {
-    music.volume = 0;
+    music.volume(0);
     music.loop = true;
     music.currentTime = this.currentTimeInLoop;
     music.play();
@@ -317,7 +336,7 @@ export default class SoundManager extends EventEmitter {
       const elapsed = (now - startTime) / 1000;
       const progress = Math.min(elapsed / duration, 1);
 
-      music.volume = progress * targetVolume;
+      music.volume(progress * targetVolume);
 
       if (progress < 1) {
         requestAnimationFrame(fade);
@@ -328,7 +347,7 @@ export default class SoundManager extends EventEmitter {
   }
 
   fadeMusic(music, type = "out", duration = 2, targetVolume = 0) {
-    const initialVolume = music.volume;
+    const initialVolume = music.volume();
     gsap.fromTo(
       music,
       { volume: type === "out" ? initialVolume : 0 },

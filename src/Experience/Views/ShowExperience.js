@@ -3,6 +3,7 @@ import Experience from "../Experience";
 import Physics from "../Utils/Physics";
 import { gsap } from "gsap";
 import * as THREE from "three";
+import ConeLumiere from "../World/LightBlender/ConeLumiere";
 
 export default class ShowExperience extends EventEmitter {
   constructor() {
@@ -17,6 +18,7 @@ export default class ShowExperience extends EventEmitter {
     this.soundManager = this.experience.soundManager;
     this.connection = this.experience.connection;
     this.publicManager = this.experience.world.publicManager;
+    this.soundManager = this.experience.soundManager;
   }
 
   start() {
@@ -94,8 +96,8 @@ export default class ShowExperience extends EventEmitter {
           ease: "power2.inOut",
           onComplete: () => {
             this.getStarUp(star);
-          }
-        }
+          },
+        },
       ) // Fade in des lumières
       .to(
         {},
@@ -107,7 +109,63 @@ export default class ShowExperience extends EventEmitter {
               0, // fromValue
               5, // toValue
             );
-            this.lightUpSpotlights()
+            this.lightUpSpotlights();
+          },
+        },
+      );
+
+    const blenderLightTimeline = gsap.timeline();
+
+    blenderLightTimeline
+      .to(
+        {},
+        {
+          duration: 8.5,
+          onComplete: () => {
+            this.soundManager.soundLibrary.fx.spotlightSound.play();
+            const coneLumiere = new ConeLumiere(
+              { x: -16, y: -1, z: -46.5 },
+              false,
+            );
+          },
+        },
+      )
+      .to(
+        {},
+        {
+          duration: 0.3,
+          onComplete: () => {
+            this.soundManager.soundLibrary.fx.spotlightSound.play();
+            const coneLumiere = new ConeLumiere(
+              { x: 17, y: -2, z: -46 },
+              false,
+            );
+          },
+        },
+      )
+      .to(
+        {},
+        {
+          duration: 0.3,
+          onComplete: () => {
+            this.soundManager.soundLibrary.fx.spotlightSound.play();
+            const coneLumiere = new ConeLumiere(
+              { x: 19, y: -2, z: -56 },
+              false,
+            );
+          },
+        },
+      )
+      .to(
+        {},
+        {
+          duration: 0.5,
+          onComplete: () => {
+            this.soundManager.soundLibrary.fx.spotlightSound.play();
+            const coneLumiere = new ConeLumiere(
+              { x: -17, y: -1, z: -56 },
+              false,
+            );
           },
         },
       );
@@ -299,14 +357,14 @@ export default class ShowExperience extends EventEmitter {
     });
   }
 
-  lightUpSpotlights(){
+  lightUpSpotlights() {
     const spotlights = this.experience.world.spotlights;
-    for(const spot of spotlights){
+    for (const spot of spotlights) {
       spot.lightBeam.show();
     }
   }
 
-  getStarUp(star){
+  getStarUp(star) {
     if (star) {
       // retirer la star des objets animés
       const animateItems = this.experience.animate.objectsToAnimate;
@@ -314,27 +372,26 @@ export default class ShowExperience extends EventEmitter {
       if (index !== -1) {
         animateItems.splice(index, 1);
       }
-      
+
       // désactivation de la physique
       if (star.body) {
         star.model.position.copy(star.body.position);
         star.model.quaternion.copy(star.body.quaternion);
-        
+
         this.physics.world.removeBody(star.body);
         this.physics.objectsToUpdate = this.physics.objectsToUpdate.filter(
-          (obj) => obj.body !== star.body
+          (obj) => obj.body !== star.body,
         );
       }
 
       const targetPos = new THREE.Vector3(0, 3, -53);
       const currentPos = star.model.position;
       const distance = currentPos.distanceTo(targetPos);
-      const walkSpeed = 5; 
+      const walkSpeed = 5;
       const walkDuration = distance / walkSpeed;
-      const angleToTarget = Math.atan2(
-        targetPos.x - currentPos.x,
-        targetPos.z - currentPos.z
-      ) + Math.PI;
+      const angleToTarget =
+        Math.atan2(targetPos.x - currentPos.x, targetPos.z - currentPos.z) +
+        Math.PI;
 
       // redressement de la star
       const timeline = gsap.timeline();
@@ -345,7 +402,7 @@ export default class ShowExperience extends EventEmitter {
         y: angleToTarget,
         z: 0,
         duration: 1.2,
-        ease: "power2.inOut"
+        ease: "power2.inOut",
       });
 
       // position y pour pas traverser le sol
@@ -356,14 +413,14 @@ export default class ShowExperience extends EventEmitter {
         duration: walkDuration,
         ease: "none",
         onStart: () => {
-          star.animationState.play("walk")
-        }
+          star.animationState.play("walk");
+        },
       });
 
       timeline.to(star.model.rotation, {
-        y: Math.PI, 
+        y: Math.PI,
         duration: 0.8,
-        ease: "power2.inOut"
+        ease: "power2.inOut",
       });
 
       // lancer la danse

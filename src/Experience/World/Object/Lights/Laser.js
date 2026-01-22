@@ -20,7 +20,7 @@ export default class Laser {
 
   setup() {
     this.positions = { x: 1.6, y: 10, z: -4.8 };
-    this.scale = { x: 0.75, y: 0.75, z: 0.75 };
+    this.scale = { x: 1.5, y: 1.5, z: 1.5 };
     this.rotation = { x: 0, y: 0, z: 0 };
     this.mass = 0.5;
     this.name = "Laser";
@@ -44,7 +44,7 @@ export default class Laser {
       this.hitBoxType,
       this.name,
       this.activatePhysics,
-      this.sound
+      this.sound,
     );
     this.lightMesh = new lightBeam(this.MeshHitBox.model, {
       color: "red",

@@ -4,7 +4,6 @@ import PhysicsBall from "../World/Test/PhysicsBall.js";
 import GenerateRandomCube from "../World/Test/GenerateRandomCube.js";
 import ControlManager from "../Utils/ControlManager.js";
 import Scene from "./Scene/Scene.js";
-import Light from "./LightBlender/Light.js";
 import PublicManager from "./PublicManager.js";
 import ConeLumiere from "./LightBlender/ConeLumiere.js";
 
@@ -28,9 +27,9 @@ export default class World {
     // tableau qui appelle update de toutes les instances de la classe star (pour update)
     this.starInstances = [];
     this.thrownStarInstance = null;
-    
+
     this.spotlights = [];
-    
+
     this.resources = this.experience.resources;
 
     this.resources.on("ready", () => {
@@ -44,11 +43,10 @@ export default class World {
 
       this.sceneHitBox = new SceneHitBox();
       this.listNonPhysicObjects.push(new Scene());
-      this.coneLumiere = new ConeLumiere({ x: -16, y: -1, z: -46.5 }, false);
-      this.coneLumiere = new ConeLumiere({ x: 17, y: -2, z: -46 }, false);
-      this.coneLumiere = new ConeLumiere({ x: 19, y: -2, z: -56 }, false);
-      this.coneLumiere = new ConeLumiere({ x: 19, y: -2, z: -56 }, false);
-      this.coneLumiere = new ConeLumiere({ x: -17, y: -1, z: -56 }, false);
+      // this.coneLumiere = new ConeLumiere({ x: -16, y: -1, z: -46.5 }, false);
+      // this.coneLumiere = new ConeLumiere({ x: 17, y: -2, z: -46 }, false);
+      // this.coneLumiere = new ConeLumiere({ x: 19, y: -2, z: -56 }, false);
+      // this.coneLumiere = new ConeLumiere({ x: -17, y: -1, z: -56 }, false);
 
       // this.listNonPhysicObjects.push(new Light({ x: 45, y: -2.8, z: 0 }));
       // this.listNonPhysicObjects.push(new Light({ x: 20, y: -5.6, z: -40 }));

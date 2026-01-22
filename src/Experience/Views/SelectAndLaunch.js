@@ -5,23 +5,25 @@ import SpotLightHitbox from "../World/Object/Lights/SpotLight.js";
 import MovingSpotLightHitbox from "../World/Object/Lights/MovingLight.js";
 import Laser from "../World/Object/Lights/Laser.js";
 import Star from "../World/Object/Stars/Star.js";
+
+import Slingshot from "../World/Object/Slingshot/Slingshot.js";
+import Intern from "../World/Object/Intern/Intern.js";
+import ThrowObject from "../World/throwObject.js";
+import SelectObject from "../World/selectObject.js";
+import MachineALaver from "../World/Object/Speakers/Drums/MachineALaver.js";
+import Bloc from "../World/Object/Speakers/Drums/Bloc.js";
+// ======================== RANDOM OBJECT =========================
+import Phone from "../World/Object/RandomObjects/Phone.js";
+import Plante from "../World/Object/RandomObjects/Plante.js";
+import CadrePhoto from "../World/Object/RandomObjects/CadrePhoto.js";
+// import Sofa from "../World/Object/RandomObjects/Sofa.js";
+import Boisson from "../World/Object/RandomObjects/Boisson.js";
+import Tiroir from "../World/Object/RandomObjects/Tiroir.js";
+// ======================== STARS =================================
 import RockStar from "../World/Object/Stars/RockStar.js";
 import GirlStar from "../World/Object/Stars/GirlStar.js";
 import DaftStar from "../World/Object/Stars/DaftStar.js";
-import DiscoBallHitbox from "../World/Object/RandomObjects/DiscoBall.js";
-import ChoppeHitbox from "../World/Object/RandomObjects/Choppe.js";
-import BottleHitbox from "../World/Object/RandomObjects/Bottle.js";
-import SpeakerHitbox from "../World/Object/Speakers/SpeakerHitbox.js";
-import Speaker2Hitbox from "../World/Object/Speakers/Speaker2Hitbox.js";
-import Speaker3Hitbox from "../World/Object/Speakers/Speaker3Hitbox.js";
-import Speaker4Hitbox from "../World/Object/Speakers/Speaker4Hitbox.js";
-import SpeakerTextured from "../World/Object/Speakers/SpeakerTextured.js";
-import Speaker2Textured from "../World/Object/Speakers/Speaker2Textured.js";
-import Speaker3Textured from "../World/Object/Speakers/Speaker3Textured.js";
-import Speaker4Textured from "../World/Object/Speakers/Speaker4Textured.js";
-import GuitarAs1 from "../World/Object/Speakers/Guitar/GuitarAs1.js";
-import Slingshot from "../World/Object/Slingshot/Slingshot.js";
-import Intern from "../World/Object/Intern/Intern.js";
+// ======================== SPEAKER =================================
 import Synth1 from "../World/Object/Speakers/Synth/Synth1.js";
 import Synth2 from "../World/Object/Speakers/Synth/Synth2.js";
 import Synth3 from "../World/Object/Speakers/Synth/Synth3.js";
@@ -29,12 +31,29 @@ import SynthCool from "../World/Object/Speakers/Synth/SynthCool.js";
 import Drums1 from "../World/Object/Speakers/Drums/Drums1.js";
 import SpeakerMic1 from "../World/Object/Speakers/Voices/Micro.js";
 import SpeakerMic2 from "../World/Object/Speakers/Voices/Micro2.js";
-import ThrowObject from "../World/throwObject.js";
-import SelectObject from "../World/selectObject.js";
-import JBLEnceinte from "../World/Object/Speakers/Voices/JBLSpeaker.js";
-import TalkieWalkieEnceinte from "../World/Object/Speakers/Voices/TalkieWalkie.js";
-import MachineALaver from "../World/Object/Speakers/Drums/MachineALaver.js";
-import Bloc from "../World/Object/Speakers/Drums/Bloc.js";
+import EnceinteCailloux from "../World/Object/Speakers/Drums/EnceinteCailloux.js";
+
+// ======================== SPEAKER AS ==============================
+// ======================== SPEAKER FLAT ==============================
+import SpeakerPlatBlue from "../World/Object/Speakers/SpeakerAs/SpeakerPlat/SpeakerPlatBlue.js";
+import SpeakerPlatGreen from "../World/Object/Speakers/SpeakerAs/SpeakerPlat/SpeakerPlatGreen.js";
+import SpeakerPlatPurple from "../World/Object/Speakers/SpeakerAs/SpeakerPlat/SpeakerPlatPurple.js";
+import SpeakerPlatRed from "../World/Object/Speakers/SpeakerAs/SpeakerPlat/SpeakerPlatRed.js";
+// ======================== SPEAKER TALL ==============================
+import SpeakerTallBlue from "../World/Object/Speakers/SpeakerAs/SpeakerTall/SpeakerTallBlue.js";
+import SpeakerTallGreen from "../World/Object/Speakers/SpeakerAs/SpeakerTall/SpeakerTallGreen.js";
+import SpeakerTallPurple from "../World/Object/Speakers/SpeakerAs/SpeakerTall/SpeakerTallPurple.js";
+import SpeakerTallRed from "../World/Object/Speakers/SpeakerAs/SpeakerTall/SpeakerTallRed.js";
+// ======================== SPEAKER RECT ==============================
+import SpeakerRectBlue from "../World/Object/Speakers/SpeakerAs/SpeakerRect/SpeakerRectBlue.js";
+import SpeakerRectGreen from "../World/Object/Speakers/SpeakerAs/SpeakerRect/SpeakerRectGreen.js";
+import SpeakerRectPurple from "../World/Object/Speakers/SpeakerAs/SpeakerRect/SpeakerRectPurple.js";
+import SpeakerRectRed from "../World/Object/Speakers/SpeakerAs/SpeakerRect/SpeakerRectRed.js";
+// ======================== SPEAKER DRUM KICK ==============================
+import DrumKickBlue from "../World/Object/Speakers/SpeakerAs/DrumKick/DrumKickBlue.js";
+import DrumKickPurple from "../World/Object/Speakers/SpeakerAs/DrumKick/DrumKickPurple.js";
+import DrumKick from "../World/Object/Speakers/SpeakerAs/DrumKick/DrumKick.js";
+import DrumKickGreen from "../World/Object/Speakers/SpeakerAs/DrumKick/DrumKickGreen.js";
 
 import gsap from "gsap";
 
@@ -45,6 +64,7 @@ export default class SelectAndLaunch extends EventEmitter {
     super();
     this.experience = new Experience();
     this.camera = this.experience.camera; // movement de la caméra
+    this.soundManager = this.experience.soundManager;
 
     this.debug = this.experience.debug;
     this.connection = this.experience.connection;
@@ -76,36 +96,62 @@ export default class SelectAndLaunch extends EventEmitter {
     const objectsTypes = [];
     const starTypes = [];
 
-    this.speaker2 = new Speaker2Hitbox();
-    this.speaker3 = new Speaker3Hitbox();
-    this.speaker1 = new SpeakerHitbox();
-    this.speaker4 = new Speaker4Hitbox();
-    this.bottle = new BottleHitbox();
-    this.choppe = new ChoppeHitbox();
-    this.discoBall = new DiscoBallHitbox();
+    // ========================= SPEAKER HITBOXES ======================
+    // ========================= SPEAKER AS ========================
+    // ========================= SPEAKER PLAT ==================
+    this.speakerPlatBlue = new SpeakerPlatBlue();
+    this.speakerPlatGreen = new SpeakerPlatGreen();
+    this.speakerPlatPurple = new SpeakerPlatPurple();
+    this.speakerPlatRed = new SpeakerPlatRed();
+
+    // ========================= SPEAKER TALL ==================
+    this.speakerTallBlue = new SpeakerTallBlue();
+    this.speakerTallGreen = new SpeakerTallGreen();
+    this.speakerTallPurple = new SpeakerTallPurple();
+    this.speakerTallRed = new SpeakerTallRed();
+
+    // ========================= SPEAKER RECT ==================
+    this.speakerRectBlue = new SpeakerRectBlue();
+    this.speakerRectGreen = new SpeakerRectGreen();
+    this.speakerRectPurple = new SpeakerRectPurple();
+    this.speakerRectRed = new SpeakerRectRed();
+
+    // ========================= SPEAKER DRUM KICK ==================
+    this.drumKickBlue = new DrumKickBlue();
+    this.drumKickGreen = new DrumKickGreen();
+    this.drumKickPurple = new DrumKickPurple();
+    this.drumKick = new DrumKick();
+
+    // ========================= LIGHTS ================================
     this.spotLight = new SpotLightHitbox();
     this.movingSpotLight = new MovingSpotLightHitbox();
     this.laser = new Laser();
-    this.speaker1textured = new SpeakerTextured();
-    this.speaker2textured = new Speaker2Textured();
-    this.speaker3textured = new Speaker3Textured();
-    this.Speaker4Textured = new Speaker4Textured();
-    this.guitarAs1 = new GuitarAs1();
-    this.synth1 = new Synth1();
-    this.synth2 = new Synth2();
-    this.synth3 = new Synth3();
-    this.synthCool = new SynthCool();
-    // this.star = new Star();
+
+    // ========================= STAR ================================
     this.rockStar = new RockStar();
     this.girlStar = new GirlStar();
     this.daftStar = new DaftStar();
+
+    // ========================= SPEAKER ================================
     this.drums1 = new Drums1();
+    this.bloc = new Bloc();
+    this.phone = new Phone();
+    this.synthCool = new SynthCool();
     this.speakerMic1 = new SpeakerMic1();
     this.speakerMic2 = new SpeakerMic2();
-    this.jblEnceinte = new JBLEnceinte();
-    this.talkieWalkieEnceinte = new TalkieWalkieEnceinte();
     this.machineALaver = new MachineALaver();
-    this.bloc = new Bloc();
+    this.enceinteCailloux = new EnceinteCailloux();
+
+    // ========================= RANDOM ================================
+    this.cadrePhoto = new CadrePhoto();
+    this.plante = new Plante();
+    this.tiroir = new Tiroir();
+    this.boisson = new Boisson();
+
+    // this.synth1 = new Synth1();
+    // this.synth2 = new Synth2();
+    // this.synth3 = new Synth3();
+    // this.sofa = new Sofa();
 
     // on ajoute l'instance de la calsse au tableau d'update dans world
     this.experience.world.registerStarInstance(this.rockStar);
@@ -115,21 +161,27 @@ export default class SelectAndLaunch extends EventEmitter {
     this.intern = new Intern();
 
     objectsTypes.push(
-      this.speaker1,
-      this.speaker2,
-      this.speaker3,
-      this.speaker4,
-      this.bottle,
-      this.choppe,
-      this.discoBall,
+      // SPEAKER TALL
+      // this.speakerTallRed,
+      // this.speakerTallBlue,
+      // this.speakerTallGreen,
+      // this.speakerTallPurple,
+      // // SPEAKER RECT
+      // this.speakerRectRed,
+      // this.speakerRectBlue,
+      // this.speakerRectGreen,
+      // this.speakerRectPurple,
+      // // SPEAKER DRUM KICK
+      this.drumKick,
+      this.drumKickBlue,
+      this.drumKickGreen,
+      this.drumKickPurple,
+      // LIGHTS
       this.spotLight,
       this.movingSpotLight,
       this.laser,
-      this.speaker1textured,
-      this.speaker2textured,
-      this.speaker3textured,
-      this.Speaker4Textured,
-      // this.guitarAs1,
+      // SPEAKER
+      this.enceinteCailloux,
       // this.synth1,
       // this.synth2,
       // this.synth3,
@@ -137,10 +189,18 @@ export default class SelectAndLaunch extends EventEmitter {
       this.drums1,
       this.speakerMic1,
       this.speakerMic2,
-      this.jblEnceinte,
-      this.talkieWalkieEnceinte,
       this.machineALaver,
       this.bloc,
+      this.phone,
+      this.plante,
+      this.cadrePhoto,
+      // this.sofa,
+      this.tiroir,
+      this.boisson,
+      this.speakerPlatBlue,
+      this.speakerPlatGreen,
+      this.speakerPlatPurple,
+      this.speakerPlatRed,
     );
 
     for (const object of objectsTypes) {
@@ -216,7 +276,8 @@ export default class SelectAndLaunch extends EventEmitter {
     this.throwObject.on("objectThrown", () => {
       this.experience.world.controlManager.currentScene = "objectThrown";
 
-      if (this.isStarPhase) { // on sauvegarde l'instance de la star lancée
+      if (this.isStarPhase) {
+        // on sauvegarde l'instance de la star lancée
         this.experience.world.thrownStarInstance = this.throwObject.result;
       }
 
@@ -257,6 +318,8 @@ export default class SelectAndLaunch extends EventEmitter {
 
   start() {
     // this.selectAndLaunch();
+
+    this.soundManager.soundLibrary.ambiance.stressante.play();
     this.timeIsUp = false;
     this.isStarPhase = false;
     this.createDebug(false);
@@ -295,6 +358,7 @@ export default class SelectAndLaunch extends EventEmitter {
   }
 
   end() {
+    this.soundManager.soundLibrary.ambiance.stressante.stop();
     console.log("Select and Launch end called - from SelectAndLaunch");
     this.gameTimer.stop();
 

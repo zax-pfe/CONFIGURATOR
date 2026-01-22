@@ -6,7 +6,7 @@ import ShowExperience from "../Views/ShowExperience";
 import Outro from "../Views/Outro";
 import Experience from "../Experience";
 import Calibrate from "../Views/Calibrate";
-import UsePhoneBtn from "../Components/UsePhoneBtn"
+import UsePhoneBtn from "../Components/UsePhoneBtn";
 // cette classe prend les differentes scene de l'experience
 // ecoute cette scene,
 // et passe d'une scene a l'autre selon les event renvoyés par les scenes
@@ -85,13 +85,13 @@ export default class ControlManager extends EventEmitter {
     this.calibrateScreen = this.screenCreation(
       "calibrate-screen",
       "videos/Calibrage_1.mp4",
-      "Utilisation du téléphone"
+      "Utilisation du téléphone",
     );
 
     this.calibrate2Screen = this.screenCreation(
       "calibrate2-screen",
       "videos/Calibrage_2.mp4",
-      "Utilisation du téléphone"
+      "Utilisation du téléphone",
     );
 
     this.introScreen = this.screenCreation(
@@ -111,13 +111,13 @@ export default class ControlManager extends EventEmitter {
     document.body.appendChild(this.calibrate2Screen);
     document.body.appendChild(this.introScreen);
 
-    this.currentScene = "title";
-    this.connection.sendMessage("title");
-    this.goToScene("titleScreen");
+    // this.currentScene = "title";
+    // this.connection.sendMessage("title");
+    // this.goToScene("titleScreen");
 
-    // this.currentScene = "selectAndLaunch";
-    // this.connection.sendMessage("selectAndLaunch");
-    // this.goToScene("selectAndLaunch");
+    this.currentScene = "selectAndLaunch";
+    this.connection.sendMessage("selectAndLaunch");
+    this.goToScene("selectAndLaunch");
   }
 
   screenCreation(
