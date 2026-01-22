@@ -23,7 +23,7 @@ export default class ShowExperience extends EventEmitter {
 
     // on ecoute le skip du mobile
     this.mobileData.on("skipShow", () => {
-      if (this.pictureManager.numberOfPictures == 3) {
+      if (this.pictureManager.numberOfPictures >= 3) {
         this.end();
       }
     });

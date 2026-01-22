@@ -114,7 +114,7 @@ export default class Physics extends EventEmitter {
   }
 
   update(deltaTime) {
-    this.world.step(1 / 60, deltaTime, 3);
+    this.world.step(1 / 100, deltaTime, 3);
     for (const object of this.objectsToUpdate) {
       // console.log(
       //   "Updating object:",

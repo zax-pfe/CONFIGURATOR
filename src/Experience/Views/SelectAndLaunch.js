@@ -77,7 +77,7 @@ export default class SelectAndLaunch extends EventEmitter {
     this.items = {};
     this.stars = {};
 
-    this.gameDuration = 30;
+    this.gameDuration = 100;
     this.timeIsUp = false;
     this.isStarPhase = false;
 

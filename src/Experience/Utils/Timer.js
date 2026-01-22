@@ -6,7 +6,7 @@ export default class Timer extends EventEmitter {
 
     this.active = false;
     this.duration = 0;
-    this.remaining = 30;
+    this.remaining = 100;
   }
 
   /**

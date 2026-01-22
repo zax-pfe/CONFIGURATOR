@@ -121,13 +121,13 @@ export default class ControlManager extends EventEmitter {
     document.body.appendChild(this.showScreen);
     document.body.appendChild(this.outroScreen);
 
-    this.currentScene = "title";
-    this.connection.sendMessage("title");
-    this.goToScene("titleScreen");
+    // this.currentScene = "title";
+    // this.connection.sendMessage("title");
+    // this.goToScene("titleScreen");
 
-    // this.currentScene = "selectAndLaunch";
-    // this.connection.sendMessage("selectAndLaunch");
-    // this.goToScene("selectAndLaunch");
+    this.currentScene = "selectAndLaunch";
+    this.connection.sendMessage("selectAndLaunch");
+    this.goToScene("selectAndLaunch");
   }
 
   screenCreation(
