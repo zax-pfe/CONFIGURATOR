@@ -8,6 +8,7 @@ import PublicManager from "./PublicManager.js";
 import ConeLumiere from "./LightBlender/ConeLumiere.js";
 
 import SceneHitBox from "./Scene/SceneHitBox.js";
+import TimerText from "./Object/TimerText/TimerText.js";
 
 // World va permettre d'integrer tout les elements 3D dans la scene
 
@@ -37,6 +38,8 @@ export default class World {
       // Permet de tester les objets physiques lancés
       // this.physicsBall = new PhysicsBall();
       // this.cubeGenerator = new GenerateRandomCube();
+      
+      this.timerText = new TimerText()
 
       // creation du public manager
       this.publicManager = new PublicManager();
@@ -65,6 +68,11 @@ export default class World {
   }
 
   update() {
+
+    if(this.timerText){
+      this.timerText.update();
+    }
+
     if (this.coneLumiere) {
       this.coneLumiere.update();
     }

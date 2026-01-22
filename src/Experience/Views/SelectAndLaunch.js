@@ -301,6 +301,7 @@ export default class SelectAndLaunch extends EventEmitter {
     if (this.isStarPhase) {
       console.log("Ending Experience");
       this.end();
+      this.gameTimer.trigger('startShowTime');
       return;
     }
     // phase objets et temps terminé
