@@ -2,6 +2,7 @@ import Experience from "../Experience";
 import EventEmitter from "../Utils/EventEmitter";
 import { gsap } from "gsap";
 import * as THREE from "three";
+import GlowCircle from "./Object/GlowCirlce/GlowCirlce";
 // les objets sont crées en amont et donnés a cette classe
 
 export default class SelectObject extends EventEmitter {
@@ -50,6 +51,8 @@ export default class SelectObject extends EventEmitter {
     this.selectedObject = 0;
 
     this.objectsCanBeSelected = false;
+    
+    this.glowCircles = [];
 
     // boolean pour controler la reception de la data du mobile pour le lancer
     // si on est en phase de selection, alors on ecoute les messages de sélection du mobile
@@ -131,6 +134,7 @@ export default class SelectObject extends EventEmitter {
     this.displayedModels = [];
     this.objectsCanBeSelected = false;
     this.wheelObjects = [];
+    this.glowCircles = [];
 
     // creation d'un groupe temporaire pour créer une petite roue
     const startCenter = { x: 15, y: 3, z: 5 };
@@ -150,6 +154,15 @@ export default class SelectObject extends EventEmitter {
     // creation et apparition
     for (let [index, object] of this.randomSelectedObjects.entries()) {
       const result = object.create();
+
+      // creer le glow derriere les objets
+      const glow = new GlowCircle({ size: 8, opacity: 0.5 });
+      glow.setPosition(this.circlePositions[index].x, this.circlePositions[index].y, this.circlePositions[index].z - 4);
+      gsap.fromTo(glow.mesh.scale, 
+        {x: 0, y: 0, z: 0}, 
+        {x: 1, y: 1, z: 1, duration: 0.5,}
+      );
+      this.glowCircles.push(glow);
 
       const angle = -index * this.angleStep;
 
@@ -212,6 +225,8 @@ export default class SelectObject extends EventEmitter {
       [...tempGroup.children].forEach((child, i) => {
         this.experience.scene.attach(child);
 
+        const glow = this.glowCircles[i];
+
         // POSITION
         gsap.to(child.position, {
           x: this.circlePositions[i].x,
@@ -239,6 +254,16 @@ export default class SelectObject extends EventEmitter {
             duration: 1.0,
             ease: "power2.out",
             onComplete: () => {
+              glow.show();
+        
+              gsap.to(glow.mesh.scale, {
+                x: glow.params.size,
+                y: glow.params.size,
+                z: 1,
+                duration: 0.8,
+                ease: "back.out(1.2)" 
+              });
+
               this.objectsCanBeSelected = true;
               this.selectPhase = true; 
             }
@@ -552,5 +577,13 @@ export default class SelectObject extends EventEmitter {
         },
       });
     }
+    for (let glow of this.glowCircles) {
+      gsap.to(glow.mesh.scale, {
+          x: 0, y: 0, z: 0,
+          duration: 0.25,
+          onComplete: () => glow.destroy()
+      });
+    }
+    this.glowCircles = [];
   }
 }

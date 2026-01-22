@@ -331,6 +331,61 @@ export default [
     path: "models/Star/intern.glb",
   },
   {
+    name: "BottleModel",
+    type: "gltfModel",
+    path: "models/Random/bottle.glb",
+  },
+  {
+    name: "ChoppeModel",
+    type: "gltfModel",
+    path: "models/Random/choppe.glb",
+  },
+  {
+    name: "DiscoBallModel",
+    type: "gltfModel",
+    path: "models/Random/discoBall.glb",
+  },
+  {
+    name: "SpotLightModel",
+    type: "gltfModel",
+    path: "models/Lights/spotlight.glb",
+  },
+  {
+    name: "SpotLightModel2",
+    type: "gltfModel",
+    path: "models/Lights/moving-spotlight.glb",
+  },
+  {
+    name: "Laser",
+    type: "gltfModel",
+    path: "models/Lights/laser.glb",
+  },
+  {
+    name: "sceneV4",
+    type: "gltfModel",
+    path: "models/Scene/sceneV4.glb",
+  },
+  {
+    name: "lightBlender",
+    type: "gltfModel",
+    path: "models/Effects/light.glb",
+  },
+  {
+    name: "lightTexture",
+    type: "texture",
+    path: "models/Effects/light-texture.png",
+  },
+    {
+    name: "glowTexture",
+    type: "texture",
+    path: "models/Effects/glow-texture.png",
+  },
+  {
+    name: "SceneFinalModel",
+    type: "gltfModel",
+    path: "models/Scene/sceneFinal.glb",
+  },
+  {
     name: "Slingshot",
     type: "gltfModel",
     path: "models/Slingshot/slingshot.glb",
