@@ -85,7 +85,7 @@ export default class SoundManager extends EventEmitter {
     const musiqueStressante = new Howl({
       src: ["/sounds/ambiance/musique-stressante.mp3"],
       loop: true,
-      volume: 0.1,
+      volume: 0.25,
     });
 
     this.soundLibrary.ambiance = {
