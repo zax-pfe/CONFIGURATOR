@@ -32,6 +32,15 @@ export default class ShowExperience extends EventEmitter {
   start() {
     console.log("Show Experience start from ShowExperience");
 
+    this.showDiv = document.querySelector(
+      ".show-screen",
+    );
+    gsap.to(this.showDiv, {
+      duration: 1,
+      opacity: 1,
+      ease: "power3.out",
+    })
+
     const star = this.world.thrownStarInstance;
 
     // this.soundManager.playSelectedMusics();
@@ -180,6 +189,17 @@ export default class ShowExperience extends EventEmitter {
   }
 
   end() {
+
+    gsap.to(this.showDiv,{
+      duration: 1,
+      opacity: 0,
+      ease: "power3.in",
+      onComplete: () => {
+        this.showDiv.style.display = "none";
+        this.showDiv.remove();
+      },
+    });
+
     this.soundManager.stopSelectedMusics();
     this.soundManager.selectedObjectsMusic = {};
     this.cameraTimeline.kill();

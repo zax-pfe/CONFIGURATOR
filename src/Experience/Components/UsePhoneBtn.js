@@ -10,13 +10,22 @@ export default class UsePhoneBtn {
 
     this.element = document.createElement("button");
     this.element.className = "use-phone-btn";
-    this.element.innerHTML = `
+
+    if (this.text) {
+      this.element.innerHTML = `
         <span>${this.text}</span>
         <span class="btn-icons">
             ${svgIcon1}
             ${svgIcon2}
         </span>
-    `;
+      `;
+    } else {
+      this.element.innerHTML = `
+        <span class="btn-icons">
+            ${svgIcon2}
+        </span>
+      `;
+    }
     
     this.parent.appendChild(this.element);
 

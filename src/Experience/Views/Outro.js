@@ -1,6 +1,7 @@
 import EventEmitter from "../Utils/EventEmitter";
 import Experience from "../Experience";
 import ConeLumiere from "../World/LightBlender/ConeLumiere";
+import { gsap } from "gsap";
 
 export default class Outro extends EventEmitter {
   constructor() {
@@ -37,6 +38,15 @@ export default class Outro extends EventEmitter {
 
   start() {
     console.log("picture taken in outro", this.pictureManager.pictures);
+    this.outroDiv = document.querySelector(
+      ".outro-screen",
+    );
+    this.outroDiv.style.zIndex = 12;
+    gsap.to(this.outroDiv, {
+      duration: 1,
+      opacity: 1,
+      ease: "power3.out",
+    })
 
     this.soundManager.soundLibrary.ambiance.introOutro.volume(0.5);
     this.soundManager.soundLibrary.ambiance.introOutro.play();
@@ -66,6 +76,16 @@ export default class Outro extends EventEmitter {
   }
 
   end() {
+
+    gsap.to(this.outroDiv,{
+      duration: 1,
+      opacity: 0,
+      ease: "power3.in",
+      onComplete: () => {
+        this.outroDiv.style.display = "none";
+        this.outroDiv.remove();
+      },
+    });
     // this.pictureManager.destroyPictures();
     // this.destroyDebug();
     // this.trigger("outroEnd");

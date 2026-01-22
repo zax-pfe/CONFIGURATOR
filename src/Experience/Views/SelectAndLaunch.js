@@ -335,6 +335,15 @@ export default class SelectAndLaunch extends EventEmitter {
 
   start() {
     // this.selectAndLaunch();
+    this.selectAndLaunchDiv = document.querySelector(
+      ".selectandlaunch-screen",
+    );
+    gsap.to(this.selectAndLaunchDiv, {
+      duration: 1,
+      opacity: 1,
+      ease: "power3.out",
+    })
+
 
     this.soundManager.soundLibrary.ambiance.stressante.play();
     this.timeIsUp = false;
@@ -378,6 +387,16 @@ export default class SelectAndLaunch extends EventEmitter {
     this.soundManager.soundLibrary.ambiance.stressante.stop();
     console.log("Select and Launch end called - from SelectAndLaunch");
     this.gameTimer.stop();
+
+    gsap.to(this.selectAndLaunchDiv,{
+      duration: 1,
+      opacity: 0,
+      ease: "power3.in",
+      onComplete: () => {
+        this.selectAndLaunchDiv.style.display = "none";
+        this.selectAndLaunchDiv.remove();
+      },
+    });
 
     // Clean les events listeners
     this.selectObject.off("objectSelected");
