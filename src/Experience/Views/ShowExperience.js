@@ -17,8 +17,16 @@ export default class ShowExperience extends EventEmitter {
     this.debug = this.experience.debug;
     this.soundManager = this.experience.soundManager;
     this.connection = this.experience.connection;
+    this.mobileData = this.experience.mobileData;
     this.publicManager = this.experience.world.publicManager;
     this.soundManager = this.experience.soundManager;
+
+    // on ecoute le skip du mobile
+    this.mobileData.on("skipShow", () => {
+      if (this.pictureManager.numberOfPictures == 3) {
+        this.end();
+      }
+    });
   }
 
   start() {
