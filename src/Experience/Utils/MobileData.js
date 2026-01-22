@@ -29,6 +29,10 @@ export default class MobileData extends EventEmitter{
       angleH: 0,
       angleV: 0,
     };
+
+    this.show = {
+      state: null,
+    };
     
     this.outro = {
       state: null,
@@ -103,6 +107,14 @@ export default class MobileData extends EventEmitter{
           }]);
         }
 
+        break;
+      }
+
+      case "show": {
+        this.show.state = msg.state;
+        if (msg.state === "skip") {
+          this.trigger("skipShow");
+        }
         break;
       }
 

@@ -85,19 +85,22 @@ export default class ControlManager extends EventEmitter {
     this.calibrateScreen = this.screenCreation(
       "calibrate-screen",
       "videos/Calibrage_1.mp4",
+      true,
       "Utilisation du téléphone",
     );
 
     this.calibrate2Screen = this.screenCreation(
       "calibrate2-screen",
       "videos/Calibrage_2.mp4",
+      true,
       "Utilisation du téléphone",
     );
 
     this.introScreen = this.screenCreation(
       "introduction-screen",
       "videos/oyo_teaser.mp4",
-      "Passe l'intro",
+      true,
+      "",
       false, //autoplay
       false, //loop
       false, //muted
@@ -105,24 +108,32 @@ export default class ControlManager extends EventEmitter {
       true, //paused
     );
 
+    this.selectAndLaunchScreen = this.screenCreation("selectandlaunch-screen", "", true, "");
+    this.showScreen = this.screenCreation("show-screen", "", true, "");
+    this.outroScreen = this.screenCreation("outro-screen", "", true, "");
+
     //// ++++++++++++++++++++ AJOUT DU HTML AU DOM +++++++++++++++++++++++++////
     document.body.appendChild(this.titleScreen);
     document.body.appendChild(this.calibrateScreen);
     document.body.appendChild(this.calibrate2Screen);
     document.body.appendChild(this.introScreen);
+    document.body.appendChild(this.selectAndLaunchScreen);
+    document.body.appendChild(this.showScreen);
+    document.body.appendChild(this.outroScreen);
 
-    this.currentScene = "title";
-    this.connection.sendMessage("title");
-    this.goToScene("titleScreen");
+    // this.currentScene = "title";
+    // this.connection.sendMessage("title");
+    // this.goToScene("titleScreen");
 
-    // this.currentScene = "selectAndLaunch";
-    // this.connection.sendMessage("selectAndLaunch");
-    // this.goToScene("selectAndLaunch");
+    this.currentScene = "selectAndLaunch";
+    this.connection.sendMessage("selectAndLaunch");
+    this.goToScene("selectAndLaunch");
   }
 
   screenCreation(
     divClass,
     videoSrc,
+    isBtn,
     btnText = null,
     autoplay = true,
     loop = true,
@@ -144,7 +155,7 @@ export default class ControlManager extends EventEmitter {
 
     container.appendChild(video);
 
-    if (btnText) {
+    if (isBtn) {
       new UsePhoneBtn(btnText, container);
     }
 
