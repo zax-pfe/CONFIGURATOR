@@ -25,8 +25,8 @@ export default class Plante {
     // the parameters of the object
     this.activatePhysics = true;
     this.material = this.physics.defaultContactMaterial;
-    this.sound = this.experience.soundManager.soundLibrary.hit.hit;
-    this.music = this.experience.soundManager.soundLibrary.rose.rose2;
+    this.sound = this.experience.soundManager.soundLibrary.hit.spring1;
+    // this.music = this.experience.soundManager.soundLibrary.rose.rose2;
   }
 
   create() {

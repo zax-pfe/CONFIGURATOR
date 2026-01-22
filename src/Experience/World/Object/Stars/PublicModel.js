@@ -28,7 +28,7 @@ export default class PublicModel {
     this.hitBoxType = "cylinder";
     this.activatePhysics = true;
     this.material = this.physics.defaultMaterial;
-    this.sound = this.experience.soundManager.bambooHitSound;
+    this.sound = this.experience.soundManager.soundLibrary.hit.bamboo;
     this.animated = true;
   }
 
@@ -48,7 +48,7 @@ export default class PublicModel {
       instanceName, // nom unique
       this.activatePhysics,
       this.sound,
-      this.animated
+      this.animated,
     );
 
     // configurationd de l'animation

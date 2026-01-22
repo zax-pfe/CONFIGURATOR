@@ -26,7 +26,7 @@ export default class Boisson {
     this.activatePhysics = true;
     this.material = this.physics.defaultContactMaterial;
     this.sound = this.experience.soundManager.soundLibrary.hit.hit;
-    this.music = this.experience.soundManager.soundLibrary.rose.rose2;
+    // this.music = this.experience.soundManager.soundLibrary.rose.rose2;
   }
 
   create() {

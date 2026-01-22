@@ -22,8 +22,8 @@ export default class EnceinteCailloux {
     this.hitBoxType = "sphere";
     this.activatePhysics = true;
     this.material = this.physics.defaultContactMaterial;
-    this.sound = this.experience.soundManager.soundLibrary.hit.hit;
-    this.music = this.experience.soundManager.soundLibrary.violet.violet1;
+    this.sound = this.experience.soundManager.soundLibrary.hit.punchSound;
+    this.music = this.experience.soundManager.soundLibrary.violet.violet2;
   }
 
   create() {

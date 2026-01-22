@@ -23,7 +23,7 @@ export default class SpeakerRectRed {
     this.activatePhysics = true;
     this.material = this.physics.defaultContactMaterial;
     this.sound = this.experience.soundManager.soundLibrary.hit.spring1;
-    this.music = this.experience.soundManager.soundLibrary.vert.vert5;
+    this.music = this.experience.soundManager.soundLibrary.orange.orange4;
   }
 
   create() {

@@ -24,7 +24,7 @@ export default class Star {
     this.hitBoxType = "hull";
     this.activatePhysics = true;
     this.material = this.physics.defaultMaterial;
-    this.sound = this.experience.soundManager.bambooHitSound;
+    this.sound = this.experience.soundManager.bamboo;
   }
 
   create() {
@@ -38,7 +38,7 @@ export default class Star {
       this.hitBoxType,
       this.name,
       this.activatePhysics,
-      this.sound
+      this.sound,
     );
     return {
       name: this.name,

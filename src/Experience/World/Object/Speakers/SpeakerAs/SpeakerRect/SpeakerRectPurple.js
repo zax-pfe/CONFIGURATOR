@@ -22,8 +22,8 @@ export default class SpeakerRectPurple {
     this.hitBoxType = "box";
     this.activatePhysics = true;
     this.material = this.physics.defaultContactMaterial;
-    this.sound = this.experience.soundManager.soundLibrary.hit.spring1;
-    this.music = this.experience.soundManager.soundLibrary.vert.vert5;
+    this.sound = this.experience.soundManager.soundLibrary.hit.spring2;
+    this.music = this.experience.soundManager.soundLibrary.orange.orange5;
   }
 
   create() {

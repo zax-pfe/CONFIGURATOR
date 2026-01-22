@@ -52,6 +52,7 @@ export default class Outro extends EventEmitter {
     this.pictureManager.pictures.forEach((pictureSrc, index) => {
       this.pictureManager.displayPicture(
         "outro-picture", // class CSS pour le div principal
+        // "images/testScreenImage.png", // source de l'image du screenshot
         pictureSrc, // source de l'image du screenshot
         "images/cadre-photo.png", // source de l'image du cadre
         "screenshot", // class CSS pour l'image du screenshot
