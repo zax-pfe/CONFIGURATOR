@@ -17,7 +17,7 @@ export default class SpeakerCubePurple {
     this.positions = { x: 3, y: 10, z: 1.3 };
     this.scale = { x: 1.5, y: 1.5, z: 1.5 };
     this.rotation = { x: 0, y: -1.6, z: 0 };
-    this.mass = 1;
+    this.mass = 0.5;
     this.name = "SpeakerCubePurple";
     this.hitBoxType = "box";
     this.activatePhysics = true;

@@ -19,11 +19,11 @@ export default class SpeakerMic1 {
     this.rotation = { x: 0, y: Math.PI, z: 0 };
     this.mass = 1;
     this.name = "SpeakerMic1";
-    this.hitBoxType = "box";
+    this.hitBoxType = "cylinder";
     this.activatePhysics = true;
     this.material = this.physics.defaultContactMaterial;
-    this.sound = this.experience.soundManager.soundLibrary.hit.spring1;
-    this.music = this.experience.soundManager.soundLibrary.violet.violet1;
+    this.sound = this.experience.soundManager.soundLibrary.hit.spring2;
+    this.music = this.experience.soundManager.soundLibrary.orange.orange4;
   }
 
   create() {

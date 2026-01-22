@@ -21,7 +21,7 @@ export default class Bloc {
     this.name = "Bloc";
     this.hitBoxType = "box";
     this.activatePhysics = true;
-    this.material = this.physics.defaultContactMaterial;
+    this.material = this.physics.plasticContactMaterial;
     this.sound = this.experience.soundManager.soundLibrary.hit.spring1;
     this.music = this.experience.soundManager.soundLibrary.violet.violet1;
   }

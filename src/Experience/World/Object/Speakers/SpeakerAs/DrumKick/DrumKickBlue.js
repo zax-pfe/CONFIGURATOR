@@ -19,9 +19,9 @@ export default class DrumKickBlue {
     this.rotation = { x: 0, y: Math.PI, z: 0 };
     this.mass = 1;
     this.name = "DrumKickBlue";
-    this.hitBoxType = "box";
+    this.hitBoxType = "cylinder";
     this.activatePhysics = true;
-    this.material = this.physics.defaultContactMaterial;
+    this.material = this.physics.slipperyContactMaterial;
     this.sound = this.experience.soundManager.soundLibrary.hit.bamboo;
     this.music = this.experience.soundManager.soundLibrary.violet.violet2;
   }

@@ -45,7 +45,7 @@ export default class ConeLumiere {
   // }
 
   update() {
-    this.mesh.model.rotation.y += 0.01;
+    this.mesh.model.rotation.y += 0.02;
     // this.mesh.update();
     // if (this.mesh) {
     //   this.mesh.positions.set(

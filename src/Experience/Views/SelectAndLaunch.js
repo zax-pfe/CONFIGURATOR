@@ -28,7 +28,7 @@ import Synth2 from "../World/Object/Speakers/Synth/Synth2.js";
 import Synth3 from "../World/Object/Speakers/Synth/Synth3.js";
 import SynthCool from "../World/Object/Speakers/Synth/SynthCool.js";
 import Drums1 from "../World/Object/Speakers/Drums/Drums1.js";
-import SpeakerMic1 from "../World/Object/Speakers/Voices/Micro.js";
+// import SpeakerMic1 from "../World/Object/Speakers/Voices/Micro.js";
 import SpeakerMic2 from "../World/Object/Speakers/Voices/Micro2.js";
 import EnceinteCailloux from "../World/Object/Speakers/Drums/EnceinteCailloux.js";
 
@@ -147,7 +147,7 @@ export default class SelectAndLaunch extends EventEmitter {
     this.bloc = new Bloc();
     this.phone = new Phone();
     this.synthCool = new SynthCool();
-    this.speakerMic1 = new SpeakerMic1();
+    // this.speakerMic1 = new SpeakerMic1();
     this.speakerMic2 = new SpeakerMic2();
     this.machineALaver = new MachineALaver();
     this.enceinteCailloux = new EnceinteCailloux();
@@ -172,15 +172,15 @@ export default class SelectAndLaunch extends EventEmitter {
 
     objectsTypes.push(
       // SPEAKER TALL
-      // this.speakerTallRed,
-      // this.speakerTallBlue,
-      // this.speakerTallGreen,
-      // this.speakerTallPurple,
-      // // SPEAKER RECT
-      // this.speakerRectRed,
-      // this.speakerRectBlue,
-      // this.speakerRectGreen,
-      // this.speakerRectPurple,
+      this.speakerTallRed,
+      this.speakerTallBlue,
+      this.speakerTallGreen,
+      this.speakerTallPurple,
+      // SPEAKER RECT
+      this.speakerRectRed,
+      this.speakerRectBlue,
+      this.speakerRectGreen,
+      this.speakerRectPurple,
       // SPEAKER CUBE
       this.speakerCubeRed,
       this.speakerCubeBlue,
@@ -203,7 +203,7 @@ export default class SelectAndLaunch extends EventEmitter {
       // this.synth3,
       this.synthCool,
       this.drums1,
-      this.speakerMic1,
+      // this.speakerMic1,
       this.speakerMic2,
       this.machineALaver,
       this.bloc,

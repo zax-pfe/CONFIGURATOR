@@ -21,7 +21,7 @@ export default class SpeakerCubeGreen {
     this.name = "SpeakerCubeGreen";
     this.hitBoxType = "box";
     this.activatePhysics = true;
-    this.material = this.physics.defaultContactMaterial;
+    this.material = this.physics.stickyContactMaterial;
     this.sound = this.experience.soundManager.soundLibrary.hit.lightHit;
     this.music = this.experience.soundManager.soundLibrary.rose.rose2;
   }

@@ -17,11 +17,11 @@ export default class DrumkickGreen {
     this.positions = { x: 3, y: 10, z: 1.3 };
     this.scale = { x: 1.5, y: 1.5, z: 1.5 };
     this.rotation = { x: 0, y: Math.PI, z: 0 };
-    this.mass = 1;
+    this.mass = 0.5;
     this.name = "DrumkickGreen";
-    this.hitBoxType = "box";
+    this.hitBoxType = "cylinder";
     this.activatePhysics = true;
-    this.material = this.physics.defaultContactMaterial;
+    this.material = this.physics.stickyContactMaterial;
     this.sound = this.experience.soundManager.soundLibrary.hit.bamboo;
     this.music = this.experience.soundManager.soundLibrary.violet.violet4;
   }

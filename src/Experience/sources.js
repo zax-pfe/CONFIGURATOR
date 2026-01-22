@@ -43,11 +43,11 @@ export default [
     type: "gltfModel",
     path: "models/Speaker/Synth/4-purple-synth.glb",
   },
-  {
-    name: "SpeakerMic",
-    type: "gltfModel",
-    path: "models/Speaker/voices/EnceinteMicro.glb",
-  },
+  // {
+  //   name: "SpeakerMic",
+  //   type: "gltfModel",
+  //   path: "models/Speaker/voices/EnceinteMicro.glb",
+  // },
   {
     name: "SpeakerMic2",
     type: "gltfModel",

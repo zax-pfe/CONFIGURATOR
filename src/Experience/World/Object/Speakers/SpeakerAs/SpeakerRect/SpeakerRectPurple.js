@@ -17,11 +17,11 @@ export default class SpeakerRectPurple {
     this.positions = { x: 3, y: 10, z: 1.3 };
     this.scale = { x: 2, y: 2, z: 2 };
     this.rotation = { x: 0, y: -1.6, z: 0 };
-    this.mass = 1;
+    this.mass = 0.5;
     this.name = "SpeakerRectPurple";
     this.hitBoxType = "box";
     this.activatePhysics = true;
-    this.material = this.physics.defaultContactMaterial;
+    this.material = this.physics.slipperyContactMaterial;
     this.sound = this.experience.soundManager.soundLibrary.hit.spring2;
     this.music = this.experience.soundManager.soundLibrary.orange.orange5;
   }

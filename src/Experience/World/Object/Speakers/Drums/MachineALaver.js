@@ -21,7 +21,7 @@ export default class MachineALaver {
     this.name = "MachineALaver";
     this.hitBoxType = "box";
     this.activatePhysics = true;
-    this.material = this.physics.defaultContactMaterial;
+    this.material = this.physics.stickyContactMaterial;
     this.sound = this.experience.soundManager.soundLibrary.hit.spring2;
     this.music = this.experience.soundManager.soundLibrary.violet.violet3;
   }

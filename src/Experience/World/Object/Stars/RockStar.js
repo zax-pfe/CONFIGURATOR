@@ -23,11 +23,11 @@ export default class RockStar {
     this.positions = { x: 0, y: 0, z: 0 };
     this.scale = { x: 1, y: 1, z: 1 };
     this.rotation = { x: 0, y: 3.14, z: 0 };
-    this.mass = 10;
+    this.mass = 1;
     this.name = "RockStar";
     this.hitBoxType = "cylinder";
     this.activatePhysics = true;
-    this.material = this.physics.defaultMaterial;
+    this.material = this.physics.stickyContactMaterial;
     this.sound = this.experience.soundManager.soundLibrary.hit.rock;
     this.music = this.experience.soundManager.soundLibrary.orange.orange3;
     this.animated = true;

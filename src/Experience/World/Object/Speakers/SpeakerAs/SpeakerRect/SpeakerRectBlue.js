@@ -21,7 +21,7 @@ export default class SpeakerRectBlue {
     this.name = "SpeakerRectBlue";
     this.hitBoxType = "box";
     this.activatePhysics = true;
-    this.material = this.physics.defaultContactMaterial;
+    this.material = this.physics.slipperyContactMaterial;
     this.sound = this.experience.soundManager.soundLibrary.hit.bamboo;
     this.music = this.experience.soundManager.soundLibrary.vert.vert5;
   }
