@@ -9,7 +9,7 @@ export default class GlowCircle {
         
         const defaults = {
             size: 8,
-            opacity: 0.6,
+            opacity: 0.4,
             color: new THREE.Color(0xffffff),
             glowInternalRadius: 0.0, // debut degrade
             glowExternalRadius: 0.5  // fin degrade
