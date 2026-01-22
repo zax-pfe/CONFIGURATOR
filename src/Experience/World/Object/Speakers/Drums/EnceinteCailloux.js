@@ -17,7 +17,7 @@ export default class EnceinteCailloux {
     this.positions = { x: 3, y: 10, z: 1.3 };
     this.scale = { x: 3, y: 3, z: 3 };
     this.rotation = { x: 0, y: 0, z: 0 };
-    this.mass = 0.5;
+    this.mass = 1;
     this.name = "EnceinteCailloux";
     this.hitBoxType = "sphere";
     this.activatePhysics = true;
@@ -38,6 +38,7 @@ export default class EnceinteCailloux {
       this.name,
       this.activatePhysics,
       this.sound,
+      this.music,
     );
 
     return {

@@ -51,7 +51,7 @@ export default [
   {
     name: "SpeakerMic2",
     type: "gltfModel",
-    path: "models/Speaker/voices/EnceinteMicro1.glb",
+    path: "models/Speaker/voices/micro-enceinte.glb",
   },
   {
     name: "JBLEnceinte",
