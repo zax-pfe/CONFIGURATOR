@@ -108,7 +108,12 @@ export default class ControlManager extends EventEmitter {
       true, //paused
     );
 
-    this.selectAndLaunchScreen = this.screenCreation("selectandlaunch-screen", "", true, "");
+    this.selectAndLaunchScreen = this.screenCreation(
+      "selectandlaunch-screen",
+      "",
+      true,
+      "",
+    );
     this.showScreen = this.screenCreation("show-screen", "", true, "");
     this.outroScreen = this.screenCreation("outro-screen", "", true, "");
 
@@ -121,13 +126,13 @@ export default class ControlManager extends EventEmitter {
     document.body.appendChild(this.showScreen);
     document.body.appendChild(this.outroScreen);
 
-    // this.currentScene = "title";
-    // this.connection.sendMessage("title");
-    // this.goToScene("titleScreen");
+    this.currentScene = "title";
+    this.connection.sendMessage("title");
+    this.goToScene("titleScreen");
 
-    this.currentScene = "selectAndLaunch";
-    this.connection.sendMessage("selectAndLaunch");
-    this.goToScene("selectAndLaunch");
+    // this.currentScene = "selectAndLaunch";
+    // this.connection.sendMessage("selectAndLaunch");
+    // this.goToScene("selectAndLaunch");
   }
 
   screenCreation(
