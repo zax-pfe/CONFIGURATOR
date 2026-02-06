@@ -29,22 +29,27 @@ export default class ControlManager extends EventEmitter {
 
     //// ++++++++++++++++++++ ROUTING DES SCENES +++++++++++++++++++++++++////
 
+    // this._titleScreen.on("titleScreenEnd", () => {
+    //   this.currentScene = "calibrate";
+    //   this.connection.sendMessage("calibrate");
+    //   this.goToScene("calibrate");
+    // });
     this._titleScreen.on("titleScreenEnd", () => {
-      this.currentScene = "calibrate";
-      this.connection.sendMessage("calibrate");
-      this.goToScene("calibrate");
-    });
-    this._calibrate.on("calibrateEnd", () => {
-      this.currentScene = "introduction";
-      this.connection.sendMessage("introduction");
-      this.goToScene("introduction");
-    });
-
-    this._introduction.on("introductionEnd", () => {
       this.currentScene = "selectAndLaunch";
       this.connection.sendMessage("selectAndLaunch");
       this.goToScene("selectAndLaunch");
     });
+    // this._calibrate.on("calibrateEnd", () => {
+    //   this.currentScene = "introduction";
+    //   this.connection.sendMessage("introduction");
+    //   this.goToScene("introduction");
+    // });
+
+    // this._introduction.on("introductionEnd", () => {
+    //   this.currentScene = "selectAndLaunch";
+    //   this.connection.sendMessage("selectAndLaunch");
+    //   this.goToScene("selectAndLaunch");
+    // });
     this._selectAndLaunch.on("selectAndLaunchEnd", () => {
       this.currentScene = "show";
       this.connection.sendMessage("show");
@@ -119,9 +124,9 @@ export default class ControlManager extends EventEmitter {
 
     //// ++++++++++++++++++++ AJOUT DU HTML AU DOM +++++++++++++++++++++++++////
     document.body.appendChild(this.titleScreen);
-    document.body.appendChild(this.calibrateScreen);
-    document.body.appendChild(this.calibrate2Screen);
-    document.body.appendChild(this.introScreen);
+    // document.body.appendChild(this.calibrateScreen);
+    // document.body.appendChild(this.calibrate2Screen);
+    // document.body.appendChild(this.introScreen);
     document.body.appendChild(this.selectAndLaunchScreen);
     document.body.appendChild(this.showScreen);
     document.body.appendChild(this.outroScreen);

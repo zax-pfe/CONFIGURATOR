@@ -19,7 +19,7 @@ export default class Physics extends EventEmitter {
     this.world.broadphase = new CANNON.SAPBroadphase(this.world);
     this.world.allowSleep = true;
 
-    this.world.gravity.set(0, -7, 0);
+    this.world.gravity.set(0, -9.82, 0);
     this.setUpMaterial();
     this.setUpContactMaterial();
 
@@ -114,7 +114,7 @@ export default class Physics extends EventEmitter {
   }
 
   update(deltaTime) {
-    this.world.step(1 / 100, deltaTime, 3);
+    this.world.step(1 / 60, deltaTime, 3);
     for (const object of this.objectsToUpdate) {
       // console.log(
       //   "Updating object:",

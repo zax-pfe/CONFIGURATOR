@@ -24,8 +24,8 @@ export default class Environement {
     this.sunLight.shadow.camera.far = 15;
     this.sunLight.shadow.mapSize.set(1024, 1024);
     this.sunLight.shadow.normalBias = 0.05;
-    this.sunLight.position.set(0, 0, 2.5);
-    this.sunLight.intensity = 2;
+    this.sunLight.position.set(0, 3.4, 2.5);
+    this.sunLight.intensity = 2.75;
 
     this.scene.add(this.sunLight);
 
@@ -60,7 +60,7 @@ export default class Environement {
   setEnvironmentMap() {
     this.environmentMap = {};
     // this.environmentMap.intensity = 0.175;
-    this.environmentMap.intensity = 3.7;
+    this.environmentMap.intensity = 3.5;
 
     this.environmentMap.texture = this.resources.items.environmentMapTexture;
     this.environmentMap.texture.colorSpace = THREE.SRGBColorSpace;
